@@ -124,58 +124,19 @@ body {
   white-space: nowrap;
 }
 
-/* --------------------------------------------------------------------------
- * Motion. Entry only, ≤250ms, and nothing at all under prefers-reduced-motion
- * (§9.1 F, §10). Content is never hidden unless JavaScript is running and the
- * visitor has not asked for reduced motion, so it is always readable.
- * ------------------------------------------------------------------------ */
-@media (prefers-reduced-motion: no-preference) {
-  .js [data-reveal] {
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity 200ms var(--ease-out-expo),
-      transform 200ms var(--ease-out-expo);
-    transition-delay: var(--reveal-delay, 0ms);
-  }
-
-  .js [data-reveal].is-visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* Hero copy rises in on load, staggered. */
-  .hero-rise {
-    animation: hero-rise 240ms var(--ease-out-expo) both;
-    animation-delay: var(--rise-delay, 0ms);
-  }
-
-  @keyframes hero-rise {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  .sheet-in {
-    animation: sheet-in 220ms var(--ease-out-expo) both;
-  }
-
-  @keyframes sheet-in {
-    from {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-}
+/* ==========================================================================
+ * Motion
+ *
+ * Everything animated sits inside `prefers-reduced-motion: no-preference`: a visitor who has
+ * asked their device for less motion gets a still, fully readable page.
+ *
+ * Scroll-driven effects use native CSS scroll timelines (`animation-timeline: view()` /
+ * `scroll()`): progress follows the scroll itself and runs on the compositor, so it stays smooth
+ * on mid-range phones. Browsers without scroll timelines get a time-based reveal driven by an
+ * IntersectionObserver (components/RevealObserver.tsx) instead.
+ *
+ * Stagger: give an element `--stagger: <n>` (0, 1, 2…) to offset it within a row or list.
+ * ======================================================================== */
 
 /* Nav link underline that grows from the left on hover / current page. */
 .nav-underline {
@@ -196,20 +157,351 @@ body {
 .nav-underline[aria-current="page"]::after {
   transform: scaleX(1);
 }
-@media (prefers-reduced-motion: no-preference) {
-  .nav-underline::after {
-    transition: transform 240ms var(--ease-out-expo);
-  }
+
+/* The reading-progress bar under the header only exists where scroll can drive it. */
+.scroll-progress {
+  display: none;
 }
 
-/* Card hover-lift, echoing the app's press-dip convention (§10). */
 @media (prefers-reduced-motion: no-preference) {
+  .nav-underline::after {
+    transition: transform 280ms var(--ease-out-expo);
+  }
+
+  /* Cards lift on hover and dip on press, echoing the press-dip convention in the app (§10). */
   .lift {
     transition:
-      transform 200ms var(--ease-out-expo),
-      border-color 200ms var(--ease-out-expo);
+      transform 320ms var(--ease-out-expo),
+      border-color 320ms var(--ease-out-expo),
+      box-shadow 320ms var(--ease-out-expo);
   }
   .lift:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.55);
+  }
+  .lift:active {
+    transform: translateY(0) scale(0.985);
+    transition-duration: 120ms;
+  }
+  /* Unlayered, so it would beat Tailwind's transition utilities: carry the colour transitions too. */
+  .press {
+    transition:
+      transform 160ms var(--ease-out-expo),
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+
+  /* ---------------------------------------------------------------- Load */
+
+  /* Hero copy rises in on load, staggered by --rise-delay. */
+  .hero-rise {
+    animation: hero-rise 700ms var(--ease-out-expo) both;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+
+  /* Headline words rise one after another (components/SplitWords.tsx). */
+  .word-rise .word {
+    display: inline-block;
+    animation: word-rise 760ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--w, 0) * 70ms + 80ms);
+  }
+  @keyframes word-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.6em) rotate(3deg);
+    }
+  }
+
+  /* Mobile menu sheet, then its links one by one. */
+  .sheet-in {
+    animation: sheet-in 320ms var(--ease-out-expo) both;
+  }
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+  }
+  .sheet-in .menu-item {
+    animation: menu-item 520ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--stagger, 0) * 55ms + 90ms);
+  }
+  @keyframes menu-item {
+    from {
+      opacity: 0;
+      transform: translateX(-24px);
+    }
+  }
+
+  /* FAQ answers ease open. */
+  .faq-panel:not([hidden]) > * {
+    animation: faq-open 420ms var(--ease-out-expo) both;
+  }
+  @keyframes faq-open {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  /* Placeholder screens shimmer and scan, so a missing screenshot reads as "coming", not broken. */
+  .ph-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 30%,
+      rgb(254 154 2 / 0.09) 45%,
+      rgb(255 255 255 / 0.07) 50%,
+      transparent 65%
+    );
+    transform: translateX(-100%);
+    animation: shimmer 2.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes shimmer {
+    60%,
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  .ph-scan {
+    animation: scan 3.6s ease-in-out infinite;
+  }
+  @keyframes scan {
+    0%,
+    100% {
+      top: 12%;
+      opacity: 0;
+    }
+    10%,
+    90% {
+      opacity: 1;
+    }
+    50% {
+      top: 86%;
+    }
+  }
+
+  /* ------------------------------------------- Reveal: fallback (time-based) */
+
+  @supports not (animation-timeline: view()) {
+    .js [data-reveal] {
+      opacity: 0;
+      transform: translateY(40px) scale(0.97);
+      transition:
+        opacity 800ms var(--ease-out-expo),
+        transform 800ms var(--ease-out-expo);
+      transition-delay: calc(var(--stagger, 0) * 90ms);
+    }
+    .js [data-reveal].is-visible {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ------------------------------------------------ Scroll-driven effects */
+
+  @supports (animation-timeline: view()) {
+    /* Every section heading, card and block rises and settles as it scrolls into view. */
+    [data-reveal] {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--stagger, 0) * 7%) cover calc(30% + var(--stagger, 0) * 7%);
+    }
+    @keyframes reveal-rise {
+      from {
+        opacity: 0;
+        transform: translateY(56px) scale(0.95);
+      }
+    }
+
+    /* Phone frames rise, straighten and scale up as they arrive. */
+    .sd-phone {
+      animation: phone-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    @keyframes phone-in {
+      from {
+        opacity: 0.15;
+        transform: translateY(110px) rotate(-7deg) scale(0.86);
+      }
+    }
+
+    /* Hero: as the page scrolls, the copy lifts away, the phone tilts back, the glow spreads. */
+    .hero-exit-copy {
+      animation: hero-copy-exit linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 75vh;
+    }
+    @keyframes hero-copy-exit {
+      to {
+        opacity: 0.1;
+        transform: translateY(-80px) scale(0.97);
+      }
+    }
+    .hero-exit-phone {
+      animation: hero-phone-exit linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+    }
+    @keyframes hero-phone-exit {
+      to {
+        transform: translateY(-140px) rotate(5deg) scale(0.9);
+      }
+    }
+    .hero-glow {
+      animation: hero-glow linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 90vh;
+    }
+    @keyframes hero-glow {
+      to {
+        opacity: 0.2;
+        transform: scale(1.5);
+      }
+    }
+
+    /* Amber reading-progress bar under the header. */
+    .scroll-progress {
+      display: block;
+      transform-origin: left;
+      animation: scroll-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes scroll-progress {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    /* Icon tiles pop in. */
+    .sd-pop {
+      animation: pop linear both;
+      animation-timeline: view();
+      animation-range: entry calc(25% + var(--stagger, 0) * 7%) cover calc(40% + var(--stagger, 0) * 7%);
+    }
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.3) rotate(-25deg);
+      }
+    }
+
+    /* Step lists: the amber track fills as you scroll through, and each step slides in. */
+    .steps-timeline {
+      view-timeline: --steps block;
+    }
+    .steps-fill {
+      animation: track-fill linear both;
+      animation-timeline: --steps;
+      animation-range: cover 15% cover 75%;
+    }
+    @keyframes track-fill {
+      from {
+        transform: scaleY(0);
+      }
+      to {
+        transform: scaleY(1);
+      }
+    }
+    .step-item {
+      animation: step-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    @keyframes step-in {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+    }
+
+    /* Invoice illustration: the note drops into the viewfinder, rows slide in, bars grow. */
+    .sd-note {
+      animation: note-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+    @keyframes note-in {
+      from {
+        opacity: 0;
+        transform: translateY(-60px) rotate(-18deg) scale(0.85);
+      }
+    }
+    .sd-corner {
+      animation: corner-in linear both;
+      animation-timeline: view();
+      animation-range: entry 30% cover 50%;
+    }
+    @keyframes corner-in {
+      from {
+        opacity: 0;
+        transform: scale(1.8);
+      }
+    }
+    .sd-row {
+      animation: row-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--stagger, 0) * 9%) cover calc(35% + var(--stagger, 0) * 6%);
+    }
+    @keyframes row-in {
+      from {
+        opacity: 0;
+        transform: translateX(48px);
+      }
+    }
+    .sd-bar {
+      transform-origin: bottom;
+      animation: bar-grow linear both;
+      animation-timeline: view();
+      animation-range: entry calc(20% + var(--stagger, 0) * 6%) cover calc(42% + var(--stagger, 0) * 5%);
+    }
+    @keyframes bar-grow {
+      from {
+        transform: scaleY(0.04);
+      }
+    }
+
+    /* Big background glows swell as their band scrolls through. */
+    .sd-glow {
+      animation: glow-swell linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 70%;
+    }
+    @keyframes glow-swell {
+      from {
+        opacity: 0;
+        transform: scale(0.5) translateY(25%);
+      }
+    }
+
+    /* Hairline rules draw themselves across. */
+    .sd-rule {
+      transform-origin: left;
+      animation: rule-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+    @keyframes rule-draw {
+      from {
+        transform: scaleX(0);
+      }
+    }
   }
 }

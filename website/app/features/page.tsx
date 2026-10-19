@@ -66,7 +66,7 @@ export default function FeaturesPage() {
               title={feature.title}
               body={feature.body}
               icon={feature.icon}
-              revealDelay={(index % 3) * 50}
+              stagger={index % 3}
               compact
             />
           ))}

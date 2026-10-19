@@ -128,12 +128,12 @@ export default function HowItWorksPage() {
           eyebrow="The first week"
           title="The work you already do, recorded as you do it."
         />
-        <ul className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
+        <ul className="mt-12 grid gap-px overflow-clip rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
           {firstWeek.map((item, index) => (
             <li
               key={item.label}
               data-reveal
-              style={{ "--reveal-delay": `${index * 40}ms` } as CSSProperties}
+              style={{ "--stagger": index } as CSSProperties}
               className="bg-surface p-6"
             >
               <p className="label-caps text-accent-text">{item.label}</p>
@@ -146,8 +146,8 @@ export default function HowItWorksPage() {
       <Section tone="light" labelledBy="needs-title" className="border-t border-[#DCDCE0]">
         <SectionHeading id="needs-title" eyebrow="What you need" title="Three things, and no new hardware." />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
-          {needs.map(({ Icon, title, body }) => (
-            <li key={title} data-reveal className="rounded-2xl border border-line bg-surface p-6">
+          {needs.map(({ Icon, title, body }, index) => (
+            <li key={title} data-reveal style={{ "--stagger": index } as CSSProperties} className="rounded-2xl border border-line bg-surface p-6">
               <span className="grid size-11 place-items-center rounded-full bg-amber text-ink">
                 <Icon aria-hidden="true" className="size-5" />
               </span>

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { IoLockClosedOutline, IoTimeOutline } from "react-icons/io5";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
@@ -172,8 +173,8 @@ export default function CompliancePage() {
           intro="Three things worth knowing before you rely on it."
         />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
-          {gaps.map((gap) => (
-            <li key={gap.title} data-reveal className="rounded-2xl border border-line bg-surface p-6">
+          {gaps.map((gap, index) => (
+            <li key={gap.title} data-reveal style={{ "--stagger": index } as CSSProperties} className="rounded-2xl border border-line bg-surface p-6">
               <h3 className="text-lg font-semibold leading-snug">{gap.title}</h3>
               <p className="mt-2 text-muted">{gap.body}</p>
             </li>

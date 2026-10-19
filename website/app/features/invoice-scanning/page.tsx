@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
@@ -143,8 +144,8 @@ export default function InvoiceScanningPage() {
               intro="Scanning saves the typing, not the judgement."
             />
             <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-              {inCharge.map((point) => (
-                <li key={point.title} data-reveal className="rounded-2xl border border-line bg-surface p-6">
+              {inCharge.map((point, index) => (
+                <li key={point.title} data-reveal style={{ "--stagger": index } as CSSProperties} className="rounded-2xl border border-line bg-surface p-6">
                   <h3 className="text-lg font-semibold leading-snug">{point.title}</h3>
                   <p className="mt-2 text-muted">{point.body}</p>
                 </li>
@@ -165,8 +166,8 @@ export default function InvoiceScanningPage() {
           intro="Reading an invoice has a cost, so the product avoids paying for one it doesn't need."
         />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
-          {costs.map((cost) => (
-            <li key={cost.title} data-reveal className="rounded-2xl border border-line bg-surface p-6">
+          {costs.map((cost, index) => (
+            <li key={cost.title} data-reveal style={{ "--stagger": index } as CSSProperties} className="rounded-2xl border border-line bg-surface p-6">
               <h3 className="text-lg font-semibold leading-snug">{cost.title}</h3>
               <p className="mt-2 text-muted">{cost.body}</p>
             </li>

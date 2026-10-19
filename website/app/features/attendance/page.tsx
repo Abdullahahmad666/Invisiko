@@ -60,7 +60,7 @@ export default function AttendancePage() {
             <li
               key={title}
               data-reveal
-              style={{ "--reveal-delay": `${index * 50}ms` } as CSSProperties}
+              style={{ "--stagger": index } as CSSProperties}
               className="rounded-2xl border border-line bg-surface p-6"
             >
               <div className="flex items-center justify-between">

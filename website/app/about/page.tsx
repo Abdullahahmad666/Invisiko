@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { IconType } from "react-icons";
 import {
   IoCloudDoneOutline,
@@ -91,8 +92,8 @@ export default function AboutPage() {
           intro="You'd be trusting Invisiko with your staff's hours and pay and your compliance paperwork. Here is how that is looked after."
         />
         <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {principles.map(({ Icon, title, body }) => (
-            <li key={title} data-reveal className="rounded-2xl border border-line bg-surface p-6">
+          {principles.map(({ Icon, title, body }, index) => (
+            <li key={title} data-reveal style={{ "--stagger": index } as CSSProperties} className="rounded-2xl border border-line bg-surface p-6">
               <Icon aria-hidden="true" className="size-6 text-accent-text" />
               <h3 className="mt-5 text-lg font-semibold">{title}</h3>
               <p className="mt-2 text-muted">{body}</p>

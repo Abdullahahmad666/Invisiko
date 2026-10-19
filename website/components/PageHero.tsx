@@ -1,10 +1,16 @@
 import type { CSSProperties, ReactNode } from "react";
+import type { PagePath } from "@/content/pages";
 import type { ScreenshotId } from "@/content/screenshots";
+import { webPageLd } from "@/lib/structured-data";
+import { Breadcrumbs } from "./Breadcrumbs";
 import { Container } from "./Container";
 import { Eyebrow } from "./Eyebrow";
+import { JsonLd } from "./JsonLd";
 import { PhoneFrame } from "./PhoneFrame";
 
 type PageHeroProps = {
+  /** Registry path: drives the visible breadcrumb and the WebPage + BreadcrumbList markup. Omit on 404. */
+  path?: PagePath;
   eyebrow: string;
   title: ReactNode;
   lead: ReactNode;
@@ -22,9 +28,10 @@ const rise = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
  * and an optional phone on the right from 1024px. Text comes first in the source so it leads
  * on mobile.
  */
-export function PageHero({ eyebrow, title, lead, children, screenshot, caption }: PageHeroProps) {
+export function PageHero({ path, eyebrow, title, lead, children, screenshot, caption }: PageHeroProps) {
   return (
     <section className="tone-dark relative overflow-hidden">
+      {path ? <JsonLd data={webPageLd(path)} /> : null}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_55%_at_78%_45%,rgba(254,154,2,0.13),transparent_70%),linear-gradient(to_bottom,transparent_70%,#0B0B0D)]"
@@ -32,6 +39,11 @@ export function PageHero({ eyebrow, title, lead, children, screenshot, caption }
       <Container className="relative pt-32 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24">
         <div className={screenshot ? "grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]" : ""}>
           <div className="max-w-[44rem]">
+            {path && path !== "/" ? (
+              <div className="hero-rise mb-8" style={rise(0)}>
+                <Breadcrumbs path={path} />
+              </div>
+            ) : null}
             <div className="hero-rise" style={rise(0)}>
               <Eyebrow>{eyebrow}</Eyebrow>
             </div>

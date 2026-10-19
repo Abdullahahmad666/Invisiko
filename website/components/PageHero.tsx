@@ -7,6 +7,7 @@ import { Container } from "./Container";
 import { Eyebrow } from "./Eyebrow";
 import { JsonLd } from "./JsonLd";
 import { PhoneFrame } from "./PhoneFrame";
+import { SplitWords } from "./SplitWords";
 
 type PageHeroProps = {
   /** Registry path: drives the visible breadcrumb and the WebPage + BreadcrumbList markup. Omit on 404. */
@@ -30,49 +31,53 @@ const rise = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
  */
 export function PageHero({ path, eyebrow, title, lead, children, screenshot, caption }: PageHeroProps) {
   return (
-    <section className="tone-dark relative overflow-hidden">
+    <section className="tone-dark relative overflow-clip">
       {path ? <JsonLd data={webPageLd(path)} /> : null}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_55%_at_78%_45%,rgba(254,154,2,0.13),transparent_70%),linear-gradient(to_bottom,transparent_70%,#0B0B0D)]"
+        className="hero-glow pointer-events-none absolute inset-0 bg-[radial-gradient(45%_55%_at_78%_45%,rgba(254,154,2,0.16),transparent_70%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_70%,#0B0B0D)]"
       />
       <Container className="relative pt-32 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24">
         <div className={screenshot ? "grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]" : ""}>
-          <div className="max-w-[44rem]">
+          {/* Lifts away as the page scrolls. */}
+          <div className="hero-exit-copy max-w-[44rem]">
             {path && path !== "/" ? (
               <div className="hero-rise mb-8" style={rise(0)}>
                 <Breadcrumbs path={path} />
               </div>
             ) : null}
-            <div className="hero-rise" style={rise(0)}>
+            <div className="hero-rise" style={rise(40)}>
               <Eyebrow>{eyebrow}</Eyebrow>
             </div>
-            <h1
-              className="hero-rise mt-5 text-balance text-[2rem] font-semibold leading-[1.08] tracking-[-0.025em] sm:text-[2.75rem] lg:text-[3.5rem]"
-              style={rise(40)}
-            >
-              {title}
+            <h1 className="mt-5 text-balance text-[2rem] font-semibold leading-[1.08] tracking-[-0.025em] sm:text-[2.75rem] lg:text-[3.5rem]">
+              {typeof title === "string" ? <SplitWords text={title} /> : title}
             </h1>
-            <div className="hero-rise mt-5 max-w-[36rem] text-pretty text-lg text-muted sm:text-xl" style={rise(80)}>
+            <div className="hero-rise mt-5 max-w-[36rem] text-pretty text-lg text-muted sm:text-xl" style={rise(320)}>
               {lead}
             </div>
             {children ? (
-              <div className="hero-rise mt-8" style={rise(120)}>
+              <div className="hero-rise mt-8" style={rise(440)}>
                 {children}
               </div>
             ) : null}
             {caption ? (
               <p
                 className="hero-rise mt-10 max-w-[26rem] border-t border-fg/70 pt-4 text-[0.9375rem] text-fg/90"
-                style={rise(160)}
+                style={rise(560)}
               >
                 {caption}
               </p>
             ) : null}
           </div>
           {screenshot ? (
-            <div className="hero-rise" style={rise(120)}>
-              <PhoneFrame screenshot={screenshot} priority />
+            <div className="hero-exit-phone">
+              <div className="hero-rise" style={rise(300)}>
+                <PhoneFrame screenshot={screenshot} priority />
+              </div>
             </div>
           ) : null}
         </div>

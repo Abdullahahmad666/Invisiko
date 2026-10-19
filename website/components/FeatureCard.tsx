@@ -11,18 +11,18 @@ type FeatureCardProps = {
   icon: IconName;
   href?: string;
   linkLabel?: string;
-  /** Stagger for the scroll reveal, in ms. */
-  revealDelay?: number;
+  /** Position within its row, for the staggered scroll reveal. */
+  stagger?: number;
   /** Heading level inside the card — h3 under a section h2. */
   compact?: boolean;
 };
 
 /** Dark surface, 1px border, 16px radius, hover-lift (§10). A linked card is one link target. */
-export function FeatureCard({ label, title, body, icon, href, linkLabel, revealDelay = 0, compact = false }: FeatureCardProps) {
+export function FeatureCard({ label, title, body, icon, href, linkLabel, stagger = 0, compact = false }: FeatureCardProps) {
   const content = (
     <>
       <div className="flex items-center gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-surface-raised text-accent-text">
+        <span className="sd-pop grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-surface-raised text-accent-text">
           <Icon name={icon} className="size-5" />
         </span>
         {compact ? null : <span className="label-caps text-muted">{label}</span>}
@@ -44,13 +44,13 @@ export function FeatureCard({ label, title, body, icon, href, linkLabel, revealD
   const cardClass = `flex h-full flex-col rounded-2xl border border-line bg-surface ${compact ? "p-6" : "p-6 sm:p-7"}`;
 
   return (
-    <li data-reveal style={{ "--reveal-delay": `${revealDelay}ms` } as CSSProperties}>
+    <li data-reveal style={{ "--stagger": stagger } as CSSProperties}>
       {href ? (
         <Link href={href} className={`group lift ${cardClass} hover:border-line-strong`}>
           {content}
         </Link>
       ) : (
-        <div className={cardClass}>{content}</div>
+        <div className={`lift ${cardClass} hover:border-line-strong`}>{content}</div>
       )}
     </li>
   );

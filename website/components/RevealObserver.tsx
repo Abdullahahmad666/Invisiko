@@ -11,10 +11,14 @@ declare global {
 
 /**
  * Inline, render-blocking: marks the document as JS-capable before first paint so revealable
- * content can start hidden without a flash. If the app bundle has not taken over within three
- * seconds (failed or blocked script), it removes the mark again so nothing stays hidden.
+ * content can start hidden without a flash. (Only browsers without CSS scroll timelines use this
+ * path; the rest reveal with pure CSS.)
+ *
+ * Safety nets so nothing stays hidden: the mark is removed if any script fails to load, or if the
+ * app has still not taken over after 12 seconds. (An earlier 3-second limit fired on slow phones
+ * and on the dev server, silently switching every reveal off.)
  */
-export const revealBootScript = `document.documentElement.classList.add('js');setTimeout(function(){if(!window.__revealReady){document.documentElement.classList.remove('js')}},3000);`;
+export const revealBootScript = `(function(){var d=document.documentElement;d.classList.add('js');function off(){if(!window.__revealReady)d.classList.remove('js')}window.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT')off()},true);setTimeout(off,12000)})();`;
 
 /**
  * Scroll-reveal for `[data-reveal]` elements: a 200ms fade-up on entry, once (§9.1 F).
@@ -42,7 +46,7 @@ export function RevealObserver() {
           }
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.1 },
     );
 
     pending.forEach((element) => observer.observe(element));

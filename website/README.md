@@ -68,8 +68,14 @@ public/screenshots   real app screenshots go here
   never mentioned (§7, §14 Q12).
 - **No analytics** are installed, so the privacy page can truthfully say no cookies or trackers are
   set. If Plausible or Fathom is added later (§11), update `/privacy` first.
-- **Motion** is entry-only (≤250ms), disabled under `prefers-reduced-motion`, and never hides content
-  when JavaScript is unavailable.
+- **Motion is richer than the blueprint's ≤250ms entry-only rule**, at the owner's request: native
+  CSS scroll timelines (`animation-timeline: view()` / `scroll()`) drive reveals, the hero exit,
+  phone arrivals, the step track, illustration parts and a reading-progress bar, with an
+  IntersectionObserver fallback for browsers without scroll timelines. Everything is switched off
+  under `prefers-reduced-motion`, and content is never left hidden if JavaScript fails. Classes and
+  keyframes live at the end of `app/globals.css`; stagger with `style={{ "--stagger": n }}`.
+  Containers holding scroll-driven elements use `overflow-clip`, not `overflow-hidden` — hidden
+  creates a scroll container that a `view()` timeline would attach to instead of the page.
 
 ## Before launch — everything still needed from the owner
 

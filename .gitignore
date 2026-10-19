@@ -1,0 +1,8 @@
+# Product source documents — kept local, never committed
+PRODUCT_BLUEPRINT.md
+blueprint_part2.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/

@@ -51,7 +51,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
         <Header />
-        <main id="main" tabIndex={-1} className="flex-1 outline-none">
+        {/* overflow-x: clip (not hidden): elements mid-way through a sideways entrance can never
+            widen the page, and since clip makes no scroll container, scroll timelines and sticky
+            positioning keep working. */}
+        <main id="main" tabIndex={-1} className="flex-1 overflow-x-clip outline-none">
           {children}
         </main>
         <Footer />

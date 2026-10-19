@@ -27,6 +27,23 @@ export const faqGroups: FaqGroup[] = [
     title: "The basics",
     items: [
       {
+        id: "what-is",
+        question: "What is Invisiko?",
+        answer: [
+          "Invisiko is a mobile app that runs the back of house for an independent takeaway or small restaurant: staff hours, food-safety records, pay and delivery invoices.",
+          "Staff check in by scanning a QR code at the venue. Fridge temperatures and checklists are recorded as they happen, with who did them and when. Hours flow into fortnightly pay periods, and delivery invoices are photographed and read into stock and spend once a person confirms them.",
+        ],
+        link: { href: "/features", label: "See all features" },
+      },
+      {
+        id: "who-for",
+        question: "Who is Invisiko for?",
+        answer: [
+          "Owners and managers of independent takeaways and small restaurants in the UK, and their staff.",
+          "It is built for one restaurant rather than a chain. Amounts are shown in pounds, and invoice dates are read in UK order.",
+        ],
+      },
+      {
         id: "till",
         question: "Is Invisiko a till or ordering system?",
         answer: [

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { primaryCta, primaryNav } from "@/content/site";
 import { Logo } from "./Logo";
@@ -107,7 +107,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Link
             href={primaryCta.href}
-            className="hidden min-h-11 items-center rounded-full bg-amber px-5 text-[0.9375rem] font-semibold text-ink transition-colors duration-200 hover:bg-amber-hover sm:inline-flex"
+            className="press hidden min-h-11 items-center rounded-full bg-amber px-5 text-[0.9375rem] font-semibold text-ink transition-colors duration-200 hover:bg-amber-hover sm:inline-flex"
           >
             {primaryCta.label}
           </Link>
@@ -117,13 +117,16 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen(true)}
-            className="grid size-11 place-items-center rounded-full border border-line-strong md:hidden"
+            className="press grid size-11 place-items-center rounded-full border border-line-strong md:hidden"
           >
             <IoMenu aria-hidden="true" className="size-5" />
             <span className="sr-only">Open menu</span>
           </button>
         </div>
       </div>
+
+      {/* Reading progress, driven by scroll (CSS only; hidden where scroll timelines are unsupported). */}
+      <span aria-hidden="true" className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 bg-amber" />
 
       {open ? (
         <div
@@ -147,8 +150,8 @@ export function Header() {
           </div>
           <nav aria-label="Main" className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
             <ul className="divide-y divide-line">
-              {primaryNav.map((link) => (
-                <li key={link.href}>
+              {primaryNav.map((link, index) => (
+                <li key={link.href} className="menu-item" style={{ "--stagger": index } as CSSProperties}>
                   <Link
                     href={link.href}
                     aria-current={isCurrent(pathname, link.href) ? "page" : undefined}
@@ -166,7 +169,7 @@ export function Header() {
             <Link
               href={primaryCta.href}
               onClick={() => close(false)}
-              className="flex min-h-14 w-full items-center justify-center rounded-full bg-amber text-lg font-semibold text-ink"
+              className="press flex min-h-14 w-full items-center justify-center rounded-full bg-amber text-lg font-semibold text-ink"
             >
               {primaryCta.label}
             </Link>

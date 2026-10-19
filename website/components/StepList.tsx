@@ -40,30 +40,32 @@ export function StepList({ steps, highlight = false, tall = false, start = 1 }: 
   const progress = active === null ? 1 : (active + 1) / steps.length;
 
   return (
-    <ol ref={listRef} start={start} className="relative">
+    <ol ref={listRef} start={start} className="steps-timeline relative">
       {highlight ? (
         <span aria-hidden="true" className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-line">
           <span
-            className="block w-full origin-top bg-amber transition-transform duration-200 ease-out motion-reduce:transition-none"
+            // Scroll-driven where supported (.steps-fill overrides this inline transform); step-based otherwise.
+            className="steps-fill block w-full origin-top bg-amber transition-transform duration-200 ease-out motion-reduce:transition-none"
             style={{ height: "100%", transform: `scaleY(${progress})` }}
           />
         </span>
       ) : null}
       {steps.map((step, index) => {
         const dimmed = highlight && active !== null && index !== active;
+        const current = highlight && active === index;
         return (
           <li
             key={step.title}
             data-step={index}
-            className={`relative flex gap-5 ${tall ? "py-6 lg:min-h-[34vh] lg:py-10" : "py-5"} ${
+            className={`step-item relative flex gap-5 ${tall ? "py-6 lg:min-h-[34vh] lg:py-10" : "py-5"} ${
               !highlight && index > 0 ? "border-t border-line" : ""
             }`}
           >
             <span
               aria-hidden="true"
-              className={`relative z-10 grid size-10 shrink-0 place-items-center rounded-full border text-sm font-semibold tabular-nums transition-colors duration-200 motion-reduce:transition-none ${
+              className={`relative z-10 grid size-10 shrink-0 place-items-center rounded-full border text-sm font-semibold tabular-nums transition-all duration-300 motion-reduce:transition-none ${
                 dimmed ? "border-line bg-bg text-muted" : "border-amber bg-amber text-ink"
-              }`}
+              } ${current ? "scale-110 shadow-[0_0_0_7px_rgba(254,154,2,0.18)]" : ""}`}
             >
               {start + index}
             </span>

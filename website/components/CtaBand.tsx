@@ -22,10 +22,10 @@ export function CtaBand({
   secondary = { href: "/contact#other-ways", label: "Talk to us first" },
 }: CtaBandProps) {
   return (
-    <section aria-labelledby={`${id}-title`} className="tone-dark relative overflow-hidden border-t border-line">
+    <section aria-labelledby={`${id}-title`} className="tone-dark relative overflow-clip border-t border-line">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_80%_at_85%_100%,rgba(254,154,2,0.16),transparent_70%)]"
+        className="sd-glow pointer-events-none absolute inset-0 bg-[radial-gradient(60%_80%_at_85%_100%,rgba(254,154,2,0.16),transparent_70%)]"
       />
       <Container className="relative py-20 sm:py-24 lg:py-28">
         <div className="max-w-[40rem]" data-reveal>

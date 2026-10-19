@@ -39,7 +39,9 @@ export function PhoneFrame({
               alt={shot.alt}
               width={shot.width}
               height={shot.height}
-              priority={priority}
+              // Next 16 deprecates `priority`; eager + high fetch priority is the recommended form.
+              loading={priority ? "eager" : "lazy"}
+              fetchPriority={priority ? "high" : "auto"}
               sizes={sizes}
               className="h-full w-full object-cover object-top"
             />

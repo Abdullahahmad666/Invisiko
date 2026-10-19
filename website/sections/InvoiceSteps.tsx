@@ -19,7 +19,7 @@ function Bar({ w, tone = "muted" }: { w: string; tone?: "muted" | "strong" }) {
 
 function Panel({ children }: { children: ReactNode }) {
   return (
-    <div aria-hidden="true" className="relative flex h-52 items-center justify-center overflow-hidden rounded-xl border border-line bg-surface-raised p-5">
+    <div aria-hidden="true" className="relative flex h-52 items-center justify-center overflow-clip rounded-xl border border-line bg-surface-raised p-5">
       {children}
     </div>
   );
@@ -31,7 +31,7 @@ const steps: { title: string; body: string; visual: ReactNode }[] = [
     body: "Take a photo of the delivery note, choose one from the gallery, or upload the supplier's PDF.",
     visual: (
       <Panel>
-        <div className="relative w-36 rotate-[-3deg] rounded-md bg-[#F7F7F8] p-4 shadow-lg">
+        <div className="sd-note relative w-36 rotate-[-3deg] rounded-md bg-[#F7F7F8] p-4 shadow-lg">
           <span className="mb-3 block h-2.5 w-16 rounded-full bg-[#0B0B0D]/70" />
           <div className="space-y-2">
             {["100%", "85%", "92%", "70%", "88%"].map((w, i) => (
@@ -41,10 +41,10 @@ const steps: { title: string; body: string; visual: ReactNode }[] = [
           <span className="mt-3 ml-auto block h-2 w-10 rounded-full bg-[#0B0B0D]/50" />
         </div>
         {/* Viewfinder corners */}
-        <span className="absolute top-6 left-10 size-6 border-t-2 border-l-2 border-amber" />
-        <span className="absolute top-6 right-10 size-6 border-t-2 border-r-2 border-amber" />
-        <span className="absolute bottom-6 left-10 size-6 border-b-2 border-l-2 border-amber" />
-        <span className="absolute right-10 bottom-6 size-6 border-r-2 border-b-2 border-amber" />
+        <span className="sd-corner absolute top-6 left-10 size-6 border-t-2 border-l-2 border-amber" />
+        <span className="sd-corner absolute top-6 right-10 size-6 border-t-2 border-r-2 border-amber" />
+        <span className="sd-corner absolute bottom-6 left-10 size-6 border-b-2 border-l-2 border-amber" />
+        <span className="sd-corner absolute right-10 bottom-6 size-6 border-r-2 border-b-2 border-amber" />
         <IoScanOutline className="absolute right-3 bottom-3 size-5 text-muted" />
       </Panel>
     ),
@@ -63,7 +63,8 @@ const steps: { title: string; body: string; visual: ReactNode }[] = [
           ].map((row, i) => (
             <div
               key={i}
-              className={`flex items-center gap-3 rounded-lg border px-3 py-2.5 ${
+              style={{ "--stagger": i } as CSSProperties}
+              className={`sd-row flex items-center gap-3 rounded-lg border px-3 py-2.5 ${
                 row.ok ? "border-line bg-surface" : "border-amber bg-amber/10"
               }`}
             >
@@ -90,12 +91,12 @@ const steps: { title: string; body: string; visual: ReactNode }[] = [
           {[38, 52, 46, 64, 58, 82].map((h, i) => (
             <span
               key={i}
-              className={`block flex-1 rounded-t-md ${i === 5 ? "bg-amber" : "bg-fg/15"}`}
-              style={{ height: `${h}%` }}
+              className={`sd-bar block flex-1 rounded-t-md ${i === 5 ? "bg-amber" : "bg-fg/15"}`}
+              style={{ height: `${h}%`, "--stagger": i } as CSSProperties}
             />
           ))}
         </div>
-        <span className="absolute top-4 right-4 grid size-8 place-items-center rounded-full bg-amber text-ink">
+        <span className="sd-pop absolute top-4 right-4 grid size-8 place-items-center rounded-full bg-amber text-ink" style={{ "--stagger": 3 } as CSSProperties}>
           <IoArrowUp className="size-4" />
         </span>
       </Panel>
@@ -110,7 +111,7 @@ export function InvoiceSteps() {
         <li
           key={step.title}
           data-reveal
-          style={{ "--reveal-delay": `${index * 60}ms` } as CSSProperties}
+          style={{ "--stagger": index } as CSSProperties}
           className="flex flex-col rounded-2xl border border-line bg-surface p-4 sm:p-5"
         >
           {step.visual}

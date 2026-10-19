@@ -29,11 +29,12 @@ export function Pipeline() {
         <li
           key={title}
           data-reveal
-          style={{ "--reveal-delay": `${index * 40}ms` } as CSSProperties}
+          style={{ "--stagger": index } as CSSProperties}
           className="relative flex gap-4 rounded-2xl border border-line bg-surface p-5 lg:flex-col lg:rounded-none lg:border-y lg:border-r-0 lg:border-l lg:first:rounded-l-2xl lg:last:rounded-r-2xl lg:last:border-r"
         >
           <span
-            className={`grid size-11 shrink-0 place-items-center rounded-full ${
+            style={{ "--stagger": index } as CSSProperties}
+            className={`sd-pop grid size-11 shrink-0 place-items-center rounded-full ${
               person ? "bg-amber text-ink" : "border border-line-strong text-fg"
             }`}
           >

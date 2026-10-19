@@ -58,7 +58,7 @@ export function FaqAccordion({ items, headingLevel = "h3" }: FaqAccordionProps) 
                 </span>
               </button>
             </Heading>
-            <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!isOpen} className="pb-6">
+            <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!isOpen} className="faq-panel pb-6">
               <div className="max-w-[44rem] space-y-3 text-muted">
                 {item.answer.map((paragraph, index) => (
                   <p key={index} className={index === 0 ? "text-fg" : undefined}>

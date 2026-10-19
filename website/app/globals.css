@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — PRODUCT_BLUEPRINT.md §10.
+ *
+ * The product palette (mobile/src/theme/index.ts) is reused as-is so real screenshots sit
+ * naturally. The light tone (#F7F7F8) is a website-only addition for long-form sections.
+ *
+ * Every section sets a tone class; components read the tone through CSS variables, so the same
+ * component renders correctly on a dark band or a light one.
+ */
+
+:root {
+  --ink: #0b0b0d;
+  --amber: #fe9a02;
+  --amber-hover: #ffad33;
+}
+
+.tone-dark {
+  --bg: #0b0b0d;
+  --fg: #ffffff;
+  --muted: #a6a6ac; /* 8.3:1 on --bg */
+  --surface: #1a1a1d;
+  --surface-raised: #242427;
+  --line: #333336;
+  --line-strong: #6e6e76; /* ≥3:1 against --bg, for input boundaries */
+  --accent-text: #fe9a02;
+  --ring: #fe9a02;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+.tone-light {
+  --bg: #f7f7f8;
+  --fg: #0b0b0d;
+  --muted: #55555c; /* 6.9:1 on --bg */
+  --surface: #ffffff;
+  --surface-raised: #efeff1;
+  --line: #dcdce0;
+  --line-strong: #85858d; /* ≥3:1 against --surface */
+  --accent-text: #8f5300; /* amber darkened to 5.7:1 — #FE9A02 fails as text on light */
+  --ring: #0b0b0d;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent-text: var(--accent-text);
+  --color-ring: var(--ring);
+  --color-ink: #0b0b0d;
+  --color-amber: #fe9a02;
+  --color-amber-hover: #ffad33;
+  --color-success: #3dd68c;
+  --color-warning: #fbbf24;
+  --color-danger: #ff6b6b;
+  --color-danger-ink: #b42318;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: #0b0b0d;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-x: clip;
+  font-feature-settings: "cv11", "ss01";
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Visible focus everywhere, ≥3:1 against its own section (§9.1 H). */
+:focus-visible {
+  outline: 3px solid var(--ring, #fe9a02);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: #fe9a02;
+  color: #0b0b0d;
+}
+
+/* --------------------------------------------------------------------------
+ * Utility-style label — uppercase, tracked. Used for eyebrows and diagram labels.
+ * ------------------------------------------------------------------------ */
+@utility label-caps {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+ * Placeholder tokens — unresolved business facts, visible on purpose (§14).
+ * ------------------------------------------------------------------------ */
+.placeholder-token {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  padding: 0.05em 0.35em;
+  border-radius: 4px;
+  border: 1px dashed currentColor;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+ * Motion. Entry only, ≤250ms, and nothing at all under prefers-reduced-motion
+ * (§9.1 F, §10). Content is never hidden unless JavaScript is running and the
+ * visitor has not asked for reduced motion, so it is always readable.
+ * ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 200ms var(--ease-out-expo),
+      transform 200ms var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero copy rises in on load, staggered. */
+  .hero-rise {
+    animation: hero-rise 240ms var(--ease-out-expo) both;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .sheet-in {
+    animation: sheet-in 220ms var(--ease-out-expo) both;
+  }
+
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Nav link underline that grows from the left on hover / current page. */
+.nav-underline {
+  position: relative;
+}
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.4em;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.nav-underline:hover::after,
+.nav-underline[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nav-underline::after {
+    transition: transform 240ms var(--ease-out-expo);
+  }
+}
+
+/* Card hover-lift, echoing the app's press-dip convention (§10). */
+@media (prefers-reduced-motion: no-preference) {
+  .lift {
+    transition:
+      transform 200ms var(--ease-out-expo),
+      border-color 200ms var(--ease-out-expo);
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+  }
+}

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { IoCheckmark } from "react-icons/io5";
 import type { ScreenshotId } from "@/content/screenshots";
 import { ButtonLink } from "./Button";
@@ -37,8 +37,8 @@ export function SplitFeature({ id, eyebrow, title, intro, bullets, children, scr
         {bullets?.length ? (
           <ul className="mt-6 space-y-3.5">
             {bullets.map((bullet, index) => (
-              <li key={index} className="flex gap-3">
-                <span className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-amber text-ink">
+              <li key={index} className="sd-row flex gap-3" style={{ "--stagger": index } as CSSProperties}>
+                <span className="sd-pop mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-amber text-ink" style={{ "--stagger": index } as CSSProperties}>
                   <IoCheckmark aria-hidden="true" className="size-3.5" />
                 </span>
                 <span>{bullet}</span>

@@ -9,6 +9,7 @@ import { Limitations } from "@/components/Limitations";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
+import { SplitWords } from "@/components/SplitWords";
 import { StepList, type Step } from "@/components/StepList";
 import { Container } from "@/components/Container";
 import { faqsById } from "@/content/faq";
@@ -57,29 +58,29 @@ export default function HomePage() {
       {organization ? <JsonLd data={organization} /> : null}
 
       {/* 1. Hero — recognition plus one action. */}
-      <section aria-labelledby="hero-title" className="tone-dark relative overflow-hidden">
+      <section aria-labelledby="hero-title" className="tone-dark relative overflow-clip">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(40%_50%_at_76%_48%,rgba(254,154,2,0.16),transparent_70%),radial-gradient(60%_40%_at_10%_0%,rgba(255,255,255,0.05),transparent_70%)]"
+          className="hero-glow pointer-events-none absolute inset-0 bg-[radial-gradient(40%_50%_at_76%_48%,rgba(254,154,2,0.16),transparent_70%),radial-gradient(60%_40%_at_10%_0%,rgba(255,255,255,0.05),transparent_70%)]"
         />
         <Container className="relative">
           <div className="grid min-h-[100svh] items-center gap-12 pt-28 pb-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:pt-24 lg:pb-12">
-            <div className="mx-auto max-w-[40rem] text-center lg:mx-0 lg:text-left">
+            {/* Lifts away as the page scrolls. */}
+            <div className="hero-exit-copy mx-auto max-w-[40rem] text-center lg:mx-0 lg:text-left">
               <div className="hero-rise flex justify-center lg:justify-start" style={rise(0)}>
                 <Eyebrow>For independent takeaways</Eyebrow>
               </div>
               <h1
                 id="hero-title"
-                className="hero-rise mt-6 text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-[3rem] lg:text-[3.5rem]"
-                style={rise(40)}
+                className="mt-6 text-balance text-[2rem] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-[3rem] lg:text-[3.5rem]"
               >
-                The back of house, on one phone.
+                <SplitWords text="The back of house, on one phone." />
               </h1>
-              <p className="hero-rise mx-auto mt-6 max-w-[34rem] text-pretty text-lg text-muted sm:text-xl lg:mx-0" style={rise(80)}>
+              <p className="hero-rise mx-auto mt-6 max-w-[34rem] text-pretty text-lg text-muted sm:text-xl lg:mx-0" style={rise(420)}>
                 Staff hours, food-safety records, pay and delivery invoices — for takeaways that currently run all four
                 on paper.
               </p>
-              <div className="hero-rise mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start" style={rise(120)}>
+              <div className="hero-rise mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start" style={rise(540)}>
                 <ButtonLink href={primaryCta.href} block>
                   {primaryCta.label}
                 </ButtonLink>
@@ -89,13 +90,15 @@ export default function HomePage() {
               </div>
               <p
                 className="hero-rise mx-auto mt-12 max-w-[25rem] border-t border-fg/60 pt-4 text-[0.9375rem] text-fg/90 lg:mx-0"
-                style={rise(180)}
+                style={rise(680)}
               >
                 Your staff&apos;s location is read once, when they check in or out — and never tracked.
               </p>
             </div>
-            <div className="hero-rise" style={rise(120)}>
-              <PhoneFrame screenshot="checksDashboard" priority />
+            <div className="hero-exit-phone">
+              <div className="hero-rise" style={rise(360)}>
+                <PhoneFrame screenshot="checksDashboard" priority />
+              </div>
             </div>
           </div>
         </Container>
@@ -109,12 +112,12 @@ export default function HomePage() {
           title="Four jobs nobody trained you for."
           intro="They all land on whoever runs the place."
         />
-        <ol className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-12 grid gap-px overflow-clip rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {problems.map((problem, index) => (
             <li
               key={problem.label}
               data-reveal
-              style={{ "--reveal-delay": `${index * 50}ms` } as CSSProperties}
+              style={{ "--stagger": index } as CSSProperties}
               className="bg-surface p-6 sm:p-7"
             >
               <span className="label-caps tabular-nums text-accent-text">0{index + 1}</span>
@@ -143,7 +146,7 @@ export default function HomePage() {
               icon={pillar.icon}
               href={pillar.href}
               linkLabel={pillar.id === "pay" ? "See pay in features" : undefined}
-              revealDelay={index * 50}
+              stagger={index}
             />
           ))}
         </ul>

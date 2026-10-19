@@ -15,7 +15,7 @@ type ButtonLinkProps = {
 };
 
 const base =
-  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold whitespace-nowrap transition-colors duration-200";
+  "press inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold whitespace-nowrap transition-colors duration-200";
 
 const variants: Record<Variant, string> = {
   // Dark ink on amber — white on this amber fails contrast (§10).

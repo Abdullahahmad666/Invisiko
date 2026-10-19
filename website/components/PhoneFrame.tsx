@@ -26,7 +26,7 @@ export function PhoneFrame({
   const ready = Boolean(shot.src && shot.width && shot.height);
 
   return (
-    <figure className={`mx-auto w-full max-w-[280px] sm:max-w-[300px] ${className}`}>
+    <figure className={`sd-phone mx-auto w-full max-w-[280px] sm:max-w-[300px] ${className}`}>
       <div className="relative rounded-[2.75rem] border border-[#333336] bg-[#111113] p-2.5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.65)]">
         <div
           aria-hidden="true"
@@ -46,7 +46,12 @@ export function PhoneFrame({
               className="h-full w-full object-cover object-top"
             />
           ) : (
-            <div className="flex h-full flex-col items-center justify-center gap-3 rounded-[2.2rem] border border-dashed border-[#6E6E76] px-6 text-center text-[#A6A6AC]">
+            <div className="ph-shimmer relative flex h-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[2.2rem] border border-dashed border-[#6E6E76] px-6 text-center text-[#A6A6AC]">
+              {/* Decorative scan line: reads as "capture coming", not as a broken image. */}
+              <span
+                aria-hidden="true"
+                className="ph-scan absolute inset-x-6 top-1/2 h-px bg-gradient-to-r from-transparent via-[#FE9A02] to-transparent opacity-0 motion-reduce:hidden"
+              />
               <LogoMark className="size-10" />
               <IoImageOutline aria-hidden="true" className="mt-2 size-6" />
               <p className="label-caps text-[#FE9A02]">Screenshot placeholder</p>

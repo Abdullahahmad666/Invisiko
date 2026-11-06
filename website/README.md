@@ -104,7 +104,7 @@ grep -rn "\[\[" app components content lib sections
 | `[[PRICE]]` — FAQ "What does it cost?" | `content/faq.ts` | §14 Q8 |
 | `[[TERMS]]` — real terms of service | `app/terms/page.tsx` | §14 Q6 |
 | Legal review of `/privacy` (remove the draft notice afterwards) | `app/privacy/page.tsx` | §9.10 |
-| One more screenshot: invoice review with a line unmatched. Better captures of Documents and Fridges (they show test entries) | `assets/screens/`, then `npm run screenshots` | §14 Q11 |
+| Nice to have: the invoice review screen, the app's key moment, to replace the stock list under "You stay in charge". Better captures of Documents and Fridges (they show test entries) | `assets/screens/`, then `npm run screenshots` | §14 Q11 |
 | Confirm the real prices and item names on the Purchase history and Stock screens may be public | `scripts/build-screenshots.mjs` | §13 |
 | Approval to show the payroll screen | `content/screenshots.ts` → `payroll` | §14 Q12 |
 | Optional: an SVG master of the mark, for perfectly crisp scaling (the PNG master is 225×451) | `assets/brand/` | §14 Q25 |

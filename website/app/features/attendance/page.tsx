@@ -29,7 +29,7 @@ const beats: ShowcaseStep[] = [
   },
   {
     title: "Outside the radius, it says no",
-    screenshot: "staffAnalytics",
+    screenshot: "scanRefused",
     body: "The check-in is refused, and the message says how far away the phone is. Inside it, the check-in is recorded and matched to their shift on the rota, and staff can see their own record.",
   },
 ];
@@ -172,7 +172,7 @@ export default function AttendancePage() {
             "Attendance history you can filter by person, and by open or closed records.",
             "Hours and minutes late per person across the month, and staff cost by month. Staff see their own.",
           ]}
-          screenshot="staffHub"
+          screenshot="attendanceLive"
           reverse
         />
       </Section>

@@ -454,6 +454,17 @@ body {
         transform: translateY(-140px) rotate(5deg) scale(0.9);
       }
     }
+    /* The back phone slides out from behind the front one as the page scrolls. */
+    .hero-phone-back {
+      animation: hero-phone-back linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 90vh;
+    }
+    @keyframes hero-phone-back {
+      to {
+        transform: translate(28px, -70px);
+      }
+    }
     .hero-glow {
       animation: hero-glow linear both;
       animation-timeline: scroll(root block);

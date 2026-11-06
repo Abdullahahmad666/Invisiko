@@ -257,6 +257,47 @@ test.describe("site-wide", () => {
     }
   });
 
+  test("no page shows a screenshot placeholder", async ({ page }) => {
+    for (const path of pages) {
+      await page.goto(path);
+      await expect(page.getByText("Screenshot placeholder"), path).toHaveCount(0);
+    }
+  });
+
+  test("every timeline step has its own screen, shown as it scrolls into view", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    for (const path of ["/", "/how-it-works", "/features/attendance"]) {
+      await page.goto(path);
+      const first = page.locator('[data-screen="0"]');
+      const showcases = await first.count();
+      expect(showcases, path).toBeGreaterThan(0);
+
+      for (let showcase = 0; showcase < showcases; showcase++) {
+        const root = first.nth(showcase).locator('xpath=ancestor::div[contains(@class, "grid")][1]');
+
+        const sources = await root.locator("[data-screen] img").evaluateAll((images) => images.map((img) => img.getAttribute("src")));
+        expect(new Set(sources).size, `${path} #${showcase}: one screen per step`).toBe(sources.length);
+
+        const steps = await root.locator("[data-step]").count();
+        expect(steps, `${path} #${showcase}`).toBe(sources.length);
+
+        for (let step = 0; step < steps; step++) {
+          await root.locator("[data-step]").nth(step).evaluate((el) => {
+            const box = el.getBoundingClientRect();
+            window.scrollTo({ top: box.top + scrollY + box.height / 2 - innerHeight / 2, behavior: "instant" });
+          });
+          await expect
+            .poll(
+              () => root.locator("[data-screen]").evaluateAll((layers) => layers.findIndex((layer) => getComputedStyle(layer).opacity === "1")),
+              { message: `${path} #${showcase} step ${step}` },
+            )
+            .toBe(step);
+        }
+      }
+    }
+  });
+
   test("the showcase phone follows the step in view", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1440, height: 900 });

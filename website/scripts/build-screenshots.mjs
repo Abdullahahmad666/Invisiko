@@ -47,6 +47,15 @@ class Canvas {
   cover(x, y, w, h, sampleX, sampleY) {
     this.fill(x, y, w, h, this.at(sampleX, sampleY));
   }
+  /** Moves a block sideways by dx, then repaints what it left behind from (sampleX, sampleY). */
+  moveLeft(x, y, w, h, dx, sampleX, sampleY) {
+    const color = this.at(sampleX, sampleY);
+    for (let r = y; r < y + h; r++) {
+      const row = this.data.subarray((r * W + x) * 3, (r * W + x + w) * 3);
+      this.data.set(row, (r * W + x - dx) * 3);
+    }
+    this.fill(x - dx + w, y, dx + 20, h, color);
+  }
   /** Moves rows [from, H) up to start at `to`, then fills what is left: a genuine scrolled view. */
   scrollUp(from, to, background) {
     const rows = H - from;
@@ -84,6 +93,9 @@ function maskCode(canvas) {
 const screens = {
   "welcome-manager": {},
   "welcome-staff": {},
+  "sign-in": {},
+  "staff-analytics": {},
+  "manager-swap-requests": {},
   "manager-checks-dashboard": {},
   "manager-staff-hub": {},
   "manager-weekly-rota": {},
@@ -91,8 +103,12 @@ const screens = {
   "manager-purchase-history": {},
   "manager-temperature-history": {},
   "staff-opening-routine": {},
-  // The movement line names a person: keep the date, drop the rest.
-  "food-invoice-capture-stock": { edit: (c) => c.cover(362, 1146, 310, 40, 670, 1165) },
+  // The movement line names a person. Close the gap by sliding "· From invoice scan…" over the name.
+  "food-invoice-capture-stock": {
+    edit: (c) => c.moveLeft(458, 1150, 196, 30, 92, 670, 1165),
+    // The stock card alone, magnified for the "What it reads" section.
+    detail: { name: "stock-item-detail", left: 30, top: 805, width: 660, height: 392 },
+  },
   // The app bar shows a raw route name ("StaffBarcode").
   "manager-check-in-setup": { edit: (c) => c.cover(116, 98, 240, 62, 400, 130) },
   // A live invite code would let anyone join the team.
@@ -110,7 +126,7 @@ const outDir = join(root, "public/screenshots");
 await mkdir(outDir, { recursive: true });
 
 console.log("Building screenshots from assets/screens/");
-for (const [name, { edit, blur }] of Object.entries(screens)) {
+for (const [name, { edit, blur, detail }] of Object.entries(screens)) {
   const { data, info } = await sharp(join(root, "assets/screens", `${name}.jpg`))
     .removeAlpha()
     .raw()
@@ -121,6 +137,17 @@ for (const [name, { edit, blur }] of Object.entries(screens)) {
   canvas.cover(0, 0, W, STATUS_BAR, 4, STATUS_BAR + 2);
   removeHomeIndicator(canvas);
   edit?.(canvas);
+
+  if (detail) {
+    const { name: detailName, ...region } = detail;
+    await sharp(canvas.data, { raw: { width: W, height: H, channels: 3 } })
+      .extract(region)
+      .resize({ width: region.width * 2, kernel: "lanczos3" })
+      .sharpen({ sigma: 0.7 })
+      .webp({ quality: 90, smartSubsample: true })
+      .toFile(join(outDir, `${detailName}.webp`));
+    console.log(`  ${detailName}.webp`);
+  }
 
   let image = sharp(canvas.data, { raw: { width: W, height: H, channels: 3 } });
   if (blur) {

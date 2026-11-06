@@ -83,6 +83,8 @@ public/screenshots   real app screenshots go here
 - Domain: **invisiko.app**
 - Contact, support and privacy address: **support@invisiko.app**
 - Reply time promised on the contact page: **within 24–48 hours**
+- Legal company name: **Invisiko**, based in **London, UK**
+- Logo: the owner's mark, kept as `assets/brand/invisiko-mark.png`. Run `npm run brand` after replacing it to regenerate the favicon, home-screen icon, manifest icon and structured-data logo.
 
 ## Before launch — everything still needed from the owner
 
@@ -96,7 +98,6 @@ grep -rn "\[\[" app components content lib sections
 |---|---|---|
 | Form delivery: a Resend account with `invisiko.app` verified, then `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | env | §14 Q4 |
 | Apex or `www` as the canonical host (defaults to `https://invisiko.app`) | `NEXT_PUBLIC_SITE_URL` | §13 |
-| `[[LEGAL_NAME]]`, `[[LOCATION]]` | `NEXT_PUBLIC_LEGAL_NAME`, `app/about/page.tsx` | §14 Q5 |
 | `[[APP_PRIVACY_URL]]`, `[[APP_SUPPORT_URL]]` | env | §14 Q7 |
 | `[[APP_STORE_URL]]`, `[[PLAY_STORE_URL]]` — badges appear only once set | env | §14 Q10 |
 | `[[ORIGIN_STORY]]` for `/about` | `app/about/page.tsx` | §14 Q21 |
@@ -106,7 +107,7 @@ grep -rn "\[\[" app components content lib sections
 | **12 real screenshots** (dark theme, from `seed_demo` data, demo restaurant renamed) | `content/screenshots.ts` + `public/screenshots/` | §14 Q11 |
 | Approval to show the payroll screen | `content/screenshots.ts` → `payroll` | §14 Q12 |
 | OG image with a real screenshot | `app/opengraph-image.tsx` | §12 |
-| SVG master of the brand mark | `components/Logo.tsx`, `app/icon.svg` | §14 Q25 |
+| Optional: an SVG master of the mark, for perfectly crisp scaling (the PNG master is 225×451) | `assets/brand/` | §14 Q25 |
 | Confirm "Android and iPhone; not iPad" against the store listings | `content/faq.ts` → `phones` | §9.9 |
 
 ### Adding a screenshot

@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "brand": "node scripts/build-brand-assets.mjs"
+    "brand": "node scripts/build-brand-assets.mjs",
+    "screenshots": "node scripts/build-screenshots.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

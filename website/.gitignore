@@ -45,3 +45,7 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /blob-report/
+
+# Raw app screenshots: they contain real names, addresses and live codes.
+# Only the cleaned copies in public/screenshots/ are committed.
+/assets/screens/

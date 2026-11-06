@@ -8,7 +8,7 @@ import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { SectionNav } from "@/components/SectionNav";
 import { SectionHeading } from "@/components/SectionHeading";
-import { StepList, type Step } from "@/components/StepList";
+import { StepShowcase, type ShowcaseStep } from "@/components/StepShowcase";
 import { faqsById } from "@/content/faq";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
@@ -23,33 +23,40 @@ export const metadata = pageMetadata("/how-it-works");
 const managerSteps = [
   {
     title: "Create your account",
+    screenshot: "welcomeManager",
     body: "In the app, choose Manager and set up your takeaway: its name, your name, phone number and work email. A six-digit code sent to that email confirms it's yours. Your restaurant's dashboard opens once it is set up.",
   },
   {
     title: "Print the venue code",
+    screenshot: "checkInSetup",
     body: "Generate your QR code and print it. Stand at the venue to set its position from your phone, then choose the check-in radius. Regenerating the code makes printed copies stop working immediately.",
   },
   {
     title: "Add fridges and checklists",
+    screenshot: "checksDashboard",
     body: "Register each fridge and freezer with its recommended maximum temperature. Write your opening and closing checks, and any daily, weekly or monthly lists, in your own words.",
   },
   {
     title: "Invite the team with one code",
+    screenshot: "inviteTeam",
     body: "Share an eight-character staff code. The whole team can use it until you regenerate it, and it expires after 14 days. A code for another manager works once only.",
   },
-] satisfies Step[];
+] satisfies ShowcaseStep[];
 
-const staffSteps: Step[] = [
+const staffSteps: ShowcaseStep[] = [
   {
     title: "Install the app",
+    screenshot: "welcomeStaff",
     body: "On their own Android phone or iPhone, and choose “Join a team”.",
   },
   {
     title: "Enter the code",
+    screenshot: "welcomeStaff",
     body: "Then their name, email and a password. A six-digit code confirms their email, and they're signed in.",
   },
   {
     title: "Scan at the door",
+    screenshot: "staffScan",
     body: "The first scan asks for camera and location permission. From then on, checking in is one scan — matched to their shift where one is on the rota.",
   },
 ];
@@ -108,29 +115,25 @@ export default function HowItWorksPage() {
       <SectionNav items={sections} />
 
       <Section tone="light" labelledBy="manager-title">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHeading
+        <StepShowcase steps={managerSteps}>
+          <SectionHeading
               id="manager-title"
               eyebrow="Day one · Manager"
               title="Four things to set up."
               intro="All of it from your phone. There's no web dashboard to learn."
             />
-          </div>
-          <StepList steps={managerSteps} highlight tall />
-        </div>
+        </StepShowcase>
       </Section>
 
       <Section tone="dark" labelledBy="staff-title">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
+        <StepShowcase steps={staffSteps}>
           <SectionHeading
             id="staff-title"
             eyebrow="Day one · Staff"
             title="Install, enter the code, scan at the door."
             intro="Nobody needs an account created for them by hand."
           />
-          <StepList steps={staffSteps} />
-        </div>
+        </StepShowcase>
       </Section>
 
       <Section tone="light" labelledBy="week-title">

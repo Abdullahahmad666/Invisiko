@@ -2,8 +2,10 @@ import { IoCreateOutline, IoLocationOutline, IoPeopleOutline, IoQrCodeOutline, I
 import type { CSSProperties } from "react";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
+import { FeatureSwitcher } from "@/components/FeatureSwitcher";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
+import { SectionNav } from "@/components/SectionNav";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SplitFeature } from "@/components/SplitFeature";
 import { primaryCta } from "@/content/site";
@@ -32,6 +34,14 @@ const beats = [
   },
 ];
 
+const sections = [
+  { id: "check-in-title", label: "Check-in" },
+  { id: "rota", label: "Rota" },
+  { id: "swaps-title", label: "Swaps" },
+  { id: "corrections-title", label: "Corrections" },
+  { id: "managers", label: "Manager view" },
+];
+
 export default function AttendancePage() {
   return (
     <>
@@ -52,6 +62,8 @@ export default function AttendancePage() {
           </ButtonLink>
         </div>
       </PageHero>
+
+      <SectionNav items={sections} />
 
       <Section tone="light" labelledBy="check-in-title">
         <SectionHeading id="check-in-title" eyebrow="How a check-in works" title="Three beats, at the door." />
@@ -179,17 +191,10 @@ export default function AttendancePage() {
           ]}
           screenshot="attendanceLive"
           reverse
-        >
-          <div className="mt-8 flex flex-col items-start gap-2">
-            <ButtonLink href="/features/compliance" variant="text" arrow>
-              Next: compliance records
-            </ButtonLink>
-            <ButtonLink href="/how-it-works" variant="text" arrow>
-              How setup works
-            </ButtonLink>
-          </div>
-        </SplitFeature>
+        />
       </Section>
+
+      <FeatureSwitcher current="/features/attendance" id="attendance-more" />
 
       <CtaBand id="attendance-cta" title="Want hours you don't have to argue about?" />
     </>

@@ -6,6 +6,7 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
+import { SectionNav } from "@/components/SectionNav";
 import { SectionHeading } from "@/components/SectionHeading";
 import { StepList, type Step } from "@/components/StepList";
 import { faqsById } from "@/content/faq";
@@ -69,6 +70,14 @@ const needs = [
 
 const setupFaqs = faqsById(["web-dashboard", "staff-accounts", "phones", "offline"]);
 
+const sections = [
+  { id: "manager-title", label: "Manager" },
+  { id: "staff-title", label: "Staff" },
+  { id: "week-title", label: "First week" },
+  { id: "needs-title", label: "What you need" },
+  { id: "setup-faq-title", label: "Questions" },
+];
+
 export default function HowItWorksPage() {
   return (
     <>
@@ -95,6 +104,8 @@ export default function HowItWorksPage() {
           </ButtonLink>
         </div>
       </PageHero>
+
+      <SectionNav items={sections} />
 
       <Section tone="light" labelledBy="manager-title">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">

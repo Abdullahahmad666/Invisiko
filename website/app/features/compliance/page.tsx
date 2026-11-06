@@ -2,8 +2,10 @@ import type { CSSProperties } from "react";
 import { IoLockClosedOutline, IoTimeOutline } from "react-icons/io5";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
+import { FeatureSwitcher } from "@/components/FeatureSwitcher";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
+import { SectionNav } from "@/components/SectionNav";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SplitFeature } from "@/components/SplitFeature";
 import { primaryCta } from "@/content/site";
@@ -36,6 +38,15 @@ const gaps = [
   },
 ];
 
+const sections = [
+  { id: "routines-title", label: "Opening & closing" },
+  { id: "temperatures", label: "Temperatures" },
+  { id: "checklists-title", label: "Checklists" },
+  { id: "documents", label: "Documents" },
+  { id: "history", label: "History" },
+  { id: "gaps-title", label: "Honest gaps" },
+];
+
 export default function CompliancePage() {
   return (
     <>
@@ -55,6 +66,8 @@ export default function CompliancePage() {
           </ButtonLink>
         </div>
       </PageHero>
+
+      <SectionNav items={sections} />
 
       <Section tone="light" labelledBy="routines-title">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
@@ -184,15 +197,9 @@ export default function CompliancePage() {
           What it does do: the record exists, it is timestamped, it says who, and it is on the phone when somebody asks.
           Invisiko does not certify your business against any scheme — the checks are yours.
         </p>
-        <div className="mt-10 flex flex-col items-start gap-2" data-reveal>
-          <ButtonLink href="/features/invoice-scanning" variant="text" arrow>
-            Next: invoice scanning
-          </ButtonLink>
-          <ButtonLink href="/how-it-works" variant="text" arrow>
-            How setup works
-          </ButtonLink>
-        </div>
       </Section>
+
+      <FeatureSwitcher current="/features/compliance" id="compliance-more" />
 
       <CtaBand id="compliance-cta" title="Want the folder behind the counter on your phone?" />
     </>

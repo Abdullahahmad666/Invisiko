@@ -3,9 +3,11 @@ import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { FeatureSwitcher } from "@/components/FeatureSwitcher";
 import { PageHero } from "@/components/PageHero";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { Section } from "@/components/Section";
+import { SectionNav } from "@/components/SectionNav";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SplitFeature } from "@/components/SplitFeature";
 import { faqsById } from "@/content/faq";
@@ -67,6 +69,15 @@ const afterwards = [
 
 const invoiceFaqs = faqsById(["misread", "pdf", "credit-notes", "duplicates"]);
 
+const sections = [
+  { id: "pipeline-title", label: "Pipeline" },
+  { id: "reads", label: "What it reads" },
+  { id: "in-charge-title", label: "You stay in charge" },
+  { id: "costs-title", label: "Costs" },
+  { id: "afterwards", label: "Afterwards" },
+  { id: "invoice-faq-title", label: "Questions" },
+];
+
 export default function InvoiceScanningPage() {
   return (
     <>
@@ -94,6 +105,8 @@ export default function InvoiceScanningPage() {
           </ButtonLink>
         </div>
       </PageHero>
+
+      <SectionNav items={sections} />
 
       <Section tone="light" labelledBy="pipeline-title">
         <SectionHeading
@@ -191,20 +204,14 @@ export default function InvoiceScanningPage() {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
           <div>
             <SectionHeading id="invoice-faq-title" eyebrow="Questions" title="About the scanning." />
-            <div className="mt-8 flex flex-col items-start gap-2" data-reveal>
-              <ButtonLink href="/features/compliance" variant="text" arrow>
-                Next: compliance records
-              </ButtonLink>
-              <ButtonLink href="/how-it-works" variant="text" arrow>
-                How setup works
-              </ButtonLink>
-            </div>
           </div>
           <div data-reveal>
             <FaqAccordion items={invoiceFaqs} />
           </div>
         </div>
       </Section>
+
+      <FeatureSwitcher current="/features/invoice-scanning" id="invoice-more" />
 
       <CtaBand id="invoice-cta" title="Want it reading your delivery notes?" />
     </>

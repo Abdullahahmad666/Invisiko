@@ -4,6 +4,7 @@ import { FeatureCard } from "@/components/FeatureCard";
 import { Limitations } from "@/components/Limitations";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
+import { SectionNav } from "@/components/SectionNav";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SplitFeature } from "@/components/SplitFeature";
 import { everythingElse, featureBlocks } from "@/content/features";
@@ -11,6 +12,15 @@ import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata("/features");
+
+const sections = [
+  { id: "attendance", label: "Attendance" },
+  { id: "compliance", label: "Compliance" },
+  { id: "invoices", label: "Invoices" },
+  { id: "pay", label: "Pay" },
+  { id: "everything-else-title", label: "Everything else" },
+  { id: "limitations-title", label: "What it isn't" },
+];
 
 export default function FeaturesPage() {
   return (
@@ -30,6 +40,8 @@ export default function FeaturesPage() {
           </ButtonLink>
         </div>
       </PageHero>
+
+      <SectionNav items={sections} />
 
       {featureBlocks.map((block, index) => (
         <Section

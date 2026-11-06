@@ -81,6 +81,27 @@ test.describe("site-wide", () => {
     await expect(page.getByLabel(/^Name/)).toHaveValue("Sam Patel");
   });
 
+  test("the logo glyph stays inside its tile everywhere", async ({ page }) => {
+    for (const width of [360, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/features");
+      if (width === 360) await page.getByRole("button", { name: "Open menu" }).click();
+      const escapes = await page.evaluate(() =>
+        Array.from(document.querySelectorAll("span[aria-hidden=true] > img"))
+          .map((img) => {
+            const tile = img.parentElement!.getBoundingClientRect();
+            const glyph = img.getBoundingClientRect();
+            const inside =
+              glyph.width > 0 &&
+              glyph.left >= tile.left && glyph.right <= tile.right && glyph.top >= tile.top && glyph.bottom <= tile.bottom;
+            return inside ? null : `tile ${Math.round(tile.width)}x${Math.round(tile.height)}, glyph ${Math.round(glyph.width)}x${Math.round(glyph.height)}`;
+          })
+          .filter(Boolean),
+      );
+      expect(escapes, `at ${width}px`).toEqual([]);
+    }
+  });
+
   test("the mobile menu opens, traps focus and closes with Escape", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto("/");

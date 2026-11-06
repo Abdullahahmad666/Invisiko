@@ -51,7 +51,7 @@ const staffSteps: ShowcaseStep[] = [
   },
   {
     title: "Enter the code",
-    screenshot: "welcomeStaff",
+    screenshot: "signIn",
     body: "Then their name, email and a password. A six-digit code confirms their email, and they're signed in.",
   },
   {
@@ -61,12 +61,32 @@ const staffSteps: ShowcaseStep[] = [
   },
 ];
 
-const firstWeek = [
-  { label: "The rota", body: "Add the week's shifts. The estimated staff cost updates as you build it." },
-  { label: "Opening and closing", body: "Staff record fridge temperatures and tick off checklist items — each with a name and a time." },
-  { label: "Deliveries", body: "Photograph a delivery note, check the lines it read, and confirm them into stock." },
-  { label: "Swaps", body: "Staff offer shifts to colleagues. You approve or decline from your phone." },
-  { label: "Pay", body: "Open a fortnightly pay period. Hours accumulate from check-ins until you close it." },
+const firstWeek: ShowcaseStep[] = [
+  {
+    title: "The rota",
+    screenshot: "rota",
+    body: "Add the week's shifts. The estimated staff cost updates as you build it.",
+  },
+  {
+    title: "Opening and closing",
+    screenshot: "openingRoutine",
+    body: "Staff record fridge temperatures and tick off checklist items — each with a name and a time.",
+  },
+  {
+    title: "Deliveries",
+    screenshot: "invoiceCapture",
+    body: "Photograph a delivery note, check the lines it read, and confirm them into stock.",
+  },
+  {
+    title: "Swaps",
+    screenshot: "swapRequests",
+    body: "Staff offer shifts to colleagues. You approve or decline from your phone.",
+  },
+  {
+    title: "Pay",
+    screenshot: "payroll",
+    body: "Open a fortnightly pay period. Hours accumulate from check-ins until you close it.",
+  },
 ];
 
 const needs = [
@@ -137,24 +157,13 @@ export default function HowItWorksPage() {
       </Section>
 
       <Section tone="light" labelledBy="week-title">
-        <SectionHeading
-          id="week-title"
-          eyebrow="The first week"
-          title="The work you already do, recorded as you do it."
-        />
-        <ul className="mt-12 grid gap-px overflow-clip rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
-          {firstWeek.map((item, index) => (
-            <li
-              key={item.label}
-              data-reveal
-              style={{ "--stagger": index } as CSSProperties}
-              className="bg-surface p-6"
-            >
-              <p className="label-caps text-accent-text">{item.label}</p>
-              <p className="mt-3 text-muted">{item.body}</p>
-            </li>
-          ))}
-        </ul>
+        <StepShowcase steps={firstWeek}>
+          <SectionHeading
+            id="week-title"
+            eyebrow="The first week"
+            title="The work you already do, recorded as you do it."
+          />
+        </StepShowcase>
       </Section>
 
       <Section tone="light" labelledBy="needs-title" className="border-t border-[#DCDCE0]">

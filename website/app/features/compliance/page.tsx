@@ -104,20 +104,21 @@ export default function CompliancePage() {
             "A reading above the unit's recommended maximum is obvious as it is entered.",
             "Anyone can add a note to a reading.",
           ]}
-          screenshot="fridges"
+          screenshot="temperatures"
           reverse
         />
       </Section>
 
       <Section tone="dark" labelledBy="checklists-title">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
-          <SectionHeading
-            id="checklists-title"
-            eyebrow="Named checklists"
-            title="Daily, weekly and monthly lists, in your words."
-            intro="As many named checklists as you need — “Toilet cleaning”, “Monthly deep clean” — each with its own tasks."
-          />
-          <ul className="grid gap-3 self-end sm:grid-cols-3" data-reveal>
+        <SplitFeature
+          id="checklists"
+          eyebrow="Named checklists"
+          title="Daily, weekly and monthly lists, in your words."
+          intro="As many named checklists as you need — “Toilet cleaning”, “Monthly deep clean” — each with its own tasks."
+          screenshot="checklist"
+          reverse
+        >
+          <ul className="mt-6 grid gap-3 sm:grid-cols-3">
             {["Daily", "Weekly", "Monthly"].map((frequency) => (
               <li key={frequency} className="rounded-2xl border border-line bg-surface p-5">
                 <p className="label-caps text-accent-text">{frequency}</p>
@@ -125,7 +126,7 @@ export default function CompliancePage() {
               </li>
             ))}
           </ul>
-        </div>
+        </SplitFeature>
       </Section>
 
       <Section tone="light" labelledBy="documents-title">

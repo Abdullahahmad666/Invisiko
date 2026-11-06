@@ -1,75 +1,128 @@
 /**
- * Product screenshots the pages call for (PRODUCT_BLUEPRINT.md §9, §13).
+ * Product screenshots the pages use (PRODUCT_BLUEPRINT.md §9, §13).
  *
- * None exist yet. Each must be a real capture from the app — dark theme, taken from
- * `manage.py seed_demo` data with the demo restaurant renamed, never a live restaurant
- * and never a mock-up of an unbuilt feature (§13 "Screenshots without exposing a real
- * restaurant").
+ * Files in public/screenshots/ are built by `npm run screenshots` from the raw captures in
+ * assets/screens/, which stay out of git because they hold real names, an address and live codes.
+ * See scripts/build-screenshots.mjs for the redactions, and for raw screens that must not be used.
  *
- * To supply one: export it at 3x (e.g. 1170×2532 for a 390pt-wide phone), save it under
- * `public/screenshots/`, and set `src`, `width` and `height` below. Until `src` is set,
- * `PhoneFrame` renders a clearly labelled placeholder rather than a fabricated screen.
+ * Entries without `src` are screens still wanted: `PhoneFrame` shows a clearly labelled placeholder
+ * rather than a fabricated screen.
  */
 
 export type Screenshot = {
   /** What the placeholder says is missing, and what the owner should capture. */
   label: string;
-  /** Descriptive alt text for the real image. */
+  /** Describes what is on the screen, for people who cannot see it. */
   alt: string;
   src?: string;
   width?: number;
   height?: number;
 };
 
+const SHOT = { width: 1080, height: 2400 };
+
 export const screenshots = {
+  welcomeManager: {
+    label: "Welcome, manager",
+    alt: "The Invisiko welcome screen with Manager selected, offering Create an account or Sign in.",
+    src: "/screenshots/welcome-manager.webp",
+    ...SHOT,
+  },
+  welcomeStaff: {
+    label: "Welcome, staff",
+    alt: "The Invisiko welcome screen with Staff selected, offering Enter your invite code or Sign in.",
+    src: "/screenshots/welcome-staff.webp",
+    ...SHOT,
+  },
   checksDashboard: {
     label: "Checks dashboard",
-    alt: "The Invisiko Checks dashboard: today's opening and closing routines, fridge temperatures and the Documents tile.",
+    alt: "The Invisiko Checks dashboard: tiles for the opening and closing routines, other checklists and temperature history, and a Manage section for fridges and checklists.",
+    src: "/screenshots/manager-checks-dashboard.webp",
+    ...SHOT,
   },
-  documents: {
-    label: "Documents",
-    alt: "The manager's Documents screen in Invisiko, with certificates filed by category and expiry dates flagged.",
+  openingRoutine: {
+    label: "Opening routine",
+    alt: "The opening routine in Invisiko, with tiles for fridge and freezer temperatures and the opening checklist.",
+    src: "/screenshots/staff-opening-routine.webp",
+    ...SHOT,
   },
-  invoiceReview: {
-    label: "Invoice review, lines matched",
-    alt: "The Invisiko invoice review screen, listing the lines read from a delivery note, each matched to a stock item, with a Confirm button.",
-  },
-  invoiceReviewUnmatched: {
-    label: "Invoice review, one line unmatched",
-    alt: "An invoice in review with one line still waiting to be matched to a stock item before it can be confirmed.",
-  },
-  invoiceCapture: {
-    label: "Invoice capture row",
-    alt: "The Invisiko inventory screen offering three ways to add an invoice: take a photo, choose from the gallery, or upload a PDF.",
-  },
-  purchaseHistory: {
-    label: "Purchase history summary",
-    alt: "Invisiko purchase history showing spend per product across suppliers, with goods, VAT and paid-out totals shown separately.",
-  },
-  scanRefused: {
-    label: "Check-in refused outside the radius",
-    alt: "An Invisiko scan result refusing a check-in because the phone is outside the venue's check-in radius, with the distance stated.",
-  },
-  rota: {
-    label: "Weekly rota",
-    alt: "The Invisiko weekly rota, with shifts per staff member and the estimated staff cost for the week.",
-  },
-  attendanceLive: {
-    label: "Who's on shift now",
-    alt: "The manager's live view in Invisiko, listing everyone currently checked in and how long they have been on shift.",
-  },
-  payroll: {
-    // §11 — the payroll screen needs the owner's approval before it is shown publicly (§14 Q12).
-    label: "Pay period (owner approval needed)",
-    alt: "An Invisiko fortnightly pay period, listing each person's recorded hours and pay before the period is closed.",
-  },
-  temperatures: {
-    label: "Fridge temperatures",
-    alt: "Recording fridge and freezer temperatures in Invisiko, with a reading above the recommended maximum clearly marked.",
+  fridges: {
+    label: "Fridges & freezers",
+    alt: "The Fridges & freezers list in Invisiko, showing a registered unit with a recommended maximum of 5.0°C and a button to add another.",
+    src: "/screenshots/manager-fridges-freezers.webp",
+    ...SHOT,
   },
   complianceHistory: {
     label: "Temperature history",
-    alt: "Invisiko temperature history filtered to the last 14 days, showing each reading with who recorded it and when.",
+    alt: "Invisiko temperature history, with filters for 7, 14 or 30 days and for all, opening or closing readings.",
+    src: "/screenshots/manager-temperature-history.webp",
+    ...SHOT,
+  },
+  documents: {
+    label: "Documents",
+    alt: "The manager's Documents screen in Invisiko: a category filter, buttons to take a photo, choose from the gallery or upload a PDF, and a filed document.",
+    src: "/screenshots/manager-documents.webp",
+    ...SHOT,
+  },
+  invoiceCapture: {
+    label: "Invoice capture and stock",
+    alt: "The Invisiko Food screen: take a photo, choose from the gallery or upload a PDF of a delivery invoice, above a stock item showing its quantity, unit cost and a delivery received.",
+    src: "/screenshots/food-invoice-capture-stock.webp",
+    ...SHOT,
+  },
+  inventory: {
+    label: "Stock items",
+    alt: "Invisiko's list of stock items, each with its pack size, quantity on hand, unit cost and an optional par level.",
+    src: "/screenshots/manager-inventory.webp",
+    ...SHOT,
+  },
+  purchaseHistory: {
+    label: "Purchase history",
+    alt: "Invisiko purchase history: goods, VAT and paid-out totals for confirmed invoices, a spend chart, and spend per product.",
+    src: "/screenshots/manager-purchase-history.webp",
+    ...SHOT,
+  },
+  staffScan: {
+    label: "Scan to clock in",
+    alt: "The Invisiko Scan screen: a camera frame with the instruction Scan to clock in or out, line up the code inside the frame.",
+    src: "/screenshots/staff-scan.webp",
+    ...SHOT,
+  },
+  checkInSetup: {
+    label: "Check-in code setup",
+    alt: "Creating a check-in code in Invisiko: use the phone's current location or enter a latitude and longitude, and set the radius, here 100 metres.",
+    src: "/screenshots/manager-check-in-setup.webp",
+    ...SHOT,
+  },
+  inviteTeam: {
+    label: "Invite your team",
+    alt: "The Invite your team screen in Invisiko, with an invite code (hidden here), buttons to share or copy it, and Generate new code.",
+    src: "/screenshots/manager-invite-team.webp",
+    ...SHOT,
+  },
+  rota: {
+    label: "Weekly rota",
+    alt: "The Invisiko weekly rota, with the estimated staff cost for the week at the top and a day-by-day list with buttons to add staff.",
+    src: "/screenshots/manager-weekly-rota.webp",
+    ...SHOT,
+  },
+  staffHub: {
+    label: "Staff hub",
+    alt: "The manager's Staff screen in Invisiko, with tiles for who is on shift now, inviting staff, all staff and attendance history.",
+    src: "/screenshots/manager-staff-hub.webp",
+    ...SHOT,
+  },
+  payroll: {
+    label: "Pay periods",
+    alt: "The Invisiko Payroll screen, with a button to open the next fortnightly pay period and a monthly cost report.",
+    src: "/screenshots/manager-payroll.webp",
+    ...SHOT,
+  },
+
+  // Still wanted.
+  invoiceReviewUnmatched: {
+    label: "Invoice review, one line unmatched",
+    alt: "An invoice in review with one line still waiting to be matched to a stock item before it can be confirmed.",
   },
 } satisfies Record<string, Screenshot>;
 

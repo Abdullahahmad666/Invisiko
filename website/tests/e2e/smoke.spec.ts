@@ -102,6 +102,112 @@ test.describe("site-wide", () => {
     }
   });
 
+  test("every page is one click away from the header or footer, on every page", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    for (const path of pages) {
+      await page.goto(path);
+      // The header's Features menu holds the feature pages until opened, but they are in the DOM.
+      const links = await page
+        .locator("header a[href], footer a[href]")
+        .evaluateAll((anchors) => anchors.map((a) => a.getAttribute("href")!.split("#")[0] || "/"));
+      for (const target of pages) expect(links, `${target} from ${path}`).toContain(target);
+    }
+  });
+
+  test("the Features menu works by keyboard and marks the section", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/features/compliance");
+    const button = page.getByRole("button", { name: "Features" });
+    await expect(button).toHaveAttribute("data-active", "true");
+
+    await button.focus();
+    await page.keyboard.press("Enter");
+    await expect(button).toHaveAttribute("aria-expanded", "true");
+    const menu = page.locator("#features-menu");
+    await expect(menu.getByRole("link", { name: /Invoice scanning/ })).toBeVisible();
+    await expect(menu.getByRole("link", { name: /Compliance records/ })).toHaveAttribute("aria-current", "page");
+
+    await page.keyboard.press("Escape");
+    await expect(menu).toBeHidden();
+    await expect(button).toBeFocused();
+
+    await button.focus();
+    await page.keyboard.press("Enter");
+    await menu.getByRole("link", { name: /Invoice scanning/ }).click();
+    await expect(page).toHaveURL(/\/features\/invoice-scanning$/);
+    await expect(menu).toBeHidden();
+  });
+
+  test("the mobile menu lists the feature pages and closes on navigation", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto("/");
+    await page.getByRole("button", { name: "Open menu" }).click();
+    const dialog = page.getByRole("dialog", { name: "Menu" });
+    for (const name of ["Attendance & rota", "Compliance records", "Invoice scanning", "Pay", "Contact", "Support"]) {
+      await expect(dialog.getByRole("link", { name, exact: true })).toBeVisible();
+    }
+    await dialog.getByRole("link", { name: "Attendance & rota" }).click();
+    await expect(page).toHaveURL(/\/features\/attendance$/);
+    await expect(dialog).toBeHidden();
+  });
+
+  test("the section bar stays in view, tracks the section and jumps to it", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    for (const width of [375, 1440]) {
+      await page.setViewportSize({ width, height: 800 });
+      await page.goto("/features");
+      const bar = page.getByRole("navigation", { name: "On this page" });
+      await bar.getByRole("link", { name: "Pay" }).click();
+      await expect(page).toHaveURL(/#pay$/);
+      await expect(bar.getByRole("link", { name: "Pay" })).toHaveAttribute("aria-current", "location");
+
+      const top = await bar.evaluate((el) => el.getBoundingClientRect().top);
+      expect(top, "sticks under the header").toBe(72);
+      // The target heading must not hide behind the header and the bar.
+      const barBottom = await bar.evaluate((el) => el.getBoundingClientRect().bottom);
+      const heading = await page.locator("#pay-title").evaluate((el) => el.getBoundingClientRect().top);
+      expect(heading, `heading clears the bar at ${width}px`).toBeGreaterThanOrEqual(barBottom);
+    }
+  });
+
+  test("feature pages link onward to the other features and how it works", async ({ page }) => {
+    const features = ["/features/attendance", "/features/compliance", "/features/invoice-scanning"];
+    for (const path of features) {
+      await page.goto(path);
+      const hrefs = await page.locator("main a[href]").evaluateAll((a) => a.map((x) => x.getAttribute("href")));
+      for (const sibling of features.filter((f) => f !== path)) expect(hrefs, `${path} → ${sibling}`).toContain(sibling);
+      expect(hrefs).toContain("/how-it-works");
+      expect(hrefs).toContain("/features");
+    }
+  });
+
+  test("back to top appears on long pages and returns to the top", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto("/features");
+    const button = page.getByRole("button", { name: "Back to top" });
+    await expect(button).toHaveCount(0);
+    await page.evaluate(() => window.scrollTo(0, 2500));
+    await button.click();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+    await expect(page.locator("#main")).toBeFocused();
+  });
+
+  test("inner pages show a breadcrumb back to the home page", async ({ page }) => {
+    for (const path of pages.filter((p) => p !== "/")) {
+      await page.goto(path);
+      const crumbs = page.getByRole("navigation", { name: "Breadcrumb" });
+      await expect(crumbs.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
+    }
+  });
+
+  test("the 404 page offers ways back", async ({ page }) => {
+    const response = await page.goto("/no-such-page");
+    expect(response?.status()).toBe(404);
+    await expect(page.getByRole("link", { name: "Go to the home page" })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "Popular pages" }).getByRole("link", { name: "Contact" })).toBeVisible();
+  });
+
   test("the mobile menu opens, traps focus and closes with Escape", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto("/");

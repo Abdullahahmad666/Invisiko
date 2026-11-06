@@ -5,8 +5,8 @@
  * assets/screens/, which stay out of git because they hold real names, an address and live codes.
  * See scripts/build-screenshots.mjs for the redactions, and for raw screens that must not be used.
  *
- * Entries without `src` are screens still wanted: `PhoneFrame` shows a clearly labelled placeholder
- * rather than a fabricated screen.
+ * An entry without `src` makes `PhoneFrame` show a clearly labelled placeholder rather than a
+ * fabricated screen. Every screen on the site is real today; a test keeps it that way.
  */
 
 export type Screenshot = {
@@ -118,11 +118,23 @@ export const screenshots = {
     src: "/screenshots/manager-payroll.webp",
     ...SHOT,
   },
-
-  // Still wanted.
-  invoiceReviewUnmatched: {
-    label: "Invoice review, one line unmatched",
-    alt: "An invoice in review with one line still waiting to be matched to a stock item before it can be confirmed.",
+  signIn: {
+    label: "Sign in",
+    alt: "The Invisiko sign-in screen, with fields for email and password and a link to set up an account with an invite code.",
+    src: "/screenshots/sign-in.webp",
+    ...SHOT,
+  },
+  staffAnalytics: {
+    label: "My attendance",
+    alt: "A staff member's analytics in Invisiko: minutes late this month, on-time and late check-ins, and hours and pay by month.",
+    src: "/screenshots/staff-analytics.webp",
+    ...SHOT,
+  },
+  swapRequests: {
+    label: "Swap requests",
+    alt: "The manager's Swap requests screen in Invisiko, with pending requests to review and past decisions.",
+    src: "/screenshots/manager-swap-requests.webp",
+    ...SHOT,
   },
 } satisfies Record<string, Screenshot>;
 

@@ -33,6 +33,7 @@ export function Footer() {
               The back of house for independent takeaways and small restaurants — staff hours, food-safety records, pay
               and delivery invoices, on one phone.
             </p>
+            <p className="mt-2 text-sm text-muted">App screens shown on this site use demo data for a fictional restaurant.</p>
           </div>
           <div className="flex flex-col gap-4 md:items-end">
             <ButtonLink href={primaryCta.href} block>

@@ -19,7 +19,10 @@ function files(dir: string): string[] {
   });
 }
 
-const sources = scanned.flatMap((dir) => files(join(root, dir))).map((path) => ({
+// The demo screens are held to the same rules: a recreated screen must not show anything unbuilt.
+const demoScreens = join(root, "scripts/build-demo-screens.mjs");
+
+const sources = [...scanned.flatMap((dir) => files(join(root, dir))), demoScreens].map((path) => ({
   path,
   // Ignore comments: they explain the rules, and so name the forbidden words.
   text: readFileSync(path, "utf8")

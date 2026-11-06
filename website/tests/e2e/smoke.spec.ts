@@ -257,10 +257,11 @@ test.describe("site-wide", () => {
     }
   });
 
-  test("no page shows a screenshot placeholder", async ({ page }) => {
+  test("every page says its app screens use demo data, and none shows a placeholder", async ({ page }) => {
     for (const path of pages) {
       await page.goto(path);
       await expect(page.getByText("Screenshot placeholder"), path).toHaveCount(0);
+      await expect(page.locator("footer").getByText(/demo data/), path).toBeVisible();
     }
   });
 

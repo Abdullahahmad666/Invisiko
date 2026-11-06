@@ -224,6 +224,39 @@ body {
     }
   }
 
+  /* 404 radar: the sweep turns, the venue pings, and "you" blink out of range. */
+  .radar-sweep {
+    transform-origin: 200px 200px;
+    animation: radar-sweep 5s linear infinite;
+  }
+  @keyframes radar-sweep {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .radar-ping {
+    transform-origin: 200px 200px;
+    animation: radar-ping 2.4s var(--ease-out-expo) infinite;
+  }
+  @keyframes radar-ping {
+    from {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(5.6);
+    }
+  }
+  .radar-blink {
+    animation: radar-blink 1.6s ease-in-out infinite;
+  }
+  @keyframes radar-blink {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
   /* Header Features menu. */
   .menu-pop {
     animation: menu-pop 240ms var(--ease-out-expo) both;

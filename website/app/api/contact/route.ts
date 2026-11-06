@@ -9,8 +9,8 @@ import { parseContactInput, validateContact, type ContactInput } from "@/lib/con
  *
  * Server-only configuration (never NEXT_PUBLIC_):
  *   RESEND_API_KEY      — Resend API key
- *   CONTACT_TO_EMAIL    — where enquiries are delivered          [[CONTACT_EMAIL]]
- *   CONTACT_FROM_EMAIL  — a verified sender on the site's domain [[DOMAIN]]
+ *   CONTACT_TO_EMAIL    — where enquiries are delivered: support@invisiko.app
+ *   CONTACT_FROM_EMAIL  — a sender verified in Resend for invisiko.app, e.g. Invisiko <no-reply@invisiko.app>
  *
  * Until all three are set the endpoint answers 503, and the form keeps what was typed and offers
  * an email address instead.

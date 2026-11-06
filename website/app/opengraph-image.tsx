@@ -9,14 +9,16 @@ export const contentType = "image/png";
 /**
  * Default social card for every page: the real brand mark, wordmark and promise on the product's
  * near-black ground.
- * §12 asks for a real screenshot plus the wordmark — replace this with one once approved
- * screenshots exist (§14 Q11). It deliberately shows no product UI until then.
+ * Carries a real screen beside the wordmark, as §12 asks. assets/brand/share-screen.png is built
+ * by `npm run screenshots`.
  */
 // The master glyph is 225×451 (white "i", amber dot, transparent ground).
 const MARK_RATIO = 225 / 451;
 
 export default async function OpenGraphImage() {
   const mark = `data:image/png;base64,${(await readFile(join(process.cwd(), "assets/brand/invisiko-mark.png"))).toString("base64")}`;
+
+  const screen = `data:image/png;base64,${(await readFile(join(process.cwd(), "assets/brand/share-screen.png"))).toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -51,19 +53,27 @@ export default async function OpenGraphImage() {
           </div>
           <div style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1 }}>Invisiko</div>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse renders plain img */}
-        <img
-          src={mark}
-          width={Math.round(420 * MARK_RATIO)}
-          height={420}
-          alt=""
-          style={{ position: "absolute", right: 120, top: 105, opacity: 0.95 }}
-        />
+        {/* A real screen in a simple outline, running off the bottom of the card (§12). */}
+        <div
+          style={{
+            position: "absolute",
+            right: 90,
+            top: 70,
+            display: "flex",
+            padding: 12,
+            borderRadius: 52,
+            border: "2px solid #333336",
+            backgroundColor: "#111113",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse renders plain img */}
+          <img src={screen} width={330} height={733} alt="" style={{ borderRadius: 42 }} />
+        </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 78, fontWeight: 700, letterSpacing: -3, lineHeight: 1.05, maxWidth: 800 }}>
+          <div style={{ fontSize: 78, fontWeight: 700, letterSpacing: -3, lineHeight: 1.05, maxWidth: 680 }}>
             The back of house, on one phone.
           </div>
-          <div style={{ marginTop: 28, fontSize: 30, color: "#A6A6AC", maxWidth: 780 }}>
+          <div style={{ marginTop: 28, fontSize: 30, color: "#A6A6AC", maxWidth: 660 }}>
             Staff hours, food-safety records, pay and delivery invoices — for independent takeaways.
           </div>
         </div>

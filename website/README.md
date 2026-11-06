@@ -77,6 +77,13 @@ public/screenshots   real app screenshots go here
   Containers holding scroll-driven elements use `overflow-clip`, not `overflow-hidden` — hidden
   creates a scroll container that a `view()` timeline would attach to instead of the page.
 
+## Confirmed by the owner
+
+- Product name: **Invisiko**
+- Domain: **invisiko.app**
+- Contact, support and privacy address: **support@invisiko.app**
+- Reply time promised on the contact page: **within 24–48 hours**
+
 ## Before launch — everything still needed from the owner
 
 Find every unresolved token with:
@@ -87,12 +94,9 @@ grep -rn "\[\[" app components content lib sections
 
 | Token / item | Where it's set | Blueprint |
 |---|---|---|
-| Final product name | `content/site.ts` | §14 Q1 |
-| `[[DOMAIN]]` canonical host | `NEXT_PUBLIC_SITE_URL` (defaults to the implied `https://invisiko.app`) | §14 Q2 |
-| `[[CONTACT_EMAIL]]` and form delivery | `NEXT_PUBLIC_CONTACT_EMAIL`, `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | §14 Q4 |
-| `[[REPLY_TIME]]` | `NEXT_PUBLIC_REPLY_TIME` | §9.8 |
+| Form delivery: a Resend account with `invisiko.app` verified, then `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | env | §14 Q4 |
+| Apex or `www` as the canonical host (defaults to `https://invisiko.app`) | `NEXT_PUBLIC_SITE_URL` | §13 |
 | `[[LEGAL_NAME]]`, `[[LOCATION]]` | `NEXT_PUBLIC_LEGAL_NAME`, `app/about/page.tsx` | §14 Q5 |
-| `[[SUPPORT_EMAIL]]`, `[[PRIVACY_EMAIL]]` — role addresses, not personal ones | env | §14 Q18 |
 | `[[APP_PRIVACY_URL]]`, `[[APP_SUPPORT_URL]]` | env | §14 Q7 |
 | `[[APP_STORE_URL]]`, `[[PLAY_STORE_URL]]` — badges appear only once set | env | §14 Q10 |
 | `[[ORIGIN_STORY]]` for `/about` | `app/about/page.tsx` | §14 Q21 |

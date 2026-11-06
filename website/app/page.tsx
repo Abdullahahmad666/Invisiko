@@ -10,7 +10,7 @@ import { PhoneFrame } from "@/components/PhoneFrame";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SplitWords } from "@/components/SplitWords";
-import { StepList, type Step } from "@/components/StepList";
+import { StepShowcase, type ShowcaseStep } from "@/components/StepShowcase";
 import { Container } from "@/components/Container";
 import { faqsById } from "@/content/faq";
 import { pillars } from "@/content/features";
@@ -30,17 +30,20 @@ const problems = [
   { label: "What deliveries cost", text: "What came in, from whom, and what it actually cost." },
 ];
 
-const setupSteps: Step[] = [
+const setupSteps: ShowcaseStep[] = [
   {
     title: "Put a code on the door.",
+    screenshot: "checkInSetup",
     body: "Print your venue's QR code, set where it is from your phone, and choose how close staff need to be to check in.",
   },
   {
     title: "Add your fridges, checklists and team.",
+    screenshot: "checksDashboard",
     body: "Register each fridge and freezer, write your opening, closing and cleaning lists in your own words, and share one invite code with your staff.",
   },
   {
     title: "Everyone works their shift; the records build themselves.",
+    screenshot: "staffScan",
     body: "Check-ins, temperatures, completed checks and delivery notes are recorded as the work happens — each with who and when.",
   },
 ];
@@ -97,7 +100,7 @@ export default function HomePage() {
             </div>
             <div className="hero-exit-phone">
               <div className="hero-rise" style={rise(360)}>
-                <PhoneFrame screenshot="checksDashboard" priority />
+                <PhoneFrame screenshot="checksDashboard" priority float />
               </div>
             </div>
           </div>
@@ -178,24 +181,21 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 5. How it works in three steps — the heading stays put while the steps scroll past. */}
+      {/* 5. How it works in three steps — the phone stays put and follows the steps. */}
       <Section tone="dark" labelledBy="steps-title">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHeading
-              id="steps-title"
-              eyebrow="How it works"
-              title="Three steps, then it runs."
-              intro="No web dashboard to learn and no new hardware: a printed code, the phones your team already carries, and yours."
-            />
-            <div className="mt-8" data-reveal>
-              <ButtonLink href="/how-it-works" variant="text" arrow>
-                The full setup
-              </ButtonLink>
-            </div>
+        <StepShowcase steps={setupSteps}>
+          <SectionHeading
+            id="steps-title"
+            eyebrow="How it works"
+            title="Three steps, then it runs."
+            intro="No web dashboard to learn and no new hardware: a printed code, the phones your team already carries, and yours."
+          />
+          <div className="mt-6" data-reveal>
+            <ButtonLink href="/how-it-works" variant="text" arrow>
+              The full setup
+            </ButtonLink>
           </div>
-          <StepList steps={setupSteps} highlight tall />
-        </div>
+        </StepShowcase>
       </Section>
 
       {/* 6. What it isn't — the honesty block. Do not remove. */}

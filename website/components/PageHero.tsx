@@ -76,7 +76,7 @@ export function PageHero({ path, eyebrow, title, lead, children, screenshot, cap
           {screenshot ? (
             <div className="hero-exit-phone">
               <div className="hero-rise" style={rise(300)}>
-                <PhoneFrame screenshot={screenshot} priority />
+                <PhoneFrame screenshot={screenshot} priority float />
               </div>
             </div>
           ) : null}

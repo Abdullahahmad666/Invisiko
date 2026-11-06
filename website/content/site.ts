@@ -21,24 +21,24 @@ export function isPlaceholder(value: string): boolean {
 }
 
 export const site = {
-  /** §14 Q1 — "Invisiko" is verified in the app; finality as the public name is unconfirmed. */
+  /** §14 Q1 — confirmed by the owner as the public name. */
   name: "Invisiko",
   /** The product's own in-app tagline (§10). */
   tagline: "Staff, cost and compliance - sorted.",
   description:
     "A mobile app that runs the back of house for an independent takeaway or small restaurant: staff hours, food-safety records, pay and delivery invoices.",
   /**
-   * §14 Q2 — `invisiko.app` is implied by the product's default sender address but is
-   * not confirmed. [[DOMAIN]] Set NEXT_PUBLIC_SITE_URL once the canonical host is chosen.
+   * §14 Q2 — the domain is invisiko.app (confirmed through the owner's support address). The
+   * apex is the canonical host by default; set NEXT_PUBLIC_SITE_URL if www is chosen instead.
    */
   url: fromEnv(process.env.NEXT_PUBLIC_SITE_URL, "https://invisiko.app").replace(/\/$/, ""),
-  /** §14 Q4 — where enquiries go. */
-  contactEmail: fromEnv(process.env.NEXT_PUBLIC_CONTACT_EMAIL, "[[CONTACT_EMAIL]]"),
-  /** §14 Q18 — must be a role address on the product's own domain, never a personal one. */
-  supportEmail: fromEnv(process.env.NEXT_PUBLIC_SUPPORT_EMAIL, "[[SUPPORT_EMAIL]]"),
-  privacyEmail: fromEnv(process.env.NEXT_PUBLIC_PRIVACY_EMAIL, "[[PRIVACY_EMAIL]]"),
-  /** §14 Q4 — a realistic reply time, e.g. "two working days". */
-  replyTime: fromEnv(process.env.NEXT_PUBLIC_REPLY_TIME, "[[REPLY_TIME]]"),
+  /** §14 Q4 / Q18 — confirmed by the owner: one role address on the product's own domain. */
+  contactEmail: fromEnv(process.env.NEXT_PUBLIC_CONTACT_EMAIL, "support@invisiko.app"),
+  supportEmail: fromEnv(process.env.NEXT_PUBLIC_SUPPORT_EMAIL, "support@invisiko.app"),
+  /** No separate privacy address was given, so privacy requests go to the same role address. */
+  privacyEmail: fromEnv(process.env.NEXT_PUBLIC_PRIVACY_EMAIL, "support@invisiko.app"),
+  /** §14 Q4 — confirmed by the owner. Read as "Within 24–48 hours, …". */
+  replyTime: fromEnv(process.env.NEXT_PUBLIC_REPLY_TIME, "24–48 hours"),
   /** §14 Q5 — legal entity for copyright, privacy and terms. */
   legalName: fromEnv(process.env.NEXT_PUBLIC_LEGAL_NAME, "[[LEGAL_NAME]]"),
   /** §14 Q10 — store badges render only once these are real URLs. */

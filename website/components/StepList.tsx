@@ -62,7 +62,7 @@ export function StepList({ steps, highlight = false, tall = false, start = 1, on
           <li
             key={step.title}
             data-step={index}
-            className={`step-item relative flex gap-5 ${tall ? "py-6 lg:min-h-[46vh] lg:py-10" : "py-5"} ${
+            className={`step-item relative flex gap-5 ${tall ? "py-6 lg:min-h-[42vh] lg:py-10" : "py-5"} ${
               !highlight && index > 0 ? "border-t border-line" : ""
             }`}
           >

@@ -68,6 +68,8 @@ public/screenshots   real app screenshots go here
   never mentioned (§7, §14 Q12).
 - **No analytics** are installed, so the privacy page can truthfully say no cookies or trackers are
   set. If Plausible or Fathom is added later (§11), update `/privacy` first.
+- **Demo screens instead of only real captures**, at the owner's request, despite §10's "never a
+  fabricated screen". They show built features only, and the footer discloses the demo data.
 - **Motion is richer than the blueprint's ≤250ms entry-only rule**, at the owner's request: native
   CSS scroll timelines (`animation-timeline: view()` / `scroll()`) drive reveals, the hero exit,
   phone arrivals, the step track, illustration parts and a reading-progress bar, with an
@@ -104,21 +106,27 @@ grep -rn "\[\[" app components content lib sections
 | `[[PRICE]]` — FAQ "What does it cost?" | `content/faq.ts` | §14 Q8 |
 | `[[TERMS]]` — real terms of service | `app/terms/page.tsx` | §14 Q6 |
 | Legal review of `/privacy` (remove the draft notice afterwards) | `app/privacy/page.tsx` | §9.10 |
-| Nice to have: the invoice review screen, the app's key moment, to replace the stock list under "You stay in charge". Better captures of Documents and Fridges (they show test entries) | `assets/screens/`, then `npm run screenshots` | §14 Q11 |
-| Confirm the real prices and item names on the Purchase history and Stock screens may be public | `scripts/build-screenshots.mjs` | §13 |
-| Approval to show the payroll screen | `content/screenshots.ts` → `payroll` | §14 Q12 |
+| Check the demo screens against the real app, especially invoice review, invite-code entry, refused check-in and recording temperatures, which were drawn from the blueprint's description | `scripts/build-demo-screens.mjs` | §10 |
+| Approval to show a pay screen, even with demo data | `content/screenshots.ts` → `payroll` | §14 Q12 |
 | Optional: an SVG master of the mark, for perfectly crisp scaling (the PNG master is 225×451) | `assets/brand/` | §14 Q25 |
 | Confirm "Android and iPhone; not iPad" against the store listings | `content/faq.ts` → `phones` | §9.9 |
 
-### Adding a screenshot
+### App screens
 
-1. Save the raw capture in `assets/screens/` as `<who>-<screen>.jpg`, e.g. `manager-weekly-rota.jpg`.
-   This folder is gitignored: raw captures can hold real names, addresses and live codes.
-2. Review it for personal data, live codes and the pay split, then add it to `screens` in
-   `scripts/build-screenshots.mjs` with any redactions it needs. Captures must be 720×1600.
-3. Run `npm run screenshots`. It removes the status bar and home indicator, applies redactions and
-   writes a 1080×2400 WebP to `public/screenshots/`.
-4. Add the entry to `content/screenshots.ts` with alt text describing what is on the screen.
+Most screens on the site are **demo screens**: recreations of built screens in the app's design
+system, with fictional data for a made-up restaurant, The Clay Oven. The footer says so on every
+page. They exist because real captures held real prices, names and test entries, and several
+screens had no capture.
+
+- Edit them in `scripts/build-demo-screens.mjs`, then run `npm run demo-screens` (needs a connection
+  for Roboto, and Microsoft Edge). It writes 1080×2400 WebP files to `public/screenshots/`.
+- Show only what the blueprint marks Implemented, never pay rates or how staff are paid, and keep the
+  sums adding up. `tests/unit/content-claims.test.ts` scans this script for forbidden claims.
+- Register each screen in `content/screenshots.ts` with alt text describing what is on it.
+
+The two welcome screens are real captures. To use another, save it to `assets/screens/` as
+`<who>-<screen>.jpg` (gitignored, because raw captures can hold real names, addresses and live
+codes), review it, add it to `scripts/build-screenshots.mjs`, and run `npm run screenshots`.
 
 ## Deployment
 

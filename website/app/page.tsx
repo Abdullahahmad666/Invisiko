@@ -6,7 +6,6 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { FeatureCard } from "@/components/FeatureCard";
 import { JsonLd } from "@/components/JsonLd";
 import { Limitations } from "@/components/Limitations";
-import { PhoneFrame } from "@/components/PhoneFrame";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SplitWords } from "@/components/SplitWords";
@@ -17,6 +16,7 @@ import { pillars } from "@/content/features";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 import { organizationLd, softwareApplicationLd, webPageLd, websiteLd } from "@/lib/structured-data";
+import { HeroPhones } from "@/sections/HeroPhones";
 import { InvoiceSteps } from "@/sections/InvoiceSteps";
 
 export const metadata = pageMetadata("/");
@@ -98,11 +98,7 @@ export default function HomePage() {
                 Your staff&apos;s location is read once, when they check in or out — and never tracked.
               </p>
             </div>
-            <div className="hero-exit-phone">
-              <div className="hero-rise" style={rise(360)}>
-                <PhoneFrame screenshot="checksDashboard" priority float />
-              </div>
-            </div>
+            <HeroPhones />
           </div>
         </Container>
       </section>
@@ -115,13 +111,13 @@ export default function HomePage() {
           title="Four jobs nobody trained you for."
           intro="They all land on whoever runs the place."
         />
-        <ol className="mt-12 grid gap-px overflow-clip rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {problems.map((problem, index) => (
             <li
               key={problem.label}
               data-reveal
               style={{ "--stagger": index } as CSSProperties}
-              className="bg-surface p-6 sm:p-7"
+              className="rounded-2xl border border-line bg-surface p-6 sm:p-7"
             >
               <span className="label-caps tabular-nums text-accent-text">0{index + 1}</span>
               <p className="mt-6 text-lg font-semibold leading-snug tracking-[-0.01em]">{problem.label}</p>

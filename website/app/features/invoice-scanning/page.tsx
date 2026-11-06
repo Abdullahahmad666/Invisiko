@@ -14,6 +14,7 @@ import { faqsById } from "@/content/faq";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 import { Pipeline } from "@/sections/Pipeline";
+import { StockCardDetail } from "@/sections/StockCardDetail";
 
 export const metadata = pageMetadata("/features/invoice-scanning");
 
@@ -126,7 +127,7 @@ export default function InvoiceScanningPage() {
           eyebrow="What it reads"
           title="The whole note, not just the total."
           intro="UK date order is understood — 22/09/26 is 22 September 2026."
-          screenshot="inventory"
+          visual={<StockCardDetail />}
         >
           <dl className="mt-8 grid gap-6 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
             {reads.map((group) => (
@@ -165,8 +166,8 @@ export default function InvoiceScanningPage() {
               ))}
             </ul>
           </div>
-          <div data-reveal className="hidden lg:block">
-            <PhoneFrame screenshot="invoiceReviewUnmatched" />
+          <div className="lg:w-[300px]">
+            <PhoneFrame screenshot="inventory" />
           </div>
         </div>
       </Section>

@@ -257,6 +257,19 @@ test.describe("site-wide", () => {
     }
   });
 
+  test("the homepage hero shows two phones on desktop and one on a phone", async ({ page }) => {
+    const hero = page.locator("section[aria-labelledby=hero-title]").getByRole("img");
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    await expect(hero.filter({ visible: true })).toHaveCount(2);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await expect(hero.filter({ visible: true })).toHaveCount(1);
+    await expect(hero.filter({ visible: true })).toHaveAttribute("alt", /Checks dashboard/);
+  });
+
   test("every page says its app screens use demo data, and none shows a placeholder", async ({ page }) => {
     for (const path of pages) {
       await page.goto(path);

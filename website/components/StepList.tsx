@@ -15,10 +15,12 @@ type StepListProps = {
   /** Give each step generous height on desktop so a sticky heading beside it has room to travel. */
   tall?: boolean;
   start?: number;
+  /** Told which step is current, so a phone beside the list can follow along. */
+  onActiveChange?: (index: number) => void;
 };
 
 /** Numbered steps (§9 reusable components). Semantic `<ol>`; numbers are decorative. */
-export function StepList({ steps, highlight = false, tall = false, start = 1 }: StepListProps) {
+export function StepList({ steps, highlight = false, tall = false, start = 1, onActiveChange }: StepListProps) {
   const listRef = useRef<HTMLOListElement>(null);
   const [active, setActive] = useState<number | null>(null);
 
@@ -28,21 +30,24 @@ export function StepList({ steps, highlight = false, tall = false, start = 1 }: 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.step));
+          if (!entry.isIntersecting) continue;
+          const index = Number((entry.target as HTMLElement).dataset.step);
+          setActive(index);
+          onActiveChange?.(index);
         }
       },
       { rootMargin: "-45% 0px -45% 0px" },
     );
     items.forEach((item) => observer.observe(item));
     return () => observer.disconnect();
-  }, [highlight]);
+  }, [highlight, onActiveChange]);
 
   const progress = active === null ? 1 : (active + 1) / steps.length;
 
   return (
     <ol ref={listRef} start={start} className="steps-timeline relative">
       {highlight ? (
-        <span aria-hidden="true" className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-line">
+        <span aria-hidden="true" className="absolute top-2 bottom-2 left-[1.15rem] w-0.5 bg-line">
           <span
             // Scroll-driven where supported (.steps-fill overrides this inline transform); step-based otherwise.
             className="steps-fill block w-full origin-top bg-amber transition-transform duration-200 ease-out motion-reduce:transition-none"
@@ -57,7 +62,7 @@ export function StepList({ steps, highlight = false, tall = false, start = 1 }: 
           <li
             key={step.title}
             data-step={index}
-            className={`step-item relative flex gap-5 ${tall ? "py-6 lg:min-h-[34vh] lg:py-10" : "py-5"} ${
+            className={`step-item relative flex gap-5 ${tall ? "py-6 lg:min-h-[46vh] lg:py-10" : "py-5"} ${
               !highlight && index > 0 ? "border-t border-line" : ""
             }`}
           >

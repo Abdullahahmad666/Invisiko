@@ -1,5 +1,4 @@
-import { IoCreateOutline, IoLocationOutline, IoPeopleOutline, IoQrCodeOutline, IoTimeOutline } from "react-icons/io5";
-import type { CSSProperties } from "react";
+import { IoCreateOutline, IoPeopleOutline } from "react-icons/io5";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
 import { FeatureSwitcher } from "@/components/FeatureSwitcher";
@@ -8,6 +7,7 @@ import { Section } from "@/components/Section";
 import { SectionNav } from "@/components/SectionNav";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SplitFeature } from "@/components/SplitFeature";
+import { StepShowcase, type ShowcaseStep } from "@/components/StepShowcase";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -16,21 +16,21 @@ export const metadata = pageMetadata("/features/attendance");
 // Claims map to PRODUCT_BLUEPRINT.md §2 B1–B6. Wording rule (§7): "position-checked", never
 // tamper-proof, fraud-proof or proof of attendance. No biometrics, no shift reminders.
 
-const beats = [
+const beats: ShowcaseStep[] = [
   {
-    Icon: IoQrCodeOutline,
     title: "A printed code at the door",
-    body: "You print your venue's QR code and put it where staff arrive. Regenerating it makes every printed copy stop working straight away.",
+    screenshot: "checkInSetup",
+    body: "You set the venue's position and radius, then print its QR code and put it where staff arrive. Regenerating the code makes every printed copy stop working straight away.",
   },
   {
-    Icon: IoLocationOutline,
     title: "The phone's position is checked",
+    screenshot: "staffScan",
     body: "When someone scans, their phone sends its position. Invisiko works out the distance from the venue against the radius you set — 100 metres unless you change it.",
   },
   {
-    Icon: IoTimeOutline,
     title: "Outside the radius, it says no",
-    body: "The check-in is refused, and the message says how far away the phone is. Inside it, the check-in is recorded and matched to their shift on the rota.",
+    screenshot: "staffAnalytics",
+    body: "The check-in is refused, and the message says how far away the phone is. Inside it, the check-in is recorded and matched to their shift on the rota, and staff can see their own record.",
   },
 ];
 
@@ -66,26 +66,9 @@ export default function AttendancePage() {
       <SectionNav items={sections} />
 
       <Section tone="light" labelledBy="check-in-title">
-        <SectionHeading id="check-in-title" eyebrow="How a check-in works" title="Three beats, at the door." />
-        <ol className="mt-12 grid gap-4 md:grid-cols-3">
-          {beats.map(({ Icon, title, body }, index) => (
-            <li
-              key={title}
-              data-reveal
-              style={{ "--stagger": index } as CSSProperties}
-              className="rounded-2xl border border-line bg-surface p-6"
-            >
-              <div className="flex items-center justify-between">
-                <span className="grid size-11 place-items-center rounded-full bg-amber text-ink">
-                  <Icon aria-hidden="true" className="size-5" />
-                </span>
-                <span className="label-caps tabular-nums text-muted">0{index + 1}</span>
-              </div>
-              <h3 className="mt-6 text-lg font-semibold leading-snug">{title}</h3>
-              <p className="mt-2 text-muted">{body}</p>
-            </li>
-          ))}
-        </ol>
+        <StepShowcase steps={beats}>
+          <SectionHeading id="check-in-title" eyebrow="How a check-in works" title="Three beats, at the door." />
+        </StepShowcase>
 
         <figure className="mt-12 rounded-2xl border border-line bg-surface p-6 sm:p-8" data-reveal>
           <figcaption className="label-caps text-accent-text">What a refused check-in says</figcaption>

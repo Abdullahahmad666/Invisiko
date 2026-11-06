@@ -64,6 +64,39 @@ export const primaryNav: NavLink[] = [
   { href: "/about", label: "About" },
 ];
 
+/**
+ * The feature pages, for the header's Features menu, the mobile menu and the switcher at the end
+ * of each feature page — one list so every route to a feature says the same thing.
+ */
+export type FeatureNavLink = NavLink & { description: string; icon: "location" | "clipboard" | "receipt" | "wallet" };
+
+export const featureNav: FeatureNavLink[] = [
+  {
+    href: "/features/attendance",
+    label: "Attendance & rota",
+    description: "QR check-in that checks where the phone is, the rota and swaps.",
+    icon: "location",
+  },
+  {
+    href: "/features/compliance",
+    label: "Compliance records",
+    description: "Temperatures, opening and closing checks, and your certificates.",
+    icon: "clipboard",
+  },
+  {
+    href: "/features/invoice-scanning",
+    label: "Invoice scanning",
+    description: "Photograph a delivery note; confirm the lines into stock and spend.",
+    icon: "receipt",
+  },
+  {
+    href: "/features#pay",
+    label: "Pay",
+    description: "Fortnightly pay periods built from recorded hours.",
+    icon: "wallet",
+  },
+];
+
 /** §11 — the only honest primary action while pricing and self-serve signup are unknown (§14 Q3). */
 export const primaryCta: NavLink = { href: "/contact", label: "Request access" };
 

@@ -204,8 +204,41 @@ test.describe("site-wide", () => {
   test("the 404 page offers ways back", async ({ page }) => {
     const response = await page.goto("/no-such-page");
     expect(response?.status()).toBe(404);
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page).toHaveTitle(/Page not found/);
+
+    // Inside the normal shell: the full header and footer, so nobody is stranded.
+    await expect(page.locator("header").getByRole("link", { name: "Request access" })).toBeVisible();
+    await expect(page.locator("footer").getByRole("link", { name: "Privacy" })).toBeVisible();
+
     await expect(page.getByRole("link", { name: "Go to the home page" })).toBeVisible();
-    await expect(page.getByRole("navigation", { name: "Popular pages" }).getByRole("link", { name: "Contact" })).toBeVisible();
+    const tiles = page.getByRole("navigation", { name: "Where were you heading?" });
+    for (const name of ["Home", "Features", "How it works", "FAQ", "Contact", "Support"]) {
+      await expect(tiles.getByRole("link", { name: new RegExp(`^${name}`) })).toBeVisible();
+    }
+
+    await tiles.getByRole("link", { name: /^FAQ/ }).click();
+    await expect(page).toHaveURL(/\/faq$/);
+  });
+
+  test("the 404 page's Go back returns to where you came from", async ({ page }) => {
+    await page.goto("/features");
+    await page.goto("/features/nope");
+    await page.getByRole("button", { name: "Go back" }).click();
+    await expect(page).toHaveURL(/\/features$/);
+  });
+
+  test("the 404 page is accessible and does not scroll sideways", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    for (const width of [320, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/no-such-page");
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      expect(overflow, `at ${width}px`).toBeLessThanOrEqual(0);
+    }
+    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+    const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
+    expect(serious.map((v) => v.id)).toEqual([]);
   });
 
   test("the mobile menu opens, traps focus and closes with Escape", async ({ page }) => {

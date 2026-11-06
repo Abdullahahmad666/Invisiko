@@ -94,7 +94,7 @@ export const featureBlocks: FeatureBlock[] = [
       "Check-ins are matched to the shift on the rota where one exists.", // B1, B3
       "A manager's correction stays marked as a manual override — nothing is silently rewritten.", // B5
     ],
-    screenshot: "scanRefused",
+    screenshot: "staffScan",
     link: { href: "/features/attendance", label: "Attendance & rota in detail" },
   },
   {
@@ -122,7 +122,7 @@ export const featureBlocks: FeatureBlock[] = [
       "A credit note is applied as a return, not a delivery.", // E1
       "Spend adds up per product across every supplier, with VAT kept separate.", // E4
     ],
-    screenshot: "invoiceReview",
+    screenshot: "invoiceCapture",
     link: { href: "/features/invoice-scanning", label: "Invoice scanning in detail" },
   },
   {

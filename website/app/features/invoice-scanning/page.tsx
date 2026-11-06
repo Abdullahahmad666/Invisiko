@@ -86,7 +86,7 @@ export default function InvoiceScanningPage() {
         eyebrow="Invoice scanning"
         title="Photograph the delivery note. Check what it read. That's the job."
         lead="Invisiko reads delivery notes and supplier invoices into line items, matched to the things you already buy."
-        screenshot="invoiceReview"
+        screenshot="invoiceCapture"
       >
         {/* The human checkpoint, above the fold on mobile (§9.3 I). */}
         <p className="flex gap-3 rounded-2xl border border-amber/60 bg-amber/10 p-4 text-[0.9375rem] text-fg sm:text-base">
@@ -126,7 +126,7 @@ export default function InvoiceScanningPage() {
           eyebrow="What it reads"
           title="The whole note, not just the total."
           intro="UK date order is understood — 22/09/26 is 22 September 2026."
-          screenshot="invoiceCapture"
+          screenshot="inventory"
         >
           <dl className="mt-8 grid gap-6 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
             {reads.map((group) => (

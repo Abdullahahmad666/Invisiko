@@ -70,14 +70,14 @@ export default function CompliancePage() {
       <SectionNav items={sections} />
 
       <Section tone="light" labelledBy="routines-title">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
-          <SectionHeading
-            id="routines-title"
-            eyebrow="Opening and closing"
-            title="One routine for opening, one for closing."
-            intro="Each routine leads to the day's fridge temperatures and its own checklist, in the order the work is done."
-          />
-          <ul className="grid gap-4 self-end" data-reveal>
+        <SplitFeature
+          id="routines"
+          eyebrow="Opening and closing"
+          title="One routine for opening, one for closing."
+          intro="Each routine leads to the day's fridge temperatures and its own checklist, in the order the work is done."
+          screenshot="openingRoutine"
+        >
+          <ul className="mt-6 grid gap-4">
             <li className="rounded-2xl border border-line bg-surface p-6">
               <h3 className="font-semibold">Shared across the shift</h3>
               <p className="mt-1.5 text-muted">
@@ -90,7 +90,7 @@ export default function CompliancePage() {
               <p className="mt-1.5 text-muted">Each item records who completed it and when, with an optional note.</p>
             </li>
           </ul>
-        </div>
+        </SplitFeature>
       </Section>
 
       <Section tone="light" labelledBy="temperatures-title" className="border-t border-[#DCDCE0]">
@@ -104,7 +104,7 @@ export default function CompliancePage() {
             "A reading above the unit's recommended maximum is obvious as it is entered.",
             "Anyone can add a note to a reading.",
           ]}
-          screenshot="temperatures"
+          screenshot="fridges"
           reverse
         />
       </Section>

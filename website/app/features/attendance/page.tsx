@@ -50,7 +50,7 @@ export default function AttendancePage() {
         eyebrow="Attendance & rota"
         title="Hours you can trust, recorded at the door."
         lead="Staff check in and out by scanning a code at your venue. The phone's position is checked against the radius you set, and a check-in from outside it is refused."
-        screenshot="scanRefused"
+        screenshot="staffScan"
         caption="Location is read once, at check-in or check-out — never tracked continuously."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -189,7 +189,7 @@ export default function AttendancePage() {
             "Attendance history you can filter by person, and by open or closed records.",
             "Hours and minutes late per person across the month, and staff cost by month. Staff see their own.",
           ]}
-          screenshot="attendanceLive"
+          screenshot="staffHub"
           reverse
         />
       </Section>

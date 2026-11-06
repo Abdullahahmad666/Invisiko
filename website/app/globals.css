@@ -214,13 +214,33 @@ body {
   /* Headline words rise one after another (components/SplitWords.tsx). */
   .word-rise .word {
     display: inline-block;
-    animation: word-rise 760ms var(--ease-out-expo) both;
-    animation-delay: calc(var(--w, 0) * 70ms + 80ms);
+    animation: word-rise 620ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--w, 0) * 50ms + 40ms);
   }
+  /* Starts at 0.01, not 0: browsers do not count fully transparent text as painted, which would
+     hold back Largest Contentful Paint until the animation had run. */
   @keyframes word-rise {
     from {
-      opacity: 0;
+      opacity: 0.01;
       transform: translateY(0.6em) rotate(3deg);
+    }
+  }
+
+  /* Phones lean in when hovered; hero phones also float gently. */
+  .phone-body {
+    transition: transform 500ms var(--ease-out-expo);
+  }
+  @media (hover: hover) {
+    .phone-body:hover {
+      transform: translateY(-8px) rotate(-1.5deg);
+    }
+  }
+  .phone-float {
+    animation: phone-float 7s ease-in-out infinite;
+  }
+  @keyframes phone-float {
+    50% {
+      transform: translateY(-10px);
     }
   }
 
@@ -366,10 +386,14 @@ body {
       animation-timeline: view();
       animation-range: entry calc(var(--stagger, 0) * 7%) cover calc(30% + var(--stagger, 0) * 7%);
     }
+    /* Fully readable early in the range; only the movement carries on. */
     @keyframes reveal-rise {
       from {
         opacity: 0;
         transform: translateY(56px) scale(0.95);
+      }
+      35% {
+        opacity: 1;
       }
     }
 
@@ -383,6 +407,28 @@ body {
       from {
         opacity: 0.15;
         transform: translateY(110px) rotate(-7deg) scale(0.86);
+      }
+    }
+
+    /* A band of light sweeps across the glass as a phone arrives, and is gone once it settles. */
+    .sd-glare {
+      background: linear-gradient(
+        115deg,
+        transparent 35%,
+        rgb(255 255 255 / 0.12) 48%,
+        rgb(255 255 255 / 0.04) 54%,
+        transparent 65%
+      );
+      animation: glare linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 50%;
+    }
+    @keyframes glare {
+      from {
+        transform: translateX(-110%);
+      }
+      to {
+        transform: translateX(110%);
       }
     }
 

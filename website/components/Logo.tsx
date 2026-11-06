@@ -1,18 +1,28 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
+import mark from "@/assets/brand/invisiko-mark.png";
 
 /**
- * Brand mark: a white "i" with an amber dot, on near-black (§10, mobile/assets/images/icon.png).
- * A vector recreation for the web until the owner supplies an SVG master (§14 Q25).
+ * Brand mark: the owner's white "i" with an amber dot, on the product's near-black tile.
+ * The glyph is white, so it always sits on the dark tile, whatever the background around it.
+ * Source: assets/brand/invisiko-mark.png (icons are derived from it by `npm run brand`).
  */
 export function LogoMark({ className = "size-8" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 32 32" className={className} aria-hidden="true" focusable="false">
-      <rect width="32" height="32" rx="8" fill="#0B0B0D" />
-      <rect x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="none" stroke="#333336" />
-      <circle cx="16" cy="9" r="3" fill="#FE9A02" />
-      <rect x="13.5" y="14" width="5" height="11" rx="2.5" fill="#FFFFFF" />
-    </svg>
+    <span
+      aria-hidden="true"
+      className={`relative inline-block shrink-0 rounded-[22%] border border-[#333336] bg-[#0B0B0D] ${className}`}
+    >
+      {/* Absolutely positioned so the percentage height resolves against the tile. */}
+      <Image
+        src={mark}
+        alt=""
+        loading="eager"
+        sizes="40px"
+        className="absolute inset-0 m-auto h-[64%] w-auto"
+      />
+    </span>
   );
 }
 

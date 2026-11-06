@@ -17,7 +17,7 @@
  * Each screen is drawn at 360×800 and captured at 3× (1080×2400), using the installed Microsoft
  * Edge. Roboto is loaded from Google Fonts, so this script needs a connection.
  */
-import { mkdir } from "node:fs/promises";
+import { mkdir, rm } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
@@ -495,3 +495,6 @@ for (const [name, body] of Object.entries(screens)) {
   }
 }
 await browser.close();
+
+// Next caches resized images by URL, so a local server would keep showing the old versions.
+await rm(join(root, ".next/cache/images"), { recursive: true, force: true });

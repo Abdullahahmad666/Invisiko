@@ -241,6 +241,41 @@ test.describe("site-wide", () => {
     expect(serious.map((v) => v.id)).toEqual([]);
   });
 
+  test("product screenshots load on every page that uses them", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    for (const path of ["/", "/features", "/features/attendance", "/features/compliance", "/features/invoice-scanning", "/how-it-works"]) {
+      await page.goto(path);
+      const images = page.locator("img[src*=screenshots]");
+      expect(await images.count(), path).toBeGreaterThan(0);
+      for (const image of await images.all()) {
+        await image.evaluate((el: HTMLImageElement) => {
+          el.loading = "eager";
+          return el.decode().catch(() => undefined);
+        });
+        expect(await image.evaluate((el: HTMLImageElement) => el.naturalWidth), path).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  test("the showcase phone follows the step in view", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    const current = () =>
+      page.evaluate(() => {
+        const layers = Array.from(document.querySelectorAll("section[aria-labelledby=steps-title] figure div.absolute.inset-0"));
+        const visible = layers.find((layer) => getComputedStyle(layer).opacity === "1");
+        return visible?.querySelector("img")?.getAttribute("src") ?? "";
+      });
+    const stepTop = (index: number) =>
+      page.locator("section[aria-labelledby=steps-title] [data-step]").nth(index).evaluate((el) => el.getBoundingClientRect().top + scrollY);
+
+    await page.evaluate((y) => scrollTo(0, y - innerHeight / 2 + 40), await stepTop(0));
+    await expect.poll(current).toContain("check-in-setup");
+    await page.evaluate((y) => scrollTo(0, y - innerHeight / 2 + 40), await stepTop(2));
+    await expect.poll(current).toContain("staff-scan");
+  });
+
   test("the mobile menu opens, traps focus and closes with Escape", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto("/");

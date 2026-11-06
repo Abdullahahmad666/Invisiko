@@ -104,18 +104,21 @@ grep -rn "\[\[" app components content lib sections
 | `[[PRICE]]` — FAQ "What does it cost?" | `content/faq.ts` | §14 Q8 |
 | `[[TERMS]]` — real terms of service | `app/terms/page.tsx` | §14 Q6 |
 | Legal review of `/privacy` (remove the draft notice afterwards) | `app/privacy/page.tsx` | §9.10 |
-| **12 real screenshots** (dark theme, from `seed_demo` data, demo restaurant renamed) | `content/screenshots.ts` + `public/screenshots/` | §14 Q11 |
+| One more screenshot: invoice review with a line unmatched. Better captures of Documents and Fridges (they show test entries) | `assets/screens/`, then `npm run screenshots` | §14 Q11 |
+| Confirm the real prices and item names on the Purchase history and Stock screens may be public | `scripts/build-screenshots.mjs` | §13 |
 | Approval to show the payroll screen | `content/screenshots.ts` → `payroll` | §14 Q12 |
-| OG image with a real screenshot | `app/opengraph-image.tsx` | §12 |
 | Optional: an SVG master of the mark, for perfectly crisp scaling (the PNG master is 225×451) | `assets/brand/` | §14 Q25 |
 | Confirm "Android and iPhone; not iPad" against the store listings | `content/faq.ts` → `phones` | §9.9 |
 
 ### Adding a screenshot
 
-1. Capture it from the app in dark theme, against demo data — never a live restaurant.
-2. Export at 3× and save it under `public/screenshots/`, e.g. `checks-dashboard.png`.
-3. In `content/screenshots.ts`, add `src: "/screenshots/checks-dashboard.png"`, `width` and `height`
-   to the matching entry. The placeholder is replaced automatically, with lazy loading below the fold.
+1. Save the raw capture in `assets/screens/` as `<who>-<screen>.jpg`, e.g. `manager-weekly-rota.jpg`.
+   This folder is gitignored: raw captures can hold real names, addresses and live codes.
+2. Review it for personal data, live codes and the pay split, then add it to `screens` in
+   `scripts/build-screenshots.mjs` with any redactions it needs. Captures must be 720×1600.
+3. Run `npm run screenshots`. It removes the status bar and home indicator, applies redactions and
+   writes a 1080×2400 WebP to `public/screenshots/`.
+4. Add the entry to `content/screenshots.ts` with alt text describing what is on the screen.
 
 ## Deployment
 

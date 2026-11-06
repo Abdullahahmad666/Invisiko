@@ -41,7 +41,7 @@ export function Footer() {
           <div className="flex flex-col gap-4 md:items-end">
             <StoreBadges />
             <p className="text-sm text-muted">
-              © {site.copyrightYear} <Fill value={site.legalName} />
+              © {site.copyrightYear} <Fill value={site.legalName} /> · {site.location.locality}, {site.location.country}
             </p>
           </div>
         </div>

@@ -28,7 +28,13 @@ export function organizationLd() {
     name: site.name,
     legalName: site.legalName,
     url: site.url,
-    logo: `${site.url}/icon.svg`,
+    logo: `${site.url}/brand/invisiko-logo-512.png`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: site.location.locality,
+      addressCountry: site.location.countryCode,
+    },
+    areaServed: { "@type": "Country", name: "United Kingdom" },
     ...(isPlaceholder(site.contactEmail) ? {} : { email: site.contactEmail }),
   };
 }

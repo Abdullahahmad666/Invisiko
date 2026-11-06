@@ -39,8 +39,10 @@ export const site = {
   privacyEmail: fromEnv(process.env.NEXT_PUBLIC_PRIVACY_EMAIL, "support@invisiko.app"),
   /** §14 Q4 — confirmed by the owner. Read as "Within 24–48 hours, …". */
   replyTime: fromEnv(process.env.NEXT_PUBLIC_REPLY_TIME, "24–48 hours"),
-  /** §14 Q5 — legal entity for copyright, privacy and terms. */
-  legalName: fromEnv(process.env.NEXT_PUBLIC_LEGAL_NAME, "[[LEGAL_NAME]]"),
+  /** §14 Q5 — confirmed by the owner. Used for copyright, privacy, terms and Organization data. */
+  legalName: fromEnv(process.env.NEXT_PUBLIC_LEGAL_NAME, "Invisiko"),
+  /** Confirmed by the owner. Shown on About and in the footer; used in Organization data. */
+  location: { locality: "London", country: "UK", countryCode: "GB" },
   /** §14 Q10 — store badges render only once these are real URLs. */
   appStoreUrl: fromEnv(process.env.NEXT_PUBLIC_APP_STORE_URL, "[[APP_STORE_URL]]"),
   playStoreUrl: fromEnv(process.env.NEXT_PUBLIC_PLAY_STORE_URL, "[[PLAY_STORE_URL]]"),

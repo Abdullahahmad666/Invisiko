@@ -28,6 +28,7 @@ function build(): string {
     "- Owners and managers of a single independent takeaway or small restaurant, and their staff.",
     "- Not for chains or multi-site operators: one account belongs to one restaurant.",
     "- Built for the UK: amounts in pounds, UK date order, VAT shown separately.",
+    `- Made by ${site.legalName}, based in ${site.location.locality}, ${site.location.country}.`,
     "",
   );
 

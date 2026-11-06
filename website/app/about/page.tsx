@@ -13,6 +13,7 @@ import { Fill } from "@/components/Fill";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
+import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata("/about");
@@ -78,7 +79,7 @@ export default function AboutPage() {
               <Fill value="[[ORIGIN_STORY]]" />
             </p>
             <p className="mt-3 text-muted">
-              Company: <Fill value="[[LEGAL_NAME]]" /> · Based in: <Fill value="[[LOCATION]]" />
+              Company: {site.legalName} · Based in: {site.location.locality}, {site.location.country}
             </p>
           </div>
         </div>

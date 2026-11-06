@@ -70,7 +70,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: 5rem;
+  /* Clears the fixed header and the sticky "On this page" bar. */
+  scroll-padding-top: 8.5rem;
 }
 
 body {
@@ -154,7 +155,8 @@ body {
   transform-origin: left;
 }
 .nav-underline:hover::after,
-.nav-underline[aria-current="page"]::after {
+.nav-underline[aria-current]::after,
+.nav-underline[data-active="true"]::after {
   transform: scaleX(1);
 }
 
@@ -219,6 +221,17 @@ body {
     from {
       opacity: 0;
       transform: translateY(0.6em) rotate(3deg);
+    }
+  }
+
+  /* Header Features menu. */
+  .menu-pop {
+    animation: menu-pop 240ms var(--ease-out-expo) both;
+  }
+  @keyframes menu-pop {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
     }
   }
 

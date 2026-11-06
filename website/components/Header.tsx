@@ -4,13 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { primaryCta, primaryNav } from "@/content/site";
+import { featureNav, primaryCta, primaryNav } from "@/content/site";
+import { FeaturesMenu } from "./FeaturesMenu";
+import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 
 const SCROLL_THRESHOLD = 80; // §9.1 F: sticky header gains a background after 80px.
 
-function isCurrent(pathname: string, href: string) {
-  return pathname === href || pathname.startsWith(`${href}/`);
+/** "page" on the exact page; "true" on a section parent, such as Features on a feature page. */
+function currentState(pathname: string, href: string): "page" | "true" | undefined {
+  if (pathname === href) return "page";
+  return pathname.startsWith(`${href}/`) ? "true" : undefined;
 }
 
 export function Header() {
@@ -92,13 +96,17 @@ export function Header() {
           <ul className="flex items-center gap-8">
             {primaryNav.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  aria-current={isCurrent(pathname, link.href) ? "page" : undefined}
-                  className="nav-underline label-caps inline-flex min-h-11 items-center text-muted transition-colors duration-200 hover:text-fg aria-[current=page]:text-fg"
-                >
-                  {link.label}
-                </Link>
+                {link.href === "/features" ? (
+                  <FeaturesMenu pathname={pathname} />
+                ) : (
+                  <Link
+                    href={link.href}
+                    aria-current={currentState(pathname, link.href)}
+                    className="nav-underline label-caps inline-flex min-h-11 items-center text-muted transition-colors duration-200 hover:text-fg aria-[current]:text-fg"
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -154,14 +162,44 @@ export function Header() {
                 <li key={link.href} className="menu-item" style={{ "--stagger": index } as CSSProperties}>
                   <Link
                     href={link.href}
-                    aria-current={isCurrent(pathname, link.href) ? "page" : undefined}
+                    aria-current={currentState(pathname, link.href)}
                     onClick={() => close(false)}
-                    className="flex min-h-16 items-center text-2xl font-semibold tracking-[-0.01em] aria-[current=page]:text-accent-text"
+                    className="flex min-h-16 items-center text-2xl font-semibold tracking-[-0.01em] aria-[current]:text-accent-text"
                   >
                     {link.label}
                   </Link>
+                  {/* Feature pages stay visible here: nothing to expand, nothing to discover. */}
+                  {link.href === "/features" ? (
+                    <ul className="-mt-1 mb-4 space-y-0.5">
+                      {featureNav.map((item) => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            aria-current={pathname === item.href ? "page" : undefined}
+                            onClick={() => close(false)}
+                            className="flex min-h-11 items-center gap-3 text-[1.0625rem] text-muted aria-[current=page]:font-semibold aria-[current=page]:text-accent-text"
+                          >
+                            <Icon name={item.icon} className="size-5 shrink-0 text-accent-text" />
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </li>
               ))}
+            </ul>
+            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-[0.9375rem] text-muted">
+              <li>
+                <Link href="/contact" onClick={() => close(false)} className="inline-flex min-h-11 items-center hover:text-fg">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/support" onClick={() => close(false)} className="inline-flex min-h-11 items-center hover:text-fg">
+                  Support
+                </Link>
+              </li>
             </ul>
           </nav>
           {/* CTA pinned to the bottom, within thumb reach (§9 shared shell). */}

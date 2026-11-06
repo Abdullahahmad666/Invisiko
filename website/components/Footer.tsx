@@ -1,6 +1,7 @@
-import Link from "next/link";
-import { footerColumns, site } from "@/content/site";
-import { Fill } from "./Fill";
+import { footerColumns, primaryCta, site } from "@/content/site";
+import { ButtonLink } from "./Button";
+import { EmailLink, Fill } from "./Fill";
+import { FooterLink } from "./FooterLink";
 import { Logo } from "./Logo";
 import { StoreBadges } from "./StoreBadges";
 
@@ -16,12 +17,7 @@ export function Footer() {
                 <ul className="mt-4 space-y-1">
                   {column.links.map((link) => (
                     <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="inline-flex min-h-11 items-center text-[0.9375rem] text-fg/90 hover:text-accent-text sm:min-h-9"
-                      >
-                        {link.label}
-                      </Link>
+                      <FooterLink href={link.href} label={link.label} />
                     </li>
                   ))}
                 </ul>
@@ -39,7 +35,13 @@ export function Footer() {
             </p>
           </div>
           <div className="flex flex-col gap-4 md:items-end">
+            <ButtonLink href={primaryCta.href} block>
+              {primaryCta.label}
+            </ButtonLink>
             <StoreBadges />
+            <p className="text-[0.9375rem] text-muted">
+              Questions? <EmailLink address={site.contactEmail} className="text-fg" />
+            </p>
             <p className="text-sm text-muted">
               © {site.copyrightYear} <Fill value={site.legalName} /> · {site.location.locality}, {site.location.country}
             </p>

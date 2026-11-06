@@ -33,7 +33,7 @@ const managerSteps = [
   },
   {
     title: "Add fridges and checklists",
-    screenshot: "checksDashboard",
+    screenshot: "fridges",
     body: "Register each fridge and freezer with its recommended maximum temperature. Write your opening and closing checks, and any daily, weekly or monthly lists, in your own words.",
   },
   {
@@ -51,7 +51,7 @@ const staffSteps: ShowcaseStep[] = [
   },
   {
     title: "Enter the code",
-    screenshot: "signIn",
+    screenshot: "joinTeam",
     body: "Then their name, email and a password. A six-digit code confirms their email, and they're signed in.",
   },
   {

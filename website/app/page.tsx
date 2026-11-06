@@ -38,7 +38,7 @@ const setupSteps: ShowcaseStep[] = [
   },
   {
     title: "Add your fridges, checklists and team.",
-    screenshot: "checksDashboard",
+    screenshot: "fridges",
     body: "Register each fridge and freezer, write your opening, closing and cleaning lists in your own words, and share one invite code with your staff.",
   },
   {

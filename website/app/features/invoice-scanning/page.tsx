@@ -87,7 +87,7 @@ export default function InvoiceScanningPage() {
         eyebrow="Invoice scanning"
         title="Photograph the delivery note. Check what it read. That's the job."
         lead="Invisiko reads delivery notes and supplier invoices into line items, matched to the things you already buy."
-        screenshot="invoiceCapture"
+        screenshot="invoiceReview"
       >
         {/* The human checkpoint, above the fold on mobile (§9.3 I). */}
         <p className="flex gap-3 rounded-2xl border border-amber/60 bg-amber/10 p-4 text-[0.9375rem] text-fg sm:text-base">
@@ -167,7 +167,7 @@ export default function InvoiceScanningPage() {
             </ul>
           </div>
           <div className="lg:w-[300px]">
-            <PhoneFrame screenshot="inventory" />
+            <PhoneFrame screenshot="invoiceReviewUnmatched" />
           </div>
         </div>
       </Section>

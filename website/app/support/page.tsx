@@ -1,71 +1,57 @@
 import Link from "next/link";
-import { EmailLink, ExternalLink } from "@/components/Fill";
+import { IoArrowForward, IoMailOutline } from "react-icons/io5";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { EmailLink } from "@/components/Fill";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
+import type { FaqItem } from "@/content/faq";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata("/support");
 
 /*
- * Canonical decision (PRODUCT_BLUEPRINT.md §9.10, option a): the app's own support page stays
- * canonical; this page links to it. The four topics below mirror that page and are phrased for
- * staff, as it is — keep them consistent with it.
+ * The canonical support page for the Invisiko app — the app should link here. Phrased for people
+ * already using the app; prospective customers are pointed to the FAQ and request-access form.
  */
 
-const topics = [
+const topics: FaqItem[] = [
   {
     id: "no-account",
-    question: "I don't have an account yet",
-    answer: (
-      <>
-        <p>
-          Ask your manager for your restaurant&apos;s invite code. Then open Invisiko, choose{" "}
-          <strong className="text-fg">“Join a team”</strong>, enter the eight-character code, and set your name, email
-          and password. A six-digit code sent to your email confirms it.
-        </p>
-        <p>
-          Codes expire after 14 days — if yours doesn&apos;t work, ask your manager for a fresh one. Managers setting up a
-          new restaurant choose <strong className="text-fg">Manager</strong> instead.
-        </p>
-      </>
-    ),
+    question: "I'm a staff member and don't have an account yet",
+    answer: [
+      "Ask your manager for your restaurant's invite code, then use “Join a team” in the app to create your account with it.",
+    ],
   },
   {
     id: "check-in",
     question: "Check-in says I'm not at the venue",
-    answer: (
-      <>
-        <p>
-          The message tells you how far away your phone thinks it is. Make sure location is switched on for Invisiko, move
-          closer to the code at the door, and scan again.
-        </p>
-        <p>
-          If it still refuses while you are there, tell your manager. They can check the venue&apos;s position and radius,
-          and correct your record if needed.
-        </p>
-      </>
-    ),
+    answer: [
+      "Check-in confirms your phone's GPS position is within range of the venue.",
+      "Make sure Location access is allowed for the app, and that you're actually on site — a weak GPS signal indoors can occasionally read a few metres off.",
+    ],
   },
   {
     id: "password",
     question: "I forgot my password",
-    answer: (
-      <p>
-        Tap <strong className="text-fg">Forgot password</strong> on the sign-in screen and we&apos;ll email you a reset
-        link. Open that email on the phone that has Invisiko installed — the link opens the app.
-      </p>
-    ),
+    answer: ["Use “Forgot password” on the sign-in screen. A reset link is emailed to the address on your account."],
+  },
+  {
+    id: "delete-account",
+    question: "How do I delete my account?",
+    answer: [
+      "Open Profile in the app and choose Delete my account. You'll be asked for your password to confirm. It's permanent — your email, phone number, photo and password are destroyed and you won't be able to sign in again.",
+      "The hours you worked and the checks you recorded stay on your restaurant's record, under your name, marked as a former member — your employer has to keep those by law for a period after you leave, and has to be able to say whose they were. If there are no such records against your account, nothing is kept at all and the account is erased outright.",
+      "If you're the only manager of a restaurant, deleting your account also deletes the restaurant and everyone in it. The app warns you and asks you to type the restaurant's name first.",
+    ],
+    link: { href: "/privacy#deleting-your-account", label: "Read the detail in the privacy policy" },
   },
   {
     id: "bug",
-    question: "I found a bug",
-    answer: (
-      <p>
-        Email <EmailLink address={site.supportEmail} /> with what you were doing, what you expected, and what happened
-        instead. The phone model helps, and a screenshot helps even more.
-      </p>
-    ),
+    question: "Something isn't working, or I found a bug",
+    answer: [
+      `Email us at ${site.supportEmail} with what you were doing and what happened, and we'll look into it.`,
+    ],
   },
 ];
 
@@ -76,46 +62,50 @@ export default function SupportPage() {
         path="/support"
         eyebrow="Support"
         title="Help with Invisiko."
-        lead="For staff and managers already using the app. Thinking about using it? See the FAQ or request access instead."
+        lead="Invisiko is a staff management app for restaurants and takeaways — attendance, payroll, food-safety compliance, rota and stock, in one app. Here are answers to common questions, and how to reach us."
       />
 
       <Section tone="light" labelledBy="support-topics">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:gap-20">
           <div>
             <h2 id="support-topics" className="text-2xl font-semibold tracking-[-0.01em]">
-              Common problems
+              Common questions
             </h2>
-            <div className="mt-6 divide-y divide-line border-y border-line">
-              {topics.map((topic) => (
-                <section key={topic.id} aria-labelledby={`${topic.id}-title`} className="py-7">
-                  <h3 id={`${topic.id}-title`} className="text-lg font-semibold">
-                    {topic.question}
-                  </h3>
-                  <div className="mt-3 max-w-[64ch] space-y-3 text-muted">{topic.answer}</div>
-                </section>
-              ))}
+            <div className="mt-6">
+              <FaqAccordion items={topics} />
             </div>
           </div>
 
           <aside aria-labelledby="support-contact" className="space-y-6 lg:pt-14">
-            <div className="rounded-2xl border border-line bg-surface p-6">
-              <h2 id="support-contact" className="text-xl font-semibold">
+            <div className="rounded-2xl border border-line bg-surface p-6 sm:p-7">
+              <span className="grid size-11 place-items-center rounded-xl bg-amber text-ink">
+                <IoMailOutline aria-hidden="true" className="size-5" />
+              </span>
+              <h2 id="support-contact" className="mt-5 text-xl font-semibold">
                 Contact support
               </h2>
-              <p className="mt-3 text-muted">
-                Email <EmailLink address={site.supportEmail} />.
-              </p>
-              <p className="mt-3 text-muted">
-                Also see the <ExternalLink href={site.appSupportUrl}>support page in the app</ExternalLink>.
+              <p className="mt-2 text-muted">Tell us what you were doing and what happened.</p>
+              <p className="mt-4 text-lg">
+                <EmailLink address={site.supportEmail} className="text-fg" />
               </p>
             </div>
-            <p className="text-muted">
-              Questions about what Invisiko does?{" "}
-              <Link href="/faq" className="font-semibold text-fg underline underline-offset-4">
-                Read the FAQ
-              </Link>
-              .
-            </p>
+            <ul className="space-y-1 text-[0.9375rem]">
+              {[
+                { href: "/privacy", label: "Privacy policy" },
+                { href: "/faq", label: "Questions about what Invisiko does" },
+                { href: "/contact", label: "Thinking of using it? Request access" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="group inline-flex min-h-11 items-center gap-1.5 font-semibold hover:text-accent-text">
+                    {link.label}
+                    <IoArrowForward
+                      aria-hidden="true"
+                      className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </aside>
         </div>
       </Section>

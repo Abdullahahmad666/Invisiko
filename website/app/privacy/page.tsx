@@ -355,7 +355,7 @@ export default function PrivacyPage() {
                         </Link>{" "}
                         asks for your name, email address and restaurant name, and optionally how many staff you have and
                         what is hardest for you right now. We use these details only to reply to you. They reach us by
-                        email through our email provider, Resend, and the website does not store them in a database. We do
+                        email through our email service provider, and the website does not store them in a database. We do
                         not add you to a mailing list, and we do not sell or share your details.
                       </>
                     ),

@@ -17,7 +17,7 @@ contact form.
 | Content | Typed data in `content/` (site facts, FAQ, features, screenshots) |
 | Icons | Ionicons via `react-icons/io5`, as the app uses |
 | Font | Inter, self-hosted at build time by `next/font` |
-| Contact form | `app/api/contact/route.ts` → Resend HTTP API (server-only key), nothing stored |
+| Contact form | `app/api/contact/route.ts` → the support@invisiko.app mailbox over SMTP via Nodemailer (`lib/mail.ts`), nothing stored |
 | Tests | Vitest + Testing Library (unit), Playwright + axe (smoke) |
 
 ## Getting started
@@ -99,7 +99,7 @@ grep -rn "\[\[" app components content lib sections
 
 | Token / item | Where it's set | Blueprint |
 |---|---|---|
-| Form delivery: a Resend account with `invisiko.app` verified, then `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | env | §14 Q4 |
+| Form delivery: the SMTP settings for support@invisiko.app — `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` (often an app password). See `.env.example` | env | §14 Q4 |
 | Apex or `www` as the canonical host (defaults to `https://invisiko.app`) | `NEXT_PUBLIC_SITE_URL` | §13 |
 | `[[APP_STORE_URL]]` — the App Store badge appears once set | `NEXT_PUBLIC_APP_STORE_URL` | §14 Q10 |
 | `[[ORIGIN_STORY]]` for `/about` | `app/about/page.tsx` | §14 Q21 |

@@ -104,7 +104,7 @@ grep -rn "\[\[" app components content lib sections
 | `[[APP_STORE_URL]]` — the App Store badge appears once set | `NEXT_PUBLIC_APP_STORE_URL` | §14 Q10 |
 | `[[ORIGIN_STORY]]` for `/about` | `app/about/page.tsx` | §14 Q21 |
 | `[[PRICE]]` — FAQ "What does it cost?" | `content/faq.ts` | §14 Q8 |
-| `[[TERMS]]` — real terms of service | `app/terms/page.tsx` | §14 Q6 |
+| **Terms of service:** a full draft is on `/terms`, marked as a draft and hidden from search. Have a solicitor review it, settle `[[LIABILITY_CAP]]` and `[[FEES_AND_PAYMENT_TERMS]]`, then follow the two steps at the top of `app/terms/page.tsx` | `app/terms/page.tsx`, `content/pages.ts` | §14 Q6 |
 | Point the app's privacy and support links at `invisiko.app/privacy` and `invisiko.app/support` | the app | §9.10 |
 | Check the demo screens against the real app, especially invoice review, invite-code entry, refused check-in and recording temperatures, which were drawn from the blueprint's description | `scripts/build-demo-screens.mjs` | §10 |
 | Optional: an SVG master of the mark, for perfectly crisp scaling (the PNG master is 225×451) | `assets/brand/` | §14 Q25 |

@@ -5,18 +5,14 @@ import { useEffect, useRef, useState } from "react";
 export type SectionNavItem = { id: string; label: string };
 
 /**
- * "On this page": a sticky bar under the header on long pages, so a visitor can always see which
- * section they are in and jump to any other. `id` is a section's heading (or block) id. The bar is
- * plain anchor links, so it works without JavaScript; the highlight is the only scripted part.
+ * Which of `items` the reader is in: the one whose section (or heading, when several share a section)
+ * crosses a thin band across the upper-middle of the screen. Shared by the bar and the legal sidebar.
  */
-export function SectionNav({ items }: { items: SectionNavItem[] }) {
+export function useActiveSection(items: SectionNavItem[]) {
   const [active, setActive] = useState(items[0]?.id);
-  const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
-    // Watch each item's section; when several items share one section (a long policy, say), watch
-    // their headings instead so the highlight still moves.
     const targets = items.map((item) => ({ id: item.id, target: document.getElementById(item.id) }));
     const sectionOf = (el: HTMLElement | null) => el?.closest("section") ?? el;
     const owners = new Map<Element, string>();
@@ -24,7 +20,7 @@ export function SectionNav({ items }: { items: SectionNavItem[] }) {
       const section = sectionOf(target);
       if (!target || !section) continue;
       const shared = targets.filter((other) => sectionOf(other.target) === section).length > 1;
-      owners.set(shared ? target : section, id);
+      owners.set(shared ? target.closest("[data-toc-block]") ?? target : section, id);
     }
     const observer = new IntersectionObserver(
       (entries) => {
@@ -33,12 +29,23 @@ export function SectionNav({ items }: { items: SectionNavItem[] }) {
           if (entry.isIntersecting && id) setActive(id);
         }
       },
-      // A thin band across the upper-middle of the screen: whichever section crosses it is current.
       { rootMargin: "-30% 0px -60% 0px" },
     );
-    owners.forEach((_, section) => observer.observe(section));
+    owners.forEach((_, element) => observer.observe(element));
     return () => observer.disconnect();
   }, [items]);
+
+  return active;
+}
+
+/**
+ * "On this page": a sticky bar under the header on long pages, so a visitor can always see which
+ * section they are in and jump to any other. `id` is a section's heading (or block) id. The bar is
+ * plain anchor links, so it works without JavaScript; the highlight is the only scripted part.
+ */
+export function SectionNav({ items, className = "" }: { items: SectionNavItem[]; className?: string }) {
+  const active = useActiveSection(items);
+  const listRef = useRef<HTMLUListElement>(null);
 
   // Keep the current chip in view when the bar overflows on a phone.
   useEffect(() => {
@@ -52,7 +59,7 @@ export function SectionNav({ items }: { items: SectionNavItem[] }) {
   return (
     <nav
       aria-label="On this page"
-      className="tone-dark sticky top-[4.5rem] z-30 border-y border-line bg-[#0B0B0D]/95 backdrop-blur-md"
+      className={`tone-dark sticky top-[4.5rem] z-30 border-y border-line bg-[#0B0B0D]/95 backdrop-blur-md ${className}`}
     >
       <div className="mx-auto flex w-full max-w-[1200px] items-center gap-5 lg:px-8">
         <p className="label-caps hidden shrink-0 text-muted lg:block">On this page</p>

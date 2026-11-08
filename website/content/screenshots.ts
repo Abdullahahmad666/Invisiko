@@ -28,6 +28,7 @@ const shot = (file: string, label: string, alt: string): Screenshot => ({
 });
 
 export const screenshots = {
+  splash: shot("app-splash", "Splash screen", "The Invisiko splash screen as the app opens: the logo, the name, and the tagline Staff, cost and compliance - sorted."),
   welcomeManager: shot("welcome-manager", "Welcome, manager", "The Invisiko welcome screen with Manager selected, offering Create an account or Sign in."),
   welcomeStaff: shot("welcome-staff", "Welcome, staff", "The Invisiko welcome screen with Staff selected, offering Enter your invite code or Sign in."),
   joinTeam: shot("staff-join", "Enter your invite code", "Entering an invite code in Invisiko: the code is accepted and the screen confirms the restaurant being joined."),

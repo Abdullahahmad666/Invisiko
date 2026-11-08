@@ -17,6 +17,7 @@
  * Each screen is drawn at 360×800 and captured at 3× (1080×2400), using the installed Microsoft
  * Edge. Roboto is loaded from Google Fonts, so this script needs a connection.
  */
+import { readFileSync } from "node:fs";
 import { mkdir, rm } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -30,6 +31,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = join(root, "public/screenshots");
 
 const VENUE = "The Clay Oven";
+
+// The real brand mark, for the splash screen.
+const MARK = `data:image/png;base64,${readFileSync(join(root, "assets/brand/invisiko-mark.png")).toString("base64")}`;
 
 const icon = (name, size = 20, color = "currentColor") =>
   renderToStaticMarkup(createElement(Io[name], { size, color }));
@@ -153,6 +157,17 @@ const stockCard = `
   </div>`;
 
 const screens = {
+  // As the app opens: the mark, the name and the in-app tagline.
+  "app-splash": `<main style="position:absolute;inset:0">
+    <div style="position:absolute;inset:0;background:radial-gradient(45% 30% at 50% 44%,rgba(254,154,2,0.16),transparent 70%)"></div>
+    <div style="position:absolute;left:0;right:0;top:300px;text-align:center">
+      <img src="${MARK}" alt="" style="height:92px">
+      <div style="font-size:31px;font-weight:700;margin-top:22px;letter-spacing:-0.01em">Invisiko</div>
+      <div class="m" style="margin-top:6px;font-size:14px">Staff, cost and compliance - sorted.</div>
+    </div>
+    <div style="position:absolute;bottom:84px;left:50%;width:116px;height:3px;margin-left:-58px;border-radius:2px;background:#242427;overflow:hidden"><div style="width:42%;height:100%;background:#FE9A02"></div></div>
+  </main>`,
+
   "manager-checks-dashboard": tab(
     "Checks",
     managerTabs,

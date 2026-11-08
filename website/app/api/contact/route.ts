@@ -1,19 +1,16 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { parseContactInput, validateContact, type ContactInput } from "@/lib/contact";
+import { sendMail, smtpConfig } from "@/lib/mail";
 
 /**
  * Request-access enquiries (PRODUCT_BLUEPRINT.md §9.8, §13).
  *
  * Owned entirely by the website: it never touches the product's API or database. Enquiries are
- * emailed through Resend's HTTP API and not stored anywhere, so no personal data is kept at rest.
+ * emailed through the support@invisiko.app mailbox over SMTP (lib/mail.ts) and not stored anywhere,
+ * so no personal data is kept at rest.
  *
- * Server-only configuration (never NEXT_PUBLIC_):
- *   RESEND_API_KEY      — Resend API key
- *   CONTACT_TO_EMAIL    — where enquiries are delivered: support@invisiko.app
- *   CONTACT_FROM_EMAIL  — a sender verified in Resend for invisiko.app, e.g. Invisiko <support@invisiko.app>
- *
- * Until all three are set the endpoint answers 503, and the form keeps what was typed and offers
- * an email address instead.
+ * Until SMTP_HOST, SMTP_USER and SMTP_PASS are set the endpoint answers 503, and the form keeps
+ * what was typed and offers the email address instead.
  */
 
 const MAX_BODY_BYTES = 10_000;
@@ -94,34 +91,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL;
-  const from = process.env.CONTACT_FROM_EMAIL;
-  if (!apiKey || !to || !from) {
-    console.error("[contact] Enquiry not sent: RESEND_API_KEY, CONTACT_TO_EMAIL or CONTACT_FROM_EMAIL is not set.");
+  const config = smtpConfig();
+  if (!config) {
+    console.error("[contact] Enquiry not sent: SMTP_HOST, SMTP_USER or SMTP_PASS is not set.");
     return NextResponse.json({ error: "not_configured" }, { status: 503 });
   }
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from,
-        to: [to],
-        reply_to: input.email.trim(),
-        subject: `Request for access — ${input.restaurant.trim().slice(0, 80)}`,
-        text: emailText(input),
-      }),
-      signal: AbortSignal.timeout(10_000),
+    await sendMail(config, {
+      // Reply goes straight to the person who asked.
+      replyTo: input.email.trim(),
+      subject: `Request for access — ${input.restaurant.trim().slice(0, 80)}`,
+      text: emailText(input),
     });
-
-    if (!response.ok) {
-      console.error(`[contact] Email provider returned ${response.status}.`);
-      return NextResponse.json({ error: "send_failed" }, { status: 502 });
-    }
   } catch (error) {
-    console.error("[contact] Email provider unreachable.", error instanceof Error ? error.name : "");
+    // Log the kind of failure only: never the password or the enquiry itself.
+    const code = error && typeof error === "object" && "code" in error ? String(error.code) : "unknown";
+    console.error(`[contact] Email not sent (${code}).`);
     return NextResponse.json({ error: "send_failed" }, { status: 502 });
   }
 

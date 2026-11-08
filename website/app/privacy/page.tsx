@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties } from "react";
 import type { IconType } from "react-icons";
 import {
   IoAlertCircleOutline,
@@ -21,6 +21,7 @@ import {
 } from "react-icons/io5";
 import { EmailLink } from "@/components/Fill";
 import { LegalToc } from "@/components/LegalToc";
+import { LegalTopic } from "@/components/LegalTopic";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { SectionNav } from "@/components/SectionNav";
@@ -116,19 +117,6 @@ const processors: [string, string][] = [
   ["OpenAI", "Reads invoice photos, as described above."],
 ];
 
-/** One numbered topic. The heading id is what the contents and the section bar link to. */
-function Topic({ id, number, title, children }: { id: string; number: number; title: string; children: ReactNode }) {
-  return (
-    <div data-toc-block className="border-t border-line py-12 first:border-t-0 first:pt-0 sm:py-14">
-      <p className="label-caps tabular-nums text-accent-text">{String(number).padStart(2, "0")}</p>
-      <h2 id={id} className="mt-2 text-2xl font-semibold tracking-[-0.01em] sm:text-[1.75rem]">
-        {title}
-      </h2>
-      <div className="mt-5 max-w-[68ch] space-y-4 text-[1.0625rem] text-muted">{children}</div>
-    </div>
-  );
-}
-
 const strong = "font-semibold text-fg";
 
 export default function PrivacyPage() {
@@ -145,9 +133,6 @@ export default function PrivacyPage() {
         <p className="flex flex-wrap gap-x-6 gap-y-2 text-[0.9375rem] text-muted">
           <span>
             Last updated <strong className="text-fg">{LAST_UPDATED}</strong>
-          </span>
-          <span>
-            Applies to <strong className="text-fg">the Invisiko app</strong> and <strong className="text-fg">invisiko.app</strong>
           </span>
         </p>
       </PageHero>
@@ -210,7 +195,7 @@ export default function PrivacyPage() {
               </p>
             </div>
 
-            <Topic id="what-we-collect" number={n("what-we-collect")} title="What we collect">
+            <LegalTopic id="what-we-collect" number={n("what-we-collect")} title="What we collect">
               <ul className="grid gap-3 sm:grid-cols-2">
                 {collected.map(({ Icon, title, body }) => (
                   <li key={title} className="rounded-2xl border border-line bg-surface p-5">
@@ -224,17 +209,17 @@ export default function PrivacyPage() {
                   </li>
                 ))}
               </ul>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="how-its-used" number={n("how-its-used")} title="How it's used">
+            <LegalTopic id="how-its-used" number={n("how-its-used")} title="How it's used">
               <p>
                 Data is used only to operate the app&apos;s own features for your employer: recording attendance,
                 calculating pay, running food-safety checks, and tracking stock and invoices.{" "}
                 <strong className={strong}>We do not sell personal data, and we do not use it for advertising.</strong>
               </p>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="invoice-photos-and-ai" number={n("invoice-photos-and-ai")} title="Invoice photos and AI">
+            <LegalTopic id="invoice-photos-and-ai" number={n("invoice-photos-and-ai")} title="Invoice photos and AI">
               <div className="flex gap-4 rounded-2xl border border-amber/50 bg-amber/10 p-5 text-fg sm:p-6">
                 <IoSparklesOutline aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-[#8F5300]" />
                 <p>
@@ -243,9 +228,9 @@ export default function PrivacyPage() {
                   draft — a person reviews and corrects it before anything is saved to stock records.
                 </p>
               </div>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="who-we-share-with" number={n("who-we-share-with")} title="Who we share data with">
+            <LegalTopic id="who-we-share-with" number={n("who-we-share-with")} title="Who we share data with">
               <p>
                 We use a small number of service providers to run the app. None of them use your data for their own
                 purposes — they process it only to provide their service to us:
@@ -275,26 +260,26 @@ export default function PrivacyPage() {
                   </tbody>
                 </table>
               </div>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="how-long-we-keep-it" number={n("how-long-we-keep-it")} title="How long we keep it">
+            <LegalTopic id="how-long-we-keep-it" number={n("how-long-we-keep-it")} title="How long we keep it">
               <p>
                 Data is kept for as long as your account is active with your employer&apos;s restaurant. If a manager
                 deactivates your account, your historical attendance and payroll records are retained for the
                 business&apos;s own record-keeping (standard practice for employment records), but your account can no
                 longer sign in.
               </p>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="your-rights" number={n("your-rights")} title="Your rights">
+            <LegalTopic id="your-rights" number={n("your-rights")} title="Your rights">
               <p>
                 You can ask your manager (who controls the account) or contact us directly to{" "}
                 <strong className={strong}>access, correct, or request deletion</strong> of your personal data, subject to
                 the business&apos;s own legal obligations to retain employment records.
               </p>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="deleting-your-account" number={n("deleting-your-account")} title="Deleting your account">
+            <LegalTopic id="deleting-your-account" number={n("deleting-your-account")} title="Deleting your account">
               <p>You can delete your account yourself, from inside the app. It is permanent and cannot be undone.</p>
               <ol className="grid gap-3 sm:grid-cols-3">
                 {[
@@ -346,13 +331,13 @@ export default function PrivacyPage() {
                   confirm.
                 </p>
               </div>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="children" number={n("children")} title="Children">
+            <LegalTopic id="children" number={n("children")} title="Children">
               <p>Invisiko is a workplace tool and is not intended for use by children.</p>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="this-website" number={n("this-website")} title="This website">
+            <LegalTopic id="this-website" number={n("this-website")} title="This website">
               <p>
                 This website, invisiko.app, tells people about Invisiko and lets them request access. It is separate from
                 the app: it has no access to the app or to any restaurant&apos;s data.
@@ -398,13 +383,13 @@ export default function PrivacyPage() {
                 ))}
               </ul>
               <p>You have the same rights over anything you send through this website as over data in the app.</p>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="changes" number={n("changes")} title="Changes to this policy">
+            <LegalTopic id="changes" number={n("changes")} title="Changes to this policy">
               <p>If this policy changes, the date at the top of this page will be updated.</p>
-            </Topic>
+            </LegalTopic>
 
-            <Topic id="contact" number={n("contact")} title="Contact">
+            <LegalTopic id="contact" number={n("contact")} title="Contact">
               <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
                 <span className="flex items-center gap-4">
                   <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-amber text-ink">
@@ -417,7 +402,7 @@ export default function PrivacyPage() {
                 </span>
                 <EmailLink address={site.privacyEmail} className="text-fg" />
               </div>
-            </Topic>
+            </LegalTopic>
           </div>
         </div>
       </Section>

@@ -86,6 +86,7 @@ public/screenshots   real app screenshots go here
 - Contact, support and privacy address: **support@invisiko.app**
 - Reply time promised on the contact page: **within 24–48 hours**
 - Legal company name: **Invisiko**, based in **London, UK**
+- Platform: **iPhone (iOS)** only; Android and iPad are not supported
 - A pay screen may be shown publicly, with demo data and no rates or pay split
 - Logo: the owner's mark, kept as `assets/brand/invisiko-mark.png`. Run `npm run brand` after replacing it to regenerate the favicon, home-screen icon, manifest icon and structured-data logo.
 
@@ -109,7 +110,7 @@ grep -rn "\[\[" app components content lib sections
 | Legal review of `/privacy` (remove the draft notice afterwards) | `app/privacy/page.tsx` | §9.10 |
 | Check the demo screens against the real app, especially invoice review, invite-code entry, refused check-in and recording temperatures, which were drawn from the blueprint's description | `scripts/build-demo-screens.mjs` | §10 |
 | Optional: an SVG master of the mark, for perfectly crisp scaling (the PNG master is 225×451) | `assets/brand/` | §14 Q25 |
-| Confirm "Android and iPhone; not iPad" against the store listings | `content/faq.ts` → `phones` | §9.9 |
+| Confirm "iPhone only; not Android or iPad" against the App Store listing | `content/faq.ts` → `phones` | §9.9 |
 
 ### App screens
 

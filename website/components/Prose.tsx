@@ -9,12 +9,3 @@ export function Prose({ children }: { children: ReactNode }) {
   );
 }
 
-/** A visible notice that a page's text has not yet been legally reviewed (§9.10 acceptance). */
-export function DraftNotice({ children }: { children: ReactNode }) {
-  return (
-    <div role="note" className="mb-10 max-w-[68ch] rounded-2xl border border-dashed border-line-strong bg-surface p-5">
-      <p className="label-caps text-accent-text">Draft — pending legal review</p>
-      <p className="mt-2 text-muted">{children}</p>
-    </div>
-  );
-}

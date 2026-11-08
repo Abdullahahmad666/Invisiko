@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { isPlaceholder } from "@/content/site";
 
 /**
@@ -26,18 +25,3 @@ export function EmailLink({ address, className = "" }: { address: string; classN
   );
 }
 
-/** An outbound link once the URL is real; the label plus a marked placeholder until then. */
-export function ExternalLink({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
-  if (isPlaceholder(href)) {
-    return (
-      <span>
-        {children} <Fill value={href} />
-      </span>
-    );
-  }
-  return (
-    <a href={href} rel="noopener" className={`font-semibold underline underline-offset-4 ${className}`}>
-      {children}
-    </a>
-  );
-}

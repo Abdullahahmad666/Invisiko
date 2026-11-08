@@ -43,15 +43,8 @@ export const site = {
   legalName: fromEnv(process.env.NEXT_PUBLIC_LEGAL_NAME, "Invisiko"),
   /** Confirmed by the owner. Shown on About and in the footer; used in Organization data. */
   location: { locality: "London", country: "UK", countryCode: "GB" },
-  /** §14 Q10 — store badges render only once these are real URLs. */
+  /** §14 Q10 — the App Store badge renders only once this is a real URL. Invisiko is iPhone only. */
   appStoreUrl: fromEnv(process.env.NEXT_PUBLIC_APP_STORE_URL, "[[APP_STORE_URL]]"),
-  playStoreUrl: fromEnv(process.env.NEXT_PUBLIC_PLAY_STORE_URL, "[[PLAY_STORE_URL]]"),
-  /**
-   * §9.10 / §14 Q7 — the product already serves the canonical privacy policy and support page.
-   * This website links to them rather than keeping a second, divergent copy.
-   */
-  appPrivacyUrl: fromEnv(process.env.NEXT_PUBLIC_APP_PRIVACY_URL, "[[APP_PRIVACY_URL]]"),
-  appSupportUrl: fromEnv(process.env.NEXT_PUBLIC_APP_SUPPORT_URL, "[[APP_SUPPORT_URL]]"),
   copyrightYear: 2026,
 } as const;
 

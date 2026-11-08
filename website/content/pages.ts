@@ -133,7 +133,7 @@ export const pages: Record<PagePath, PageEntry> = {
     name: "Privacy",
     title: "Privacy — Invisiko",
     description:
-      "How this website handles the details you send, and a summary of the Invisiko app's privacy commitments, with a link to the app's full policy.",
+      "What personal data the Invisiko app and this website collect, why, who processes it, how long it is kept, and how to delete your account.",
     parent: "/",
     schemaType: "WebPage",
     priority: 0.3,
@@ -153,7 +153,7 @@ export const pages: Record<PagePath, PageEntry> = {
     name: "Support",
     title: "Support — Invisiko",
     description:
-      "Help for people already using Invisiko: joining a team with an invite code, check-in problems, resetting a password and reporting a bug.",
+      "Help with the Invisiko app: joining a team with an invite code, check-in problems, resetting a password, deleting your account and reporting a bug.",
     parent: "/",
     schemaType: "WebPage",
     priority: 0.4,

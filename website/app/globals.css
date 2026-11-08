@@ -211,6 +211,53 @@ body {
     }
   }
 
+  /* Hero visuals: the back phone slides out, side phones fan open, labels and cards follow. */
+  .pair-back-in {
+    animation: pair-back-in 900ms var(--ease-out-expo) 450ms both;
+  }
+  @keyframes pair-back-in {
+    from {
+      opacity: 0;
+      transform: translate(-30%, 4%) rotate(-3deg) scale(0.94);
+    }
+  }
+  .fan-in-left {
+    animation: fan-in-left 950ms var(--ease-out-expo) 480ms both;
+  }
+  @keyframes fan-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(48%) rotate(6deg) scale(0.92);
+    }
+  }
+  .fan-in-right {
+    animation: fan-in-right 950ms var(--ease-out-expo) 560ms both;
+  }
+  @keyframes fan-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(-48%) rotate(-6deg) scale(0.92);
+    }
+  }
+  .chip-pop {
+    animation: chip-pop 520ms var(--ease-out-expo) 1100ms both;
+  }
+  @keyframes chip-pop {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.85);
+    }
+  }
+  .card-float {
+    animation: card-float 7s ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+  }
+  @keyframes card-float {
+    50% {
+      transform: translateY(-9px);
+    }
+  }
+
   /* Headline words rise one after another (components/SplitWords.tsx). */
   .word-rise .word {
     display: inline-block;
@@ -465,6 +512,25 @@ body {
         transform: translate(28px, -70px);
       }
     }
+    .hero-fan-left,
+    .hero-fan-right {
+      animation: hero-fan-left linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 90vh;
+    }
+    .hero-fan-right {
+      animation-name: hero-fan-right;
+    }
+    @keyframes hero-fan-left {
+      to {
+        transform: translate(-40px, -60px);
+      }
+    }
+    @keyframes hero-fan-right {
+      to {
+        transform: translate(40px, -60px);
+      }
+    }
     .hero-glow {
       animation: hero-glow linear both;
       animation-timeline: scroll(root block);
@@ -606,5 +672,17 @@ body {
         transform: scaleX(0);
       }
     }
+  }
+}
+
+/* Below 1024px the hero visual sits under the copy, not beside it. Scroll-away and entrance effects
+   would tilt and fade it just as the visitor scrolls down to it, so hero phones simply rise in on
+   load and then stay put. */
+@media (max-width: 1023.98px) {
+  .hero-exit-copy,
+  .hero-exit-phone,
+  .hero-glow,
+  .hero-exit-phone .sd-phone {
+    animation: none;
   }
 }

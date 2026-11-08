@@ -142,10 +142,10 @@ export const pages: Record<PagePath, PageEntry> = {
     path: "/terms",
     name: "Terms",
     title: "Terms — Invisiko",
-    description: "Terms of service for Invisiko.",
+    description: "The terms of service for the Invisiko app and website: accounts, the business's responsibilities, acceptable use, data, liability and governing law.",
     parent: "/",
     schemaType: "WebPage",
-    noindex: true, // Placeholder until real terms exist (§14 Q6).
+    noindex: true, // Draft until a solicitor approves it (§14 Q6); see app/terms/page.tsx.
     priority: 0.1,
   },
   "/support": {

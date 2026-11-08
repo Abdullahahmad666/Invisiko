@@ -15,11 +15,16 @@ export function SectionNav({ items }: { items: SectionNavItem[] }) {
 
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
+    // Watch each item's section; when several items share one section (a long policy, say), watch
+    // their headings instead so the highlight still moves.
+    const targets = items.map((item) => ({ id: item.id, target: document.getElementById(item.id) }));
+    const sectionOf = (el: HTMLElement | null) => el?.closest("section") ?? el;
     const owners = new Map<Element, string>();
-    for (const item of items) {
-      const target = document.getElementById(item.id);
-      const section = target?.closest("section") ?? target;
-      if (section) owners.set(section, item.id);
+    for (const { id, target } of targets) {
+      const section = sectionOf(target);
+      if (!target || !section) continue;
+      const shared = targets.filter((other) => sectionOf(other.target) === section).length > 1;
+      owners.set(shared ? target : section, id);
     }
     const observer = new IntersectionObserver(
       (entries) => {

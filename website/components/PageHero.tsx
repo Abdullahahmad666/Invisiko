@@ -18,6 +18,8 @@ type PageHeroProps = {
   /** CTAs or a callout under the lead. */
   children?: ReactNode;
   screenshot?: ScreenshotId;
+  /** Any hero visual in place of a single screenshot, e.g. a pair of phones. */
+  visual?: ReactNode;
   /** A short line under a hairline — a fact worth reading on its own. */
   caption?: ReactNode;
 };
@@ -29,7 +31,8 @@ const rise = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
  * and an optional phone on the right from 1024px. Text comes first in the source so it leads
  * on mobile.
  */
-export function PageHero({ path, eyebrow, title, lead, children, screenshot, caption }: PageHeroProps) {
+export function PageHero({ path, eyebrow, title, lead, children, screenshot, visual, caption }: PageHeroProps) {
+  const hasVisual = Boolean(screenshot || visual);
   return (
     <section className="tone-dark relative overflow-clip">
       {path ? <JsonLd data={webPageLd(path)} /> : null}
@@ -42,7 +45,7 @@ export function PageHero({ path, eyebrow, title, lead, children, screenshot, cap
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_70%,#0B0B0D)]"
       />
       <Container className="relative pt-32 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24">
-        <div className={screenshot ? "grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]" : ""}>
+        <div className={hasVisual ? "grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]" : ""}>
           {/* Lifts away as the page scrolls. */}
           <div className="hero-exit-copy max-w-[44rem]">
             {path && path !== "/" ? (
@@ -73,7 +76,8 @@ export function PageHero({ path, eyebrow, title, lead, children, screenshot, cap
               </p>
             ) : null}
           </div>
-          {screenshot ? (
+          {visual ? <div>{visual}</div> : null}
+          {screenshot && !visual ? (
             <div className="hero-exit-phone">
               <div className="hero-rise" style={rise(300)}>
                 <PhoneFrame screenshot={screenshot} priority float />

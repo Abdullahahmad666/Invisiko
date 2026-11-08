@@ -209,6 +209,15 @@ export const faqGroups: FaqGroup[] = [
         ],
         link: { href: "/privacy", label: "Privacy" },
       },
+      {
+        id: "delete-account",
+        question: "How do I delete my account?",
+        answer: [
+          "From inside the app: open Profile, choose Delete my account and confirm with your password. It is permanent.",
+          "Your email address, phone number, photo and password are destroyed. The hours you worked and the checks you recorded stay on your restaurant's record under your name, because employers must keep employment records. If you are the only manager, deleting your account also deletes the restaurant and everyone in it — the app warns you first.",
+        ],
+        link: { href: "/privacy#deleting-your-account", label: "How account deletion works" },
+      },
     ],
   },
 ];

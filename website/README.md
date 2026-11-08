@@ -56,10 +56,9 @@ public/screenshots   real app screenshots go here
 - **Primary call to action is "Request access"** — the blueprint's recommendation while there is no
   pricing and no verified self-serve signup (§11, §14 Q3). Change it in one place:
   `primaryCta` in `content/site.ts`.
-- **Privacy and support: the product's existing pages stay canonical** (§9.10 option a). The
-  website's `/privacy` covers the website itself and summarises the app's policy; `/support`
-  mirrors the app's four support topics and links to the app's page. Set
-  `NEXT_PUBLIC_APP_PRIVACY_URL` and `NEXT_PUBLIC_APP_SUPPORT_URL`.
+- **Privacy and support live on this website** (§9.10 option b). `/privacy` and `/support` carry the
+  owner's text, adapted for the web, with a section on the website itself. The app should link to
+  `https://invisiko.app/privacy` and `https://invisiko.app/support`.
 - **Terms is a placeholder page** marked `noindex` and left out of the sitemap. No terms have been
   drafted: they must be written and legally reviewed by a person (§14 Q6).
 - **The restaurant-approval step** is described generically on `/how-it-works` until the owner
@@ -102,12 +101,11 @@ grep -rn "\[\[" app components content lib sections
 |---|---|---|
 | Form delivery: a Resend account with `invisiko.app` verified, then `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | env | §14 Q4 |
 | Apex or `www` as the canonical host (defaults to `https://invisiko.app`) | `NEXT_PUBLIC_SITE_URL` | §13 |
-| `[[APP_PRIVACY_URL]]`, `[[APP_SUPPORT_URL]]` | env | §14 Q7 |
-| `[[APP_STORE_URL]]`, `[[PLAY_STORE_URL]]` — badges appear only once set | env | §14 Q10 |
+| `[[APP_STORE_URL]]` — the App Store badge appears once set | `NEXT_PUBLIC_APP_STORE_URL` | §14 Q10 |
 | `[[ORIGIN_STORY]]` for `/about` | `app/about/page.tsx` | §14 Q21 |
 | `[[PRICE]]` — FAQ "What does it cost?" | `content/faq.ts` | §14 Q8 |
 | `[[TERMS]]` — real terms of service | `app/terms/page.tsx` | §14 Q6 |
-| Legal review of `/privacy` (remove the draft notice afterwards) | `app/privacy/page.tsx` | §9.10 |
+| Point the app's privacy and support links at `invisiko.app/privacy` and `invisiko.app/support` | the app | §9.10 |
 | Check the demo screens against the real app, especially invoice review, invite-code entry, refused check-in and recording temperatures, which were drawn from the blueprint's description | `scripts/build-demo-screens.mjs` | §10 |
 | Optional: an SVG master of the mark, for perfectly crisp scaling (the PNG master is 225×451) | `assets/brand/` | §14 Q25 |
 | Confirm "iPhone only; not Android or iPad" against the App Store listing | `content/faq.ts` → `phones` | §9.9 |

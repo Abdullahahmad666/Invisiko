@@ -270,6 +270,54 @@ test.describe("site-wide", () => {
     await expect(hero.filter({ visible: true })).toHaveAttribute("alt", /Checks dashboard/);
   });
 
+  test("main page heroes all carry a visual", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const expected: Record<string, number> = {
+      "/": 2,
+      "/features": 3,
+      "/features/attendance": 2,
+      "/features/compliance": 2,
+      "/features/invoice-scanning": 2,
+      "/how-it-works": 2,
+      "/about": 1,
+    };
+    for (const [path, phones] of Object.entries(expected)) {
+      await page.goto(path);
+      const hero = page.locator("main > section").first();
+      await expect(hero.getByRole("img").filter({ visible: true }), path).toHaveCount(phones);
+    }
+    await page.goto("/faq");
+    await expect(page.locator("main > section").first().locator(".card-float")).toHaveCount(4);
+  });
+
+  test("on a phone, the hero phone stays upright and fully visible as you scroll to it", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const path of ["/", "/about", "/features/attendance", "/how-it-works"]) {
+      await page.goto(path);
+      const figure = page.locator("main > section").first().locator("figure").filter({ visible: true }).first();
+      await figure.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(1200);
+      const state = await figure.evaluate((el) => {
+        let opacity = 1;
+        for (let node: Element | null = el; node; node = node.parentElement) opacity *= Number(getComputedStyle(node).opacity);
+        const box = el.getBoundingClientRect();
+        return { opacity, transform: getComputedStyle(el).transform, height: box.height, top: box.top, bottom: box.bottom };
+      });
+      expect(state.opacity, path).toBeGreaterThan(0.99);
+      expect(["none", "matrix(1, 0, 0, 1, 0, 0)"], path).toContain(state.transform);
+      expect(state.height, path).toBeGreaterThan(400);
+      await expect(figure.getByRole("img"), path).toBeVisible();
+    }
+  });
+
+  test("on a phone, heroes show a single screen", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const path of ["/features", "/how-it-works", "/features/attendance"]) {
+      await page.goto(path);
+      await expect(page.locator("main > section").first().getByRole("img").filter({ visible: true }), path).toHaveCount(1);
+    }
+  });
+
   test("every page says its app screens use demo data, and none shows a placeholder", async ({ page }) => {
     for (const path of pages) {
       await page.goto(path);

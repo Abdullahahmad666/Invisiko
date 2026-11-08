@@ -10,6 +10,7 @@ import { SplitFeature } from "@/components/SplitFeature";
 import { everythingElse, featureBlocks } from "@/content/features";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { PhoneFan } from "@/sections/HeroPhones";
 
 export const metadata = pageMetadata("/features");
 
@@ -30,6 +31,7 @@ export default function FeaturesPage() {
         eyebrow="Features"
         title="Four jobs, one app, records that hold up."
         lead="Everything Invisiko does today, with the detail you need to judge whether it fits your kitchen — and what it doesn't do, at the bottom."
+        visual={<PhoneFan left="scanRefused" center="checksDashboard" right="invoiceReview" />}
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href={primaryCta.href} block>

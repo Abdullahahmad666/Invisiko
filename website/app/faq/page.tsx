@@ -7,6 +7,7 @@ import { Section } from "@/components/Section";
 import { allFaqs, faqGroups } from "@/content/faq";
 import { pageMetadata } from "@/lib/metadata";
 import { faqPageLd } from "@/lib/structured-data";
+import { FaqHeroCards } from "@/sections/FaqHeroCards";
 
 export const metadata = pageMetadata("/faq");
 
@@ -21,6 +22,7 @@ export default function FaqPage() {
         eyebrow="FAQ"
         title="Questions about Invisiko."
         lead="Including the awkward ones. If yours isn't here, ask us."
+        visual={<FaqHeroCards />}
       />
 
       <Section tone="light" labelledBy="faq-groups-title">

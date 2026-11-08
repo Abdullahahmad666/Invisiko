@@ -13,6 +13,7 @@ import { SplitFeature } from "@/components/SplitFeature";
 import { faqsById } from "@/content/faq";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { PhonePair } from "@/sections/HeroPhones";
 import { Pipeline } from "@/sections/Pipeline";
 import { StockCardDetail } from "@/sections/StockCardDetail";
 
@@ -87,7 +88,7 @@ export default function InvoiceScanningPage() {
         eyebrow="Invoice scanning"
         title="Photograph the delivery note. Check what it read. That's the job."
         lead="Invisiko reads delivery notes and supplier invoices into line items, matched to the things you already buy."
-        screenshot="invoiceReview"
+        visual={<PhonePair front="invoiceReview" back="invoiceCapture" />}
       >
         {/* The human checkpoint, above the fold on mobile (§9.3 I). */}
         <p className="flex gap-3 rounded-2xl border border-amber/60 bg-amber/10 p-4 text-[0.9375rem] text-fg sm:text-base">

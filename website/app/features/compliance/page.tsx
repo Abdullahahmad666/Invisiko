@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { SplitFeature } from "@/components/SplitFeature";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { PhonePair } from "@/sections/HeroPhones";
 
 export const metadata = pageMetadata("/features/compliance");
 
@@ -55,7 +56,7 @@ export default function CompliancePage() {
         eyebrow="Compliance records"
         title="Food-safety records, kept as the work happens."
         lead="Fridge temperatures, opening and closing checks and your licences — on the phone, with who did what and when, ready when somebody asks."
-        screenshot="checksDashboard"
+        visual={<PhonePair front="checksDashboard" back="documents" />}
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href={primaryCta.href} block>

@@ -61,7 +61,7 @@ export function softwareApplicationLd() {
     name: site.name,
     applicationCategory: "BusinessApplication",
     applicationSubCategory: "Restaurant back-of-house management",
-    operatingSystem: "Android, iOS",
+    operatingSystem: "iOS",
     description: site.description,
     url: site.url,
     inLanguage: "en-GB",
@@ -137,7 +137,7 @@ export function howToLd(name: string, description: string, steps: { title: strin
     description,
     inLanguage: "en-GB",
     tool: [
-      { "@type": "HowToTool", name: "An Android phone or iPhone" },
+      { "@type": "HowToTool", name: "An iPhone for each person" },
       { "@type": "HowToTool", name: "A printed QR code at the venue door" },
     ],
     step: steps.map((step, index) => ({

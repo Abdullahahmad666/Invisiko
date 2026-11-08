@@ -19,7 +19,7 @@ function build(): string {
 
   lines.push(`# ${site.name}`, "");
   lines.push(
-    "> Invisiko is a mobile app (Android and iPhone) that runs the back of house for an independent takeaway or small restaurant in the UK: position-checked staff attendance, food-safety records, fortnightly pay periods and delivery invoices read from a photo or PDF. It is not a till or point-of-sale system.",
+    "> Invisiko is an iPhone app (iOS) that runs the back of house for an independent takeaway or small restaurant in the UK: position-checked staff attendance, food-safety records, fortnightly pay periods and delivery invoices read from a photo or PDF. It is not a till or point-of-sale system.",
     "",
   );
 

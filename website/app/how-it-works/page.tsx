@@ -13,6 +13,7 @@ import { faqsById } from "@/content/faq";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 import { howToLd } from "@/lib/structured-data";
+import { PhonePair } from "@/sections/HeroPhones";
 
 export const metadata = pageMetadata("/how-it-works");
 
@@ -47,7 +48,7 @@ const staffSteps: ShowcaseStep[] = [
   {
     title: "Install the app",
     screenshot: "welcomeStaff",
-    body: "On their own Android phone or iPhone, and choose “Join a team”.",
+    body: "On their own iPhone, and choose “Join a team”.",
   },
   {
     title: "Enter the code",
@@ -90,7 +91,7 @@ const firstWeek: ShowcaseStep[] = [
 ];
 
 const needs = [
-  { Icon: IoPhonePortraitOutline, title: "Phones the team already has", body: "Android phones or iPhones. iPad isn't supported." },
+  { Icon: IoPhonePortraitOutline, title: "An iPhone for each person", body: "Invisiko is built for iOS. Android phones and iPad aren't supported." },
   { Icon: IoQrCodeOutline, title: "A printed code at the door", body: "One sheet of paper where staff arrive." },
   { Icon: IoWifiOutline, title: "A connection", body: "Invisiko needs the internet to check in, record a check or read an invoice. There is no offline mode today." },
 ];
@@ -121,6 +122,7 @@ export default function HowItWorksPage() {
         eyebrow="How it works"
         title="What setting it up actually involves."
         lead="A code on the door, your fridges and checklists, and your team. Then it runs — and the records build themselves as people work."
+        visual={<PhonePair front="welcomeManager" back="welcomeStaff" labels={{ front: "Manager", back: "Staff" }} />}
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href={primaryCta.href} block>
@@ -167,7 +169,7 @@ export default function HowItWorksPage() {
       </Section>
 
       <Section tone="light" labelledBy="needs-title" className="border-t border-[#DCDCE0]">
-        <SectionHeading id="needs-title" eyebrow="What you need" title="Three things, and no new hardware." />
+        <SectionHeading id="needs-title" eyebrow="What you need" title="Three things, and no web dashboard to learn." />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
           {needs.map(({ Icon, title, body }, index) => (
             <li key={title} data-reveal style={{ "--stagger": index } as CSSProperties} className="rounded-2xl border border-line bg-surface p-6">

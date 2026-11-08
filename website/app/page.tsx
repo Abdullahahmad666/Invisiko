@@ -184,7 +184,7 @@ export default function HomePage() {
             id="steps-title"
             eyebrow="How it works"
             title="Three steps, then it runs."
-            intro="No web dashboard to learn and no new hardware: a printed code, the phones your team already carries, and yours."
+            intro="No web dashboard to learn: a printed code at the door, and the app on each person's iPhone."
           />
           <div className="mt-6" data-reveal>
             <ButtonLink href="/how-it-works" variant="text" arrow>

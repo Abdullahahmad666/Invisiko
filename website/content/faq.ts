@@ -69,11 +69,11 @@ export const faqGroups: FaqGroup[] = [
       },
       {
         id: "phones",
-        // Verify against the final store listings before launch (§9.9).
+        // Confirmed by the owner: iPhone only today. Check against the App Store listing at launch.
         question: "Which phones does it work on?",
         answer: [
-          "Android phones and iPhones. iPad is not supported.",
-          "Invisiko is a mobile app; your team uses the phones they already have.",
+          "iPhone. Invisiko is built for iOS; Android phones and iPad are not supported.",
+          "Each person uses the app on their own iPhone — managers and staff alike.",
         ],
       },
       {

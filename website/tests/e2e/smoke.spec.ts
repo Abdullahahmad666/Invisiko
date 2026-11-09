@@ -286,8 +286,43 @@ test.describe("site-wide", () => {
       const hero = page.locator("main > section").first();
       await expect(hero.getByRole("img").filter({ visible: true }), path).toHaveCount(phones);
     }
-    await page.goto("/faq");
-    await expect(page.locator("main > section").first().locator(".card-float")).toHaveCount(4);
+    for (const path of ["/faq", "/contact", "/support", "/privacy", "/terms"]) {
+      await page.goto(path);
+      await expect(page.locator("main > section").first().locator(".card-float"), path).toHaveCount(4);
+    }
+  });
+
+  test("every section fills the screen, and a phone beside its text fits on it", async ({ page }) => {
+    for (const [width, height] of [
+      [1440, 900],
+      [1024, 768],
+      [390, 844],
+    ]) {
+      await page.setViewportSize({ width, height });
+      for (const path of pages) {
+        await page.goto(path);
+        const problems = await page.evaluate(() => {
+          const header = document.querySelector("header")?.getBoundingClientRect().height ?? 0;
+          const bar = document.querySelector('nav[aria-label="On this page"]');
+          const barHeight = bar && getComputedStyle(bar).display !== "none" ? bar.getBoundingClientRect().height : 0;
+          const room = innerHeight - header - barHeight;
+          const found: string[] = [];
+          document.querySelectorAll("main > section").forEach((section, index) => {
+            const needed = index === 0 ? innerHeight : room;
+            const height = section.getBoundingClientRect().height;
+            if (height < needed - 2) found.push(`section ${index} is ${Math.round(height)}px, needs ${Math.round(needed)}px`);
+            if (innerWidth >= 1024) {
+              section.querySelectorAll<HTMLElement>(".sd-phone").forEach((phone) => {
+                const phoneHeight = phone.getBoundingClientRect().height;
+                if (phoneHeight > room) found.push(`section ${index} has a ${Math.round(phoneHeight)}px phone in ${Math.round(room)}px`);
+              });
+            }
+          });
+          return found;
+        });
+        expect(problems, `${path} at ${width}x${height}`).toEqual([]);
+      }
+    }
   });
 
   test("on a phone, the hero phone stays upright and fully visible as you scroll to it", async ({ page }) => {

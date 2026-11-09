@@ -1,25 +1,16 @@
 import Link from "next/link";
 import { ContactForm } from "@/components/ContactForm";
-import { EmailLink, Fill } from "@/components/Fill";
+import type { CSSProperties } from "react";
+import { EmailLink } from "@/components/Fill";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
+import { nextSteps } from "@/content/next-steps";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { HeroCards } from "@/sections/HeroCards";
 
 export const metadata = pageMetadata("/contact");
 
-const nextSteps = [
-  { title: "A person reads it", body: "Not an automated system — someone who will actually reply." },
-  {
-    title: "We reply by email",
-    body: (
-      <>
-        Within <Fill value={site.replyTime} />, to the address you give us.
-      </>
-    ),
-  },
-  { title: "Access isn't instant", body: "We'll reply first, answer your questions, and take it from there." },
-];
 
 export default function ContactPage() {
   return (
@@ -29,6 +20,16 @@ export default function ContactPage() {
         eyebrow="Request access"
         title="Tell us about your place."
         lead="A few details so we can reply usefully. A person reads every request."
+        visual={
+          <HeroCards
+            cards={[
+              { q: "Who reads it?", a: "A person, not a bot." },
+              { q: "When will we hear back?", a: `Within ${site.replyTime}.` },
+              { q: "Is access instant?", a: "No, we reply first." },
+              { q: "Where are you based?", a: `${site.location.locality}, ${site.location.country}.` },
+            ]}
+          />
+        }
       />
 
       <Section tone="light" labelledBy="form-title">
@@ -47,7 +48,7 @@ export default function ContactPage() {
               </h2>
               <ol className="mt-5 space-y-5">
                 {nextSteps.map((step, index) => (
-                  <li key={step.title} className="flex gap-4">
+                  <li key={step.title} className="flex gap-4" data-reveal style={{ "--stagger": index } as CSSProperties}>
                     <span
                       aria-hidden="true"
                       className="grid size-8 shrink-0 place-items-center rounded-full bg-amber text-sm font-semibold text-ink"

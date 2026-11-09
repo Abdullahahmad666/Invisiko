@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { IoCreateOutline, IoPeopleOutline } from "react-icons/io5";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
@@ -10,6 +11,7 @@ import { SplitFeature } from "@/components/SplitFeature";
 import { StepShowcase, type ShowcaseStep } from "@/components/StepShowcase";
 import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { CorrectionRecord } from "@/sections/CorrectionRecord";
 import { PhonePair } from "@/sections/HeroPhones";
 
 export const metadata = pageMetadata("/features/attendance");
@@ -109,25 +111,19 @@ export default function AttendancePage() {
       </Section>
 
       <Section tone="dark" labelledBy="swaps-title">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
-          <SectionHeading
-            id="swaps-title"
-            eyebrow="Swaps"
-            title="Shift swaps that go through you."
-            intro="Staff offer a shift to a named colleague, with a reason if they want to give one. The shift only changes hands when you approve it."
-          />
-          <ul className="space-y-4 self-end" data-reveal>
-            {[
-              "You approve or decline from your phone.",
-              "Everyone involved gets a push notification when a swap is requested, and again when it is decided.",
-              "Staff also hear when a shift of theirs is added, changed or cancelled.",
-            ].map((line) => (
-              <li key={line} className="rounded-2xl border border-line bg-surface p-5 text-muted">
-                {line}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <SplitFeature
+          id="swaps"
+          eyebrow="Swaps"
+          title="Shift swaps that go through you."
+          intro="Staff offer a shift to a named colleague, with a reason if they want to give one. The shift only changes hands when you approve it."
+          bullets={[
+            "You approve or decline from your phone.",
+            "Everyone involved gets a push notification when a swap is requested, and again when it is decided.",
+            "Staff also hear when a shift of theirs is added, changed or cancelled.",
+          ]}
+          screenshot="swapRequests"
+          reverse
+        />
       </Section>
 
       <Section tone="light" labelledBy="corrections-title">
@@ -138,8 +134,10 @@ export default function AttendancePage() {
             title="Mistakes get fixed. Fixes stay visible."
             intro="If you have ever argued about hours, this is the part that matters."
           />
-          <ul className="grid gap-4" data-reveal>
-            <li className="flex gap-4 rounded-2xl border border-line bg-surface p-6">
+          <CorrectionRecord />
+        </div>
+        <ul className="mt-10 grid gap-4 md:grid-cols-2">
+            <li className="lift flex gap-4 rounded-2xl border border-line bg-surface p-6" data-reveal>
               <IoCreateOutline aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-accent-text" />
               <div>
                 <h3 className="font-semibold">A manager can correct a record</h3>
@@ -149,7 +147,7 @@ export default function AttendancePage() {
                 </p>
               </div>
             </li>
-            <li className="flex gap-4 rounded-2xl border border-line bg-surface p-6">
+            <li className="lift flex gap-4 rounded-2xl border border-line bg-surface p-6" data-reveal style={{ "--stagger": 1 } as CSSProperties}>
               <IoPeopleOutline aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-accent-text" />
               <div>
                 <h3 className="font-semibold">Staff can add their own note</h3>
@@ -159,7 +157,6 @@ export default function AttendancePage() {
               </div>
             </li>
           </ul>
-        </div>
       </Section>
 
       <Section tone="light" labelledBy="managers-title" className="border-t border-[#DCDCE0]">

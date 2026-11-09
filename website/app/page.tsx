@@ -24,10 +24,10 @@ export const metadata = pageMetadata("/");
 const rise = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
 
 const problems = [
-  { label: "Rota and hours", text: "The rota, and the hours people actually worked." },
-  { label: "The day's checks", text: "Fridge temperatures, opening, closing and cleaning — done and written down." },
-  { label: "What everyone is owed", text: "Turning a fortnight of hours into what each person gets paid." },
-  { label: "What deliveries cost", text: "What came in, from whom, and what it actually cost." },
+  { label: "Rota and hours", text: "The rota, and the hours people actually worked.", lives: "a group chat" },
+  { label: "The day's checks", text: "Fridge temperatures, opening, closing and cleaning — done and written down.", lives: "a clipboard by the fridge" },
+  { label: "What everyone is owed", text: "Turning a fortnight of hours into what each person gets paid.", lives: "a spreadsheet after close" },
+  { label: "What deliveries cost", text: "What came in, from whom, and what it actually cost.", lives: "a pile of delivery notes" },
 ];
 
 const setupSteps: ShowcaseStep[] = [
@@ -111,20 +111,33 @@ export default function HomePage() {
           title="Four jobs nobody trained you for."
           intro="They all land on whoever runs the place."
         />
-        <ol className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {problems.map((problem, index) => (
             <li
               key={problem.label}
               data-reveal
               style={{ "--stagger": index } as CSSProperties}
-              className="rounded-2xl border border-line bg-surface p-6 sm:p-7"
+              className="lift flex flex-col rounded-2xl border border-line bg-surface p-6 sm:p-7 lg:min-h-[20rem]"
             >
-              <span className="label-caps tabular-nums text-accent-text">0{index + 1}</span>
-              <p className="mt-6 text-lg font-semibold leading-snug tracking-[-0.01em]">{problem.label}</p>
+              <span aria-hidden="true" className="text-[2.75rem] font-semibold leading-none tracking-[-0.04em] tabular-nums text-muted lg:text-[3.5rem]">
+                0{index + 1}
+              </span>
+              <p className="mt-8 text-xl font-semibold leading-snug tracking-[-0.01em]">{problem.label}</p>
               <p className="mt-2 text-muted">{problem.text}</p>
+              <p className="mt-auto pt-6 text-sm text-muted">
+                <span className="block border-t border-line pt-4">
+                  Usually lives in <strong className="font-semibold text-fg">{problem.lives}</strong>
+                </span>
+              </p>
             </li>
           ))}
         </ol>
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" data-reveal>
+          <p className="text-lg font-semibold tracking-[-0.01em]">Invisiko puts all four on one phone.</p>
+          <ButtonLink href="#pillars-title" variant="text" arrow>
+            See how
+          </ButtonLink>
+        </div>
       </Section>
 
       {/* 3. Four pillars. */}

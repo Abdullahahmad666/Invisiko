@@ -67,11 +67,61 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/*
+ * One section at a time. --chrome is what sits above a section once you are on it: the fixed header
+ * (4.5rem), plus the sticky "On this page" bar (3.625rem) on pages that have one — SectionNav sets
+ * data-section-bar while it is mounted.
+ */
+:root {
+  --chrome: 4.5rem;
+}
+html[data-section-bar="all"] {
+  --chrome: 8.125rem;
+}
+@media (max-width: 1023.98px) {
+  html[data-section-bar="mobile"] {
+    --chrome: 8.125rem;
+  }
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Clears the fixed header and the sticky "On this page" bar. */
-  scroll-padding-top: 8.5rem;
+  /* Anchors and snapping land just below the header and the section bar. */
+  scroll-padding-top: var(--chrome);
+  /* Proximity, not mandatory: it settles on a section only when you stop near one, and long
+     sections still scroll freely. */
+  scroll-snap-type: y proximity;
+}
+
+main > section {
+  scroll-snap-align: start;
+}
+
+/* Fill the screen left below the chrome, with the content centred. */
+.fill-screen {
+  min-height: calc(100svh - var(--chrome));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/*
+ * From 1024px a phone sits beside its text, so it must fit the screen too: its width is capped by
+ * the height left after the chrome and the section padding (a screen is 9:20, plus its bezel).
+ */
+@media (min-width: 1024px) {
+  .fill-screen .sd-phone {
+    max-width: min(300px, calc((100svh - var(--chrome) - 13.5rem) * 0.45));
+  }
+}
+
+/* Heroes sit under the transparent header, so they fill the whole first screen. */
+.fill-hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 body {

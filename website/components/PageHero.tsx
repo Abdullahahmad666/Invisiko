@@ -34,7 +34,7 @@ const rise = (ms: number) => ({ "--rise-delay": `${ms}ms` }) as CSSProperties;
 export function PageHero({ path, eyebrow, title, lead, children, screenshot, visual, caption }: PageHeroProps) {
   const hasVisual = Boolean(screenshot || visual);
   return (
-    <section className="tone-dark relative overflow-clip">
+    <section className="fill-hero tone-dark relative overflow-clip">
       {path ? <JsonLd data={webPageLd(path)} /> : null}
       <div
         aria-hidden="true"

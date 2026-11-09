@@ -13,15 +13,20 @@ type SectionProps = {
   spacing?: "default" | "tight" | "none";
   className?: string;
   containerClassName?: string;
+  /**
+   * Fill the screen below the header (and the section bar, where there is one), with the content
+   * centred, so a reader sees one section at a time. On by default.
+   */
+  fill?: boolean;
 };
 
 const spacingClass = {
-  default: "py-16 sm:py-20 lg:py-28",
+  default: "py-16 sm:py-20 lg:py-24",
   tight: "py-12 sm:py-14 lg:py-16",
   none: "",
 };
 
-/** Consistent vertical rhythm and tone for every page section. */
+/** Consistent vertical rhythm and tone for every page section, one screen at a time. */
 export function Section({
   children,
   tone = "light",
@@ -30,12 +35,13 @@ export function Section({
   spacing = "default",
   className = "",
   containerClassName = "",
+  fill = true,
 }: SectionProps) {
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={`tone-${tone} ${spacingClass[spacing]} ${className}`}
+      className={`tone-${tone} ${fill ? "fill-screen" : ""} ${spacingClass[spacing]} ${className}`}
     >
       <Container className={containerClassName}>{children}</Container>
     </section>

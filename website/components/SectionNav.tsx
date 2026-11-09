@@ -43,8 +43,26 @@ export function useActiveSection(items: SectionNavItem[]) {
  * section they are in and jump to any other. `id` is a section's heading (or block) id. The bar is
  * plain anchor links, so it works without JavaScript; the highlight is the only scripted part.
  */
-export function SectionNav({ items, className = "" }: { items: SectionNavItem[]; className?: string }) {
+export function SectionNav({
+  items,
+  className = "",
+  mobileOnly = false,
+}: {
+  items: SectionNavItem[];
+  className?: string;
+  /** Hide from 1024px, where a page shows its own contents sidebar instead. */
+  mobileOnly?: boolean;
+}) {
   const active = useActiveSection(items);
+
+  // Let full-screen sections leave room for this bar (see .fill-screen in globals.css).
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.sectionBar = mobileOnly ? "mobile" : "all";
+    return () => {
+      delete root.dataset.sectionBar;
+    };
+  }, [mobileOnly]);
   const listRef = useRef<HTMLUListElement>(null);
 
   // Keep the current chip in view when the bar overflows on a phone.
@@ -59,7 +77,7 @@ export function SectionNav({ items, className = "" }: { items: SectionNavItem[];
   return (
     <nav
       aria-label="On this page"
-      className={`tone-dark sticky top-[4.5rem] z-30 border-y border-line bg-[#0B0B0D]/95 backdrop-blur-md ${className}`}
+      className={`tone-dark sticky top-[4.5rem] z-30 border-y border-line bg-[#0B0B0D]/95 backdrop-blur-md ${mobileOnly ? "lg:hidden" : ""} ${className}`}
     >
       <div className="mx-auto flex w-full max-w-[1200px] items-center gap-5 lg:px-8">
         <p className="label-caps hidden shrink-0 text-muted lg:block">On this page</p>

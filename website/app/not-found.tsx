@@ -42,7 +42,7 @@ const destinations: { href: string; label: string; body: string; Icon: IconType 
  */
 export default function NotFound() {
   return (
-    <section aria-labelledby="not-found-title" className="tone-dark relative overflow-clip">
+    <section aria-labelledby="not-found-title" className="fill-hero tone-dark relative overflow-clip">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(45%_50%_at_76%_38%,rgba(254,154,2,0.12),transparent_70%)]"

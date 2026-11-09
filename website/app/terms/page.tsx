@@ -103,27 +103,20 @@ export default function TermsPage() {
         </p>
       </PageHero>
 
-      <SectionNav items={sections} className="lg:hidden" />
-
-      {DRAFT ? (
-        <div className="tone-light">
-          <div className="mx-auto w-full max-w-[1200px] px-4 pt-10 sm:px-6 lg:px-8">
-            <div
-              role="note"
-              className="flex gap-4 rounded-2xl border border-amber/60 bg-amber/10 p-5 text-fg sm:p-6"
-            >
-              <IoAlertCircleOutline aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-[#8F5300]" />
-              <p>
-                <strong className="font-semibold">Draft — under legal review, not yet in force.</strong> These terms are
-                being reviewed before they take effect. If you have a question about them in the meantime, email{" "}
-                <EmailLink address={site.contactEmail} className="text-fg" />.
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <SectionNav items={sections} mobileOnly />
 
       <Section tone="light" labelledBy="short-version">
+        {/* Part of this screen, not a strip of its own between screens. */}
+        {DRAFT ? (
+          <div role="note" className="mb-10 flex gap-4 rounded-2xl border border-amber/60 bg-amber/10 p-5 text-fg sm:p-6" data-reveal>
+            <IoAlertCircleOutline aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-[#8F5300]" />
+            <p>
+              <strong className="font-semibold">Draft — under legal review, not yet in force.</strong> These terms are
+              being reviewed before they take effect. If you have a question about them in the meantime, email{" "}
+              <EmailLink address={site.contactEmail} className="text-fg" />.
+            </p>
+          </div>
+        ) : null}
         <p className="label-caps text-accent-text">In brief</p>
         <h2 id="short-version" className="mt-2 text-[1.75rem] font-semibold tracking-[-0.02em] sm:text-[2.25rem]">
           The short version

@@ -137,7 +137,7 @@ export default function PrivacyPage() {
         </p>
       </PageHero>
 
-      <SectionNav items={sections} className="lg:hidden" />
+      <SectionNav items={sections} mobileOnly />
 
       {/* The short version */}
       <Section tone="light" labelledBy="short-version">

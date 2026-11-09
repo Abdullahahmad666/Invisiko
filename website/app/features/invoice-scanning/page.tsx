@@ -16,6 +16,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { PhonePair } from "@/sections/HeroPhones";
 import { Pipeline } from "@/sections/Pipeline";
 import { StockCardDetail } from "@/sections/StockCardDetail";
+import { AskUsCard } from "@/components/AskUsCard";
 
 export const metadata = pageMetadata("/features/invoice-scanning");
 
@@ -203,13 +204,15 @@ export default function InvoiceScanningPage() {
       </Section>
 
       <Section tone="light" labelledBy="invoice-faq-title" className="border-t border-[#DCDCE0]">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+        {/* Phones: heading, questions, then where to ask. From 1024px the card sits under the heading. */}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:grid-rows-[auto_1fr] lg:gap-x-20 lg:gap-y-0">
           <div>
             <SectionHeading id="invoice-faq-title" eyebrow="Questions" title="About the scanning." />
           </div>
-          <div data-reveal>
+          <div className="lg:row-span-2" data-reveal>
             <FaqAccordion items={invoiceFaqs} />
           </div>
+          <AskUsCard />
         </div>
       </Section>
 

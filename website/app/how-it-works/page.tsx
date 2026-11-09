@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { IoPhonePortraitOutline, IoQrCodeOutline, IoWifiOutline } from "react-icons/io5";
+import { IoCloseCircleOutline, IoPhonePortraitOutline, IoQrCodeOutline, IoWifiOutline } from "react-icons/io5";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -14,6 +14,7 @@ import { primaryCta } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 import { howToLd } from "@/lib/structured-data";
 import { PhonePair } from "@/sections/HeroPhones";
+import { AskUsCard } from "@/components/AskUsCard";
 
 export const metadata = pageMetadata("/how-it-works");
 
@@ -96,6 +97,8 @@ const needs = [
   { Icon: IoWifiOutline, title: "A connection", body: "Invisiko needs the internet to check in, record a check or read an invoice. There is no offline mode today." },
 ];
 
+const notNeeded = ["A web dashboard to learn", "Hardware to buy", "Staff accounts set up by hand"];
+
 const setupFaqs = faqsById(["web-dashboard", "staff-accounts", "phones", "offline"]);
 
 const sections = [
@@ -172,30 +175,43 @@ export default function HowItWorksPage() {
         <SectionHeading id="needs-title" eyebrow="What you need" title="Three things, and no web dashboard to learn." />
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
           {needs.map(({ Icon, title, body }, index) => (
-            <li key={title} data-reveal style={{ "--stagger": index } as CSSProperties} className="rounded-2xl border border-line bg-surface p-6">
-              <span className="grid size-11 place-items-center rounded-full bg-amber text-ink">
+            <li
+              key={title}
+              data-reveal
+              style={{ "--stagger": index } as CSSProperties}
+              className="lift rounded-2xl border border-line bg-surface p-6 sm:p-7 lg:min-h-[15rem]"
+            >
+              <span className="grid size-12 place-items-center rounded-full bg-amber text-ink">
                 <Icon aria-hidden="true" className="size-5" />
               </span>
-              <h3 className="mt-5 text-lg font-semibold">{title}</h3>
+              <h3 className="mt-6 text-xl font-semibold">{title}</h3>
               <p className="mt-2 text-muted">{body}</p>
             </li>
           ))}
         </ul>
+        <div className="mt-6 rounded-2xl border border-dashed border-line-strong p-6 sm:p-7" data-reveal style={{ "--stagger": 3 } as CSSProperties}>
+          <h3 className="label-caps text-muted">What you don&apos;t need</h3>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+            {notNeeded.map((item) => (
+              <li key={item} className="flex items-center gap-3 font-medium">
+                <IoCloseCircleOutline aria-hidden="true" className="size-5 shrink-0 text-muted" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
       </Section>
 
       <Section tone="light" labelledBy="setup-faq-title" className="border-t border-[#DCDCE0]">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+        {/* Phones: heading, questions, then where to ask. From 1024px the card sits under the heading. */}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:grid-rows-[auto_1fr] lg:gap-x-20 lg:gap-y-0">
           <div>
             <SectionHeading id="setup-faq-title" eyebrow="Questions" title="About getting started." />
-            <div className="mt-8" data-reveal>
-              <ButtonLink href="/faq" variant="text" arrow>
-                All questions
-              </ButtonLink>
-            </div>
           </div>
-          <div data-reveal>
+          <div className="lg:row-span-2" data-reveal>
             <FaqAccordion items={setupFaqs} />
           </div>
+          <AskUsCard />
         </div>
       </Section>
 

@@ -199,13 +199,26 @@ export const limitations = [
   {
     short: "Not a till or ordering system.",
     full: "It isn't a till or ordering system. There are no menus, customer orders or card payments — it runs the back of house, not the front.",
+    question: "Does it do my tills or orders?",
+    answer: "No. Keep your till for the front of house; Invisiko runs the back of house beside it.",
   },
   {
     short: "Built for one restaurant, not a chain.",
     full: "It's built for one restaurant. An account belongs to a single restaurant, and there is no multi-site or head-office view.",
+    question: "Can I use it across my three shops?",
+    answer: "Not today. One account is one restaurant, with one team and one door.",
   },
   {
     short: "Needs a connection today.",
     full: "It needs a connection. Checking in, recording a check and reading an invoice all need the internet; there is no offline mode today.",
+    question: "What if there's no signal?",
+    answer: "It needs one today. Checking in, a fridge check and an invoice photo all need Wi-Fi or mobile data.",
   },
+];
+
+/** Who the honesty block is for: the same facts, said the other way round. */
+export const goodFit = [
+  "One independent restaurant and its team",
+  "Staff who each carry an iPhone",
+  "Rota, check-ins, fridge checks, pay hours and invoices kept in one place",
 ];

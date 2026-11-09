@@ -195,7 +195,7 @@ export default function HomePage() {
       </Section>
 
       {/* 6. What it isn't — the honesty block. Do not remove. */}
-      <Section tone="light" spacing="tight" labelledBy="limits-title" className="border-b border-[#DCDCE0]">
+      <Section tone="light" labelledBy="limits-title" className="border-b border-[#DCDCE0]">
         <Limitations variant="short" headingId="limits-title" />
       </Section>
 

@@ -19,6 +19,7 @@ import { Section } from "@/components/Section";
 import { SectionNav } from "@/components/SectionNav";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { HeroCards } from "@/sections/HeroCards";
 
 export const metadata = pageMetadata("/terms");
 
@@ -92,6 +93,16 @@ export default function TermsPage() {
         eyebrow="Legal"
         title="Terms of service"
         lead="The agreement between Invisiko and the businesses, managers and staff who use the Invisiko app and this website."
+        visual={
+          <HeroCards
+            cards={[
+              { q: "Who are these terms for?", a: "Businesses and their staff." },
+              { q: "Who checks what the app reads?", a: "You do, before Confirm." },
+              { q: "Which law applies?", a: "England and Wales." },
+              { q: "Are they in force?", a: DRAFT ? "Not yet: under legal review." : "Yes." },
+            ]}
+          />
+        }
       >
         <p className="flex flex-wrap gap-x-6 gap-y-2 text-[0.9375rem] text-muted">
           <span>

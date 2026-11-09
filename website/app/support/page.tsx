@@ -7,6 +7,7 @@ import { Section } from "@/components/Section";
 import type { FaqItem } from "@/content/faq";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { HeroCards } from "@/sections/HeroCards";
 
 export const metadata = pageMetadata("/support");
 
@@ -63,6 +64,16 @@ export default function SupportPage() {
         eyebrow="Support"
         title="Help with Invisiko."
         lead="Invisiko is a staff management app for restaurants and takeaways — attendance, payroll, food-safety compliance, rota and stock, in one app. Here are answers to common questions, and how to reach us."
+        visual={
+          <HeroCards
+            cards={[
+              { q: "No account yet?", a: "Ask for your invite code." },
+              { q: "Check-in says you're not there?", a: "Allow location access." },
+              { q: "Forgot your password?", a: "Reset it from sign-in." },
+              { q: "Found a bug?", a: site.supportEmail },
+            ]}
+          />
+        }
       />
 
       <Section tone="light" labelledBy="support-topics">

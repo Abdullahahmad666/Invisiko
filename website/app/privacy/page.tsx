@@ -27,6 +27,7 @@ import { Section } from "@/components/Section";
 import { SectionNav } from "@/components/SectionNav";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { HeroCards } from "@/sections/HeroCards";
 
 export const metadata = pageMetadata("/privacy");
 
@@ -129,6 +130,16 @@ export default function PrivacyPage() {
         eyebrow="Legal"
         title="Privacy policy"
         lead="What personal data the Invisiko app and this website collect, why, who processes it, and how to have it removed."
+        visual={
+          <HeroCards
+            cards={[
+              { q: "Is my location tracked?", a: "Only at check-in and out." },
+              { q: "Is my data sold?", a: "No. No advertising either." },
+              { q: "Does this website set cookies?", a: "No." },
+              { q: "Can I delete my account?", a: "Yes, from Profile." },
+            ]}
+          />
+        }
       >
         <p className="flex flex-wrap gap-x-6 gap-y-2 text-[0.9375rem] text-muted">
           <span>

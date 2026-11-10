@@ -12,8 +12,6 @@ type StepShowcaseProps = {
   steps: ShowcaseStep[];
   /** The section heading, shown above the steps. */
   children: ReactNode;
-  /** The label beside the progress bar, e.g. "Step". */
-  unit?: string;
 };
 
 /**
@@ -21,7 +19,7 @@ type StepShowcaseProps = {
  * its own screen slides in: earlier screens leave upwards and later ones wait below, so the motion
  * follows the direction of the scroll, in reverse too. Below 1024px each step carries its own phone.
  */
-export function StepShowcase({ steps, children, unit = "Step" }: StepShowcaseProps) {
+export function StepShowcase({ steps, children }: StepShowcaseProps) {
   const [active, setActive] = useState(0);
 
   const listed = steps.map((step) => ({
@@ -42,7 +40,7 @@ export function StepShowcase({ steps, children, unit = "Step" }: StepShowcasePro
     <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
       {/* Top offset clears the header and the "On this page" bar. */}
       <div className="hidden lg:sticky lg:top-36 lg:block lg:self-start">
-        {/* Sized from the viewport height, so the phone and its progress stay visible on a laptop. */}
+        {/* Sized from the viewport height, so the whole phone stays visible on a laptop. */}
         <figure className="sd-phone mx-auto w-full max-w-[min(300px,calc((100svh-14.5rem)*0.44))]">
           <PhoneShell>
             {steps.map((step, index) => (
@@ -61,21 +59,6 @@ export function StepShowcase({ steps, children, unit = "Step" }: StepShowcasePro
               </div>
             ))}
           </PhoneShell>
-          <figcaption aria-hidden="true" className="mt-4 flex items-center gap-3">
-            <span className="label-caps shrink-0 text-muted tabular-nums">
-              {unit} {active + 1} of {steps.length}
-            </span>
-            <span className="flex flex-1 gap-1">
-              {steps.map((step, index) => (
-                <span
-                  key={step.title}
-                  className={`h-1 flex-1 rounded-full transition-colors duration-300 motion-reduce:transition-none ${
-                    index <= active ? "bg-amber" : "bg-line"
-                  }`}
-                />
-              ))}
-            </span>
-          </figcaption>
         </figure>
       </div>
       <div>
